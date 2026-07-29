@@ -276,7 +276,7 @@
 /datum/virtue/origin/amerland
 	name = "Amerlander"
 	origin_name = "Amerland"
-	desc = "I originate from Amerland, once an independent multicultural duchy, it fell victim to a brutal civil war. Just a year ago the Black Oaks, a warband of elven supremacists, usurped the throne of Amerland. With non-elves treated as second-class citizens at best and vermins at worst, non-elven refugees and elven dissenters can be found all around the world.<br>"
+	desc = "I originate from Amerland, once an independent multicultural duchy, it fell victim to a brutal civil war. Just a year ago the Black Oaks, a group of elven supremacists, usurped the throne of Amerland. With non-elves treated as second-class citizens at best and vermins at worst, non-elven refugees and elven dissenters can be found all around the world.<br>"
 	restricted = FALSE
 	added_languages = list(/datum/language/elvish)
 	origin_desc = "An independent duchy of unclear origins, Amerland once stood as a beacon of tolerance and multiculturalism, free from the Holy See's and the Orthodoxy's chains and \
@@ -285,7 +285,7 @@
 	\
 	The Black Oaks were quick to establish a draconian regime, where only elves may hold local nobility and government positions. Half-elves and humans are just barely tolerated, \
 	while other species are outright repressed with heavy taxies and various prohibitions, driving many of them out of the land they once could call a home for everyone. \
-	These discriminatory policies also caused quite a few Amerlander elves leave the realm, for which they are hunted by the Black Oaks, \
+	These discriminatory policies also caused quite a few Amerlander elves to leave the realm, for which they are hunted by the Black Oaks, \
 	who are now a secret police disguising and part-timing as a mercenary warband.\n<br><br>\
 	\
 	Former Amerland allowed practically any faith, even those of the Four, provided the law was followed and the shared morality was maintained. In the present day Amerland, \
