@@ -373,8 +373,11 @@
 
 	if(I.minstr)
 		var/effective = I.minstr
+		// Giant weapons demand double strength from anyone who isn't built for them.
+		if((I.item_flags & GIANT_WEAPON) && !HAS_TRAIT(user, TRAIT_GIANT_WEAPON_WIELDER) && !HAS_TRAIT(user, TRAIT_OGRE_STRENGTH))
+			effective = I.minstr * 2
 		if(I.wielded)
-			effective = max(I.minstr / 2, 1)
+			effective = max(effective / 2, 1)
 		if(effective > user.STASTR)
 			newforce = max(newforce*0.3, 1)
 			if(prob(33))

@@ -65,7 +65,8 @@ Balloon Alert / Floating Text defines
 	/datum/species/goblinp,\
 	/datum/species/dullahan,\
 	/datum/species/ooze,\
-  /datum/species/dwarf/gnome\
+  /datum/species/dwarf/gnome,\
+	/datum/species/harpy\
 )
 
 #define RACES_RESPECTED \
@@ -278,6 +279,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/demihuman,\
 	/datum/species/kobold,\
 	/datum/species/goblinp,\
+	/datum/species/harpy,\
 )
 
 #define CLOTHED_RACES_TYPES list(\
@@ -307,6 +309,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/construct/metal,\
 	/datum/species/dullahan,\
 	/datum/species/dwarf/gnome,\
+	/datum/species/harpy,\
 	/datum/species/ooze\
 )
 // Non-dwarf non-kobold non-goblin mostly
@@ -332,6 +335,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/construct/metal,\
 	/datum/species/dullahan,\
 	/datum/species/ooze,\
+	/datum/species/harpy,\
 )
 // Non-elf non-dwarf non-kobold non-goblin mostly
 #define HUMANLIKE_RACE_TYPES list(\
@@ -350,6 +354,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/construct/metal,\
 	/datum/species/dullahan,\
 	/datum/species/ooze,\
+	/datum/species/harpy,\
 )
 
 /*Used for races that won't break the game completely if an NPC picks from this listing - Or look terrible like, really, really terrible.
@@ -553,6 +558,16 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_BATHMOM		"CAT_BATHMOM"
 #define CTAG_TAPSTER		"CAT_TAPSTER"
 #define CTAG_LUNATIC		"CAT_LUNATIC"
+#define CTAG_OGRE			"CAT_OGRE"					// ogre classes - handles ogre class selector
+
+// used for large (32x64) clothes
+#define OGRE_RACE_TYPES list(\
+	/datum/species/ogre,\
+)
+
+#define RACES_OGRE_ROLES \
+	/datum/species/ogre,
+
 /*
 	Defines for the triumph buy datum categories
 */

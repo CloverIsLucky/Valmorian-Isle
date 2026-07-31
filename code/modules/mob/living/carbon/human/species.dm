@@ -91,6 +91,15 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/list/species_traits = list()
 	// generic traits tied to having the species
 	var/list/inherent_traits = list()
+	///Skill ranks granted (and removed again) with the species, e.g. list(/datum/skill/misc/music = 3).
+	var/list/inherent_skills = list()
+	///When set, this species may ONLY take these job types (ES restricted ogres to ogre roles via
+	///per-job whitelists; inverting onto the species avoids touching every other job's eligibility).
+	var/list/job_whitelist
+	///The species' size lives in its sprites, so the body_size scale pref is locked to 100%.
+	var/fixed_body_size = FALSE
+	///Extra pixels each preview doll is pushed away from the grid center, for oversized sprites.
+	var/preview_pixel_gap = 0
 	var/inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	///List of factions the mob gain upon gaining this species.
 	var/list/inherent_factions
@@ -282,7 +291,17 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 /datum/species/proc/get_hexcolor(list/L)
 	return L
 
+///Re-Insert organs that flag should_regenerate so their Insert() side effects apply post-mind.
+/datum/species/proc/apply_organ_stuff_species(mob/living/carbon/C)
+	for(var/obj/item/organ/organ in C.internal_organs)
+		if(organ.should_regenerate)
+			organ.Insert(C, TRUE, FALSE)
+
 /datum/species/proc/get_skin_list()
+	return GLOB.skin_tones
+
+///Tooltip text shown alongside the skin picker; species override to explain their palettes.
+/datum/species/proc/get_skin_list_tooltip()
 	return GLOB.skin_tones
 
 /datum/species/proc/get_taur_list()
@@ -478,6 +497,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	for(var/X in inherent_traits)
 		ADD_TRAIT(C, X, SPECIES_TRAIT)
 
+	for(var/skill as anything in inherent_skills)
+		C.adjust_skillrank(skill, inherent_skills[skill], TRUE)
+
 	if(TRAIT_TOXIMMUNE in inherent_traits)
 		C.setToxLoss(0, TRUE, TRUE)
 
@@ -523,6 +545,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		C.Digitigrade_Leg_Swap(TRUE)
 	for(var/X in inherent_traits)
 		REMOVE_TRAIT(C, X, SPECIES_TRAIT)
+
+	for(var/skill as anything in inherent_skills)
+		C.adjust_skillrank(skill, -inherent_skills[skill], TRUE)
 
 	if(inherent_factions)
 		for(var/i in inherent_factions)
@@ -718,7 +743,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(SLOT_SHOES)
 			if(H.shoes)
 				return FALSE
-			if(is_nudist || is_inhumen)
+			if(is_nudist || is_inhumen || isharpy(H)) //harpy talons never fit in boots
 				return FALSE
 			if( !(I.slot_flags & ITEM_SLOT_SHOES) )
 				return FALSE

@@ -297,6 +297,8 @@
 	var/mobid = 0 //incremented on spawn
 
 	var/cmode = 0
+	///TRUE while airborne via harpy flight; the flight status effect owns this alongside movement_type.
+	var/flying = FALSE
 	var/d_intent = INTENT_PARRY
 	var/islatejoin = FALSE
 	var/obj/effect/proc_holder/ranged_ability //Any ranged ability the mob has, as a click override

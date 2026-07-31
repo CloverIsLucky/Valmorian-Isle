@@ -73,6 +73,8 @@
 	//allowed sex/race for picking
 	var/list/allowed_sexes = list(MALE, FEMALE)
 	var/list/forbidden_races
+	///Whitelist counterpart to forbidden_races: when set, only these species types may take the job (e.g. ogre classes).
+	var/list/allowed_races
 	var/list/allowed_patrons
 	var/list/allowed_ages = ALL_AGES_LIST
 
@@ -395,6 +397,7 @@
 			H.apply_pref_name("human", preference_source)
 	//Equip the rest of the gear
 	H.dna.species.before_equip_job(src, H, visualsOnly)
+	H.apply_organ_stuff() // re-Insert should_regenerate organs now that the mob has a MIND, so organ spell grants land (harpy wings/voice)
 	if(!outfit_override && visualsOnly && visuals_only_outfit)
 		outfit_override = visuals_only_outfit
 	if(should_wear_femme_clothes(H))

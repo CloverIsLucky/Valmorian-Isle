@@ -54,6 +54,7 @@
 #define TRAIT_WILD_EATER "Beastly Digestion" //can eat raw and rotten food and drink murky water
 #define TRAIT_INSPIRING_MUSICIAN "Inspiring Musician" // unlocks bardic inspiration stuff
 #define TRAIT_NOFALLDAMAGE1 "Fall Damage Reduction"
+#define TRAIT_CALTROPIMMUNE "Caltrop Immunity"
 #define TRAIT_NOFALLDAMAGE2 "Fall Damage Immunity"
 #define TRAIT_MISSING_NOSE "Missing Nose" //halved stamina regeneration
 #define TRAIT_DISFIGURED "Disfigured"
@@ -215,6 +216,10 @@
 #define TRAIT_CAVEDWELLER "Cave Dweller"
 #define TRAIT_VAMP_DREAMS "vamp_dreams"
 #define TRAIT_LIMPDICK "Limp Dick"
+#define TRAIT_DEATHBYSNUSNU "Bed Breaker" //What do you think? Pelvis crushing and increased pain.
+#define TRAIT_GIANT_WEAPON_WIELDER "Giant Weapon Wielder" // Allows use of giant weapons without doubling minstr
+#define TRAIT_OGRE_STRENGTH "Ogre Strength"				// Practically the same as above, but just for ogres
+#define TRAIT_AVATAR_GRAGGAR "The Darkstar's Avatar"	// shows a horrible thing on examine even when helmeted (for ogres)
 #define TRAIT_SEXPASS "sexpass"
 #define TRAIT_STEELHEARTED "Steelhearted" //no bad mood from dismembering or seeing this
 #define TRAIT_IWASREVIVED "iwasrevived" //prevents PQ gain from reviving the same person twice
@@ -440,6 +445,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_KNOWNCRIMINAL = span_bloody("I am a branded criminal. Nothing can change this."),
 	TRAIT_NORUN = span_warning("My body has atrophied in my state of decay; my leg joints just don't have the strength or durability for running anymore"),
 	TRAIT_GOODLOVER = span_love("It's a lucky thing to share my bed."),
+	TRAIT_DEATHBYSNUSNU = "With strong intent, I am a violent partner in bed, breaking pelvis and spirit alike.",
 	TRAIT_LIMPDICK = span_crit("My soldier refuses to rise to attention! Curses!"),
 	TRAIT_SEEDKNOW = span_info("I know which seeds grow which crops."),
 	TRAIT_PERFECT_TRACKER = span_info("I am a master at pursuing those I hunt. I can discern every last detail within a spotted track, and any attempts to hide said-tracks will fail to deceive me."),//Hearthstone port.

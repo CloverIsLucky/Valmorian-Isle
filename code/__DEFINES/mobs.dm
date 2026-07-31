@@ -403,6 +403,8 @@
 #define SKIN_COLOR_PLATINUM "ffe0d1"
 #define SKIN_COLOR_AURUM "fcccb3"
 #define SKIN_COLOR_QUICKSILVER "edc6b3"
+#define SKIN_COLOR_SCARLET_REACH "edc6b3" //ES name kept so ported species skin lists read the same; identical tone to Quicksilver
+#define SKIN_COLOR_EBON "4e3729"
 #define SKIN_COLOR_BRASS "e2b9a3"
 #define SKIN_COLOR_IRON "d9a284"
 #define SKIN_COLOR_MALACHITE "c69b83"
