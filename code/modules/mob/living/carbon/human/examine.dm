@@ -124,6 +124,9 @@
 		. += span_userdanger("DEADITE!") //Below this is an OOC hint, it AIN'T METAGAMING, you can TELL very clearly what this abomination is.
 		. += span_warning("Uneasy steps, the sound of profane flesh and bone knitting itself and a stench of rot. A walking corpse!")
 
+	if(HAS_TRAIT(src, TRAIT_AVATAR_GRAGGAR)) //There is no hiding what the Avatar is, helmeted or not
+		. += "<span class='big' style='color: #8B4513;'>A MARAUDING OGRE!</span>"
+
 	if(HAS_TRAIT(user, TRAIT_DEADITE) && !HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE) && src.stat == CONSCIOUS) //Zombies get some messed up examines on non-zombie immune people that aren't KO'd.
 		. += span_narsie(pick("KILL IT. KILL IT", "FLESH. HUNGER.", "KILL. CONSUME.", "CONSUME.", "KILL THE RASPING THING.", "HUNGER.", "EAT IT.", "MUST HAVE FLESH."))
 
@@ -339,6 +342,19 @@
 		if (is_stupid)
 			str = "[m3] something on [m2] wrists!"
 		. += str
+
+	//harpy leg skin - same readout the gnoll pelt gets
+	if(istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/regenerating/skin/harpy_skin))
+		var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/harpy_skin/legskin = skin_armor
+		var/skin_line
+		if(is_stupid)
+			skin_line = "[m3] scaly bird feet!"
+		else
+			skin_line = "[m3] tough taloned legs."
+			var/integrity_str = legskin.integrity_check(is_smart)
+			if(integrity_str)
+				skin_line += " [integrity_str]"
+		. += skin_line
 
 	//arcyne ward
 	if(istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward))
