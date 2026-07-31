@@ -303,3 +303,11 @@
 		/mob/living/carbon/human/proc/emote_chitter,
 		/mob/living/carbon/human/proc/emote_flutter,
 	)
+
+/obj/item/organ/tongue/harpy
+	name = "bird tongue"
+	desc = "Chirp chirp chirp chirp chirp!!"
+	icon_state = "tongue-con"
+	say_mod = "chirps"
+	taste_sensitivity = 5
+	modifies_speech = FALSE

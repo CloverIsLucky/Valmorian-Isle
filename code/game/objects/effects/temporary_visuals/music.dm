@@ -112,3 +112,32 @@
 // Blue-green notes for buffed allies
 /obj/effect/temp_visual/song_telltale/buff
 	note_color = "#5CB8E6"
+
+////////////////////
+///HARPY SINGING///
+//////////////////
+// i dont wanna refactor how instruments function, so this is how we go about an instrument that can't be dropped bc it's inside of us
+// since stopping playing relies on dropping item to stop unconscious people playing music
+/datum/status_effect/buff/harpy_sing
+	id = "harpy_sing"
+	alert_type = null
+	tick_interval = 10
+	duration = -1
+	var/mob/living/carbon/human/harpy
+
+/datum/status_effect/buff/harpy_sing/tick()
+	. = ..()
+	harpy = owner
+	if(harpy.has_status_effect(STATUS_EFFECT_UNCONSCIOUS))
+		harpy.remove_status_effect(/datum/status_effect/buff/harpy_sing)
+	if(harpy.has_status_effect(STATUS_EFFECT_SLEEPING))
+		harpy.remove_status_effect(/datum/status_effect/buff/harpy_sing)
+
+/datum/status_effect/buff/harpy_sing/on_remove()
+	. = ..()
+	harpy = owner
+	if(harpy.has_status_effect(/datum/status_effect/buff/playing_music))
+		var/obj/item/organ/vocal_cords/harpy/vocal_cords = harpy.getorganslot(ORGAN_SLOT_VOICE)
+		if(!istype(vocal_cords) || !vocal_cords.vocals) //this fires on effect removal, often via death - the organ may already be gone
+			return
+		vocal_cords.vocals.attack_self(harpy)

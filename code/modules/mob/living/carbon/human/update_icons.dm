@@ -1381,6 +1381,9 @@ There are several things that need to be remembered:
 
 	var/obj/item/bodypart/taur/taur = get_taur_tail()
 	var/icon/c_mask = taur?.clip_mask
+	if(isharpy(src)) //feathered legs clip clothing the same way a taur body does
+		var/static/icon/harpy_clip_mask = icon(icon = 'icons/roguetown/mob/bodies/f/harpy.dmi', icon_state = "harpy_clipmask")
+		c_mask = harpy_clip_mask
 
 	if(client && hud_used)
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[SLOT_PANTS]
