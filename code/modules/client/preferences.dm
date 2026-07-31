@@ -333,6 +333,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 /datum/preferences/proc/set_new_race(datum/species/new_race, user)
 	pref_species = new_race
+	if(pref_species.fixed_body_size)
+		features["body_size"] = BODY_SIZE_NORMAL //a saved custom scale would stack with the species' oversized sprites
 	real_name = pref_species.random_name(gender,1)
 	ResetJobs()
 	if(user)
@@ -709,7 +711,12 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				dat += "<b>[skin_tone_wording]: </b><a href='?_src_=prefs;preference=s_tone;task=input'>Change </a>"
 				dat += "<br>"
 
-			if((MUTCOLORS in pref_species.species_traits) || (MUTCOLORS_PARTSONLY in pref_species.species_traits))
+			if(HARPY in pref_species.species_traits)
+				//Harpy feathers share the mutant color channels but deserve honest labels.
+				dat += "<b>Skin/Feathers Color #1:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color;task=input'>Change</a><BR>"
+				dat += "<b>Feature Color #1:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor2"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color2;task=input'>Change</a><BR>"
+				dat += "<b>Feature Color #2:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor3"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color3;task=input'>Change</a><BR>"
+			else if((MUTCOLORS in pref_species.species_traits) || (MUTCOLORS_PARTSONLY in pref_species.species_traits))
 
 				dat += "<b>Mutant Color #1:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color;task=input'>Change</a><BR>"
 				dat += "<b>Mutant Color #2:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor2"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color2;task=input'>Change</a><BR>"
@@ -717,7 +724,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 			dat += "<br><b>Accent:</b> <a href='?_src_=prefs;preference=char_accent;task=input'>[char_accent]</a>"
 			dat += "<br><b>Features:</b> <a href='?_src_=prefs;preference=customizers;task=menu'>Change</a>"
-			if(istype(virtue, /datum/virtue/size) || istype(virtuetwo, /datum/virtue/size) || istype(virtue_origin, /datum/virtue/size))
+			if(pref_species.fixed_body_size)
+				dat += "<br><b>Sprite Scale:</b> <span style='color: #7a7a7a;'>Set by race</span>"
+			else if(istype(virtue, /datum/virtue/size) || istype(virtuetwo, /datum/virtue/size) || istype(virtue_origin, /datum/virtue/size))
 				dat += "<br><b>Sprite Scale:</b> <span style='color: #7a7a7a;'>Set by virtue</span>"
 			else
 				dat += "<br><b>Sprite Scale:</b><a href='?_src_=prefs;preference=body_size;task=input'>[(features["body_size"] * 100)]%</a>"
@@ -2714,7 +2723,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							race_bonus = choice
 
 				if("body_size")
-					if(istype(virtue, /datum/virtue/size) || istype(virtuetwo, /datum/virtue/size) || istype(virtue_origin, /datum/virtue/size))
+					if(pref_species.fixed_body_size)
+						to_chat(user, span_purple("Unable to change sprite size due to race."))
+					else if(istype(virtue, /datum/virtue/size) || istype(virtuetwo, /datum/virtue/size) || istype(virtue_origin, /datum/virtue/size))
 						to_chat(user, span_purple("Unable to change sprite size due to virtue."))
 					else
 						var/new_body_size = tgui_input_number(user, "Choose your desired sprite size:\n([BODY_SIZE_MIN*100]%-[BODY_SIZE_MAX*100]%), Warning: May make your character look distorted", "Character Preference", features["body_size"]*100)
