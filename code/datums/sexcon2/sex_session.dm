@@ -39,6 +39,7 @@
 	var/static/list/mid_force_adjectives 		= list("firmly", "vigorously", "eagerly", "steadily", "intently")
 	var/static/list/high_force_adjectives 		= list("roughly", "carelessly", "forcefully", "fervently", "fiercely")
 	var/static/list/extreme_force_adjectives 	= list("brutally", "violently", "relentlessly", "savagely", "mercilessly")
+	var/static/list/ludicrous_force_adjectives 	= list("madly", "uncontrollably", "desperately", "deliriously", "freekishly")
 
 /datum/sex_session/New(mob/living/carbon/human/session_user, mob/living/carbon/human/session_target)
 	user = session_user
@@ -270,6 +271,8 @@
 			return 2.0
 		if(SEX_SPEED_EXTREME)
 			return 2.5
+		if(SEX_SPEED_LUDICROUS)
+			return 3
 
 /datum/sex_session/proc/get_stamina_cost_multiplier()
 	switch(force)
@@ -281,12 +284,22 @@
 			return 2.0
 		if(SEX_FORCE_EXTREME)
 			return 2.5
+		if(SEX_FORCE_LUDICROUS)
+			return 2.5
+
+///The fifth (FURIOUS/FERAL) tier is reserved for the Bed Breaker trait (ogres) and the Fallen -
+///everyone else caps one below. ES also granted it to emberwine drinkers; that status effect
+///is not ported here.
+/datum/sex_session/proc/get_setting_cap()
+	if(HAS_TRAIT(user, TRAIT_DEATHBYSNUSNU) || HAS_TRAIT(user, TRAIT_DEPRAVED))
+		return SEX_SPEED_MAX
+	return SEX_SPEED_MAX - 1
 
 /datum/sex_session/proc/adjust_speed(amt)
-	speed = clamp(speed + amt, SEX_SPEED_MIN, SEX_SPEED_MAX)
+	speed = clamp(speed + amt, SEX_SPEED_MIN, get_setting_cap())
 
 /datum/sex_session/proc/adjust_force(amt)
-	force = clamp(force + amt, SEX_FORCE_MIN, SEX_FORCE_MAX)
+	force = clamp(force + amt, SEX_FORCE_MIN, get_setting_cap())
 
 /datum/sex_session/proc/finished_check()
 	if(!do_until_finished)
@@ -312,6 +325,8 @@
 			return "<font color='#f05ee1'>ROUGH</font>"
 		if(SEX_FORCE_EXTREME)
 			return "<font color='#d146f5'>BRUTAL</font>"
+		if(SEX_FORCE_LUDICROUS)
+			return "<font color='#d61a43'>FERAL</font>"
 
 /datum/sex_session/proc/get_speed_string()
 	switch(speed)
@@ -323,6 +338,8 @@
 			return "<font color='#f05ee1'>QUICK</font>"
 		if(SEX_SPEED_EXTREME)
 			return "<font color='#d146f5'>UNRELENTING</font>"
+		if(SEX_SPEED_LUDICROUS)
+			return "<font color='#d61a43'>FURIOUS</font>"
 
 /datum/sex_session/proc/get_manual_arousal_string()
 	switch(manual_arousal)
@@ -345,6 +362,8 @@
 			return pick(high_force_adjectives)
 		if(SEX_FORCE_EXTREME)
 			return pick(extreme_force_adjectives)
+		if(SEX_FORCE_LUDICROUS)
+			return pick(ludicrous_force_adjectives)
 
 /datum/sex_session/proc/spanify_force(string)
 	switch(force)
@@ -356,12 +375,14 @@
 			return "<span class='love_high'>[string]</span>"
 		if(SEX_FORCE_EXTREME)
 			return "<span class='love_extreme'>[string]</span>"
+		if(SEX_FORCE_LUDICROUS)
+			return "<span class='love_ludicrous'>[string]</span>"
 
 /datum/sex_session/proc/get_force_sound()
 	switch(force)
 		if(SEX_FORCE_LOW, SEX_FORCE_MID)
 			return pick(SEX_SOUNDS_SLOW)
-		if(SEX_FORCE_HIGH, SEX_FORCE_EXTREME)
+		if(SEX_FORCE_HIGH, SEX_FORCE_EXTREME, SEX_FORCE_LUDICROUS)
 			return pick(SEX_SOUNDS_HARD)
 
 /datum/sex_session/ui_interact(mob/user, datum/tgui/ui)
@@ -390,9 +411,12 @@
 		))
 	data["actions"] = actions
 
-	// Static UI strings
-	data["speed_names"] = list("SLOW", "STEADY", "QUICK", "UNRELENTING")
-	data["force_names"] = list("GENTLE", "FIRM", "ROUGH", "BRUTAL")
+	// Static UI strings. The fifth (Ludicrous) tier only renders for those who can reach it.
+	var/list/speed_names = list("SLOW", "STEADY", "QUICK", "UNRELENTING", "FURIOUS")
+	var/list/force_names = list("GENTLE", "FIRM", "ROUGH", "BRUTAL", "FERAL")
+	var/cap = get_setting_cap()
+	data["speed_names"] = speed_names.Copy(1, cap + 1)
+	data["force_names"] = force_names.Copy(1, cap + 1)
 	data["has_penis"] = user.getorganslot(ORGAN_SLOT_PENIS) ? TRUE : FALSE
 
 	// Check if user has knotted penis
@@ -536,9 +560,9 @@
 	return force || SEX_FORCE_LOW
 
 /datum/sex_session/proc/set_current_speed(new_speed)
-	speed = clamp(new_speed, SEX_SPEED_MIN, SEX_SPEED_MAX)
+	speed = clamp(new_speed, SEX_SPEED_MIN, get_setting_cap())
 
 /datum/sex_session/proc/set_current_force(new_force)
-	force = clamp(new_force, SEX_FORCE_MIN, SEX_FORCE_MAX)
+	force = clamp(new_force, SEX_FORCE_MIN, get_setting_cap())
 
 #undef SEX_SESSION_IDLE_TIMEOUT
