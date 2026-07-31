@@ -416,10 +416,10 @@
 
 //proc to upgrade a simple pull into a more aggressive grab.
 /mob/living/proc/grippedby(mob/living/carbon/user, instant = FALSE)
-	var/clickcd = CLICK_CD_MELEE
-	if(mind && src != user)
-		clickcd = CLICK_CD_WRESTLING
-	user.changeNext_move(clickcd)
+	//VALMORIAN: upgrading a grip is a fast, speed-scaled action (20 - SPD) rather than a flat 3s.
+	//The grabber is the one already committed to the grapple; making them pay six times what the
+	//defender pays per exchange is what made wrestling unwinnable against a braced opponent.
+	user.changeNext_move(CLICK_CD_GRABBING * 2 - user.STASPD)
 	var/skill_diff = 0
 	var/combat_modifier = 1
 	if(user.mind)
@@ -468,9 +468,9 @@
 			to_chat(user, span_warning("I struggle with [src]!"))
 		playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
 		user.Immobilize(2 SECONDS)
-		user.changeNext_move((mind ? CLICK_CD_WRESTLING : CLICK_CD_MELEE))
+		user.changeNext_move(2 SECONDS)
 		src.Immobilize(1 SECONDS)
-		src.changeNext_move(CLICK_CD_GRAB_RESIST)
+		src.changeNext_move(1 SECONDS)
 		if(user.badluck(5))
 			badluckmessage(user)
 			user.stop_pulling(TRUE)

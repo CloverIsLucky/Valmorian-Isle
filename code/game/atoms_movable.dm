@@ -172,18 +172,11 @@
 		log_combat(src, M, "grabbed", addition="passive grab")
 		if(M.doing)
 			M.doing = FALSE
+		//VALMORIAN: no "clinging" wording and no click cooldown on the grab itself — a passive grab
+		//holds a combat-mode target still (see Process_Grab) rather than towing the grabber around.
 		if(!supress_message)
-			M.visible_message("<span class='warning'>[src] [M.cmode ? "<b>clings</b> onto" : "grabs"] [M].</span>", \
-				"<span class='danger'>[src] grabs onto you.</span>")
-		if(isliving(src))
-			var/mob/living/L = src
-			if(M.cmode || L.cmode)	//We're in combat, so we apply clickcds
-				var/clickcd = CLICK_CD_WRESTLING
-				var/spdbonus = (10 - L.get_stat(STATKEY_SPD)) * 2
-				clickcd -= spdbonus
-				if(M.mind)	//No clickcd if we're grabbing a mindless mob, just frag the stupid AI
-					L.changeNext_move(clickcd)
-				M.changeNext_move(CLICK_CD_HEAVY)
+			M.visible_message("<span class='warning'>[src] grabs [M].</span>", \
+				"<span class='danger'>[src] grabs you.</span>")
 	if(istype(AM, /mob/living/simple_animal))
 		var/mob/living/simple_animal/simple_animal = AM
 		simple_animal.toggle_ai(AI_ON)
@@ -310,14 +303,11 @@
 
 /atom/movable/Move(atom/newloc, direct, glide_size_override = 0)
 	var/atom/movable/pullee = pulling
-	var/mob/living/pulled
 	var/turf/T = loc
 	if(!moving_from_pull)
 		check_pulling()
 	if(!loc || !newloc)
 		return FALSE
-	if(istype(pulledby, /mob/living))
-		pulled = pulledby
 	var/atom/oldloc = loc
 	var/direction_to_move = direct
 
@@ -396,18 +386,9 @@
 
 	if(.)
 		Moved(oldloc, direct)
-	if(. && pulled && pulledby == pulled && pulled.cmode && pulled.grab_state < GRAB_AGGRESSIVE) //NICHE case of being in a first tier grab state.
-		if(!pulledby || QDELETED(pulledby))
-			return
-		if(pulledby.anchored)
-			pulledby.stop_pulling()
-		else
-			var/pull_dir = get_dir(src, pulledby)
-			//puller and pullee more than one tile away or in diagonal position
-			if(get_dist(src, pulledby) > 1 || (moving_diagonally != SECOND_DIAG_STEP && ((pull_dir - 1) & pull_dir)))
-				pulledby.moving_from_pull = src
-				pulledby.Move(T, get_dir(pulledby, T), glide_size) //the pullee tries to reach our previous position
-				pulledby.moving_from_pull = null
+	//VALMORIAN: the "cling" block that used to live here towed a combat-mode grabber along behind
+	//whoever they had passively grabbed. A passive grab now holds the target instead (Process_Grab),
+	//so the grabber is never dragged by their own victim. Only the puller moves the pullee, below.
 	if(. && pulling && pulling == pullee && pulling != moving_from_pull)
 		if(!pulling || QDELETED(pulling))
 			return
