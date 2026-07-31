@@ -311,3 +311,10 @@
 	say_mod = "chirps"
 	taste_sensitivity = 5
 	modifies_speech = FALSE
+	//VALMORIAN: ES gates these three inside the verbs themselves (istype tongue/harpy); VI drives the
+	//Noises menu off the organ's emote_verbs, so they have to be listed here or harpies get nothing.
+	emote_verbs = list(
+		/mob/living/carbon/human/proc/emote_caw,
+		/mob/living/carbon/human/proc/emote_peep,
+		/mob/living/carbon/human/proc/emote_hoot,
+	)

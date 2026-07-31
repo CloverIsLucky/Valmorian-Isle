@@ -1275,6 +1275,11 @@
 	var/mob/living/carbon/human/passenger
 	var/stamcost = 8
 	var/obj/item/organ/wings/harpy/harpy_wings
+	///Movement-delay delta applied on top of the species baseline while airborne. NEGATIVE = faster.
+	///Because movespeed modifiers are additive, a flat delta makes flight this much quicker than the
+	///same harpy on the ground at ANY speed stat. 0.15 = two SPD points' worth (SPEED_MOVSPD_MOD).
+	///ES used +0.3 here, which made flying strictly slower than walking — deliberately inverted.
+	var/flight_speedmod = -0.15
 
 /datum/status_effect/debuff/harpy_flight/on_creation(mob/living/new_owner, new_stamcost)
 	stamcost = new_stamcost
@@ -1294,8 +1299,10 @@
 		harpy.put_in_hands(talons_final, TRUE, FALSE, TRUE)
 		break
 	harpy.movement_type |= FLYING
-	harpy.dna.species.speedmod += 0.3
-	harpy.add_movespeed_modifier(MOVESPEED_ID_SPECIES, TRUE, 100, override=TRUE, multiplicative_slowdown = harpy.dna.species.speedmod) //no FLYING exemption here: the wing-flap slowdown must apply in flight
+	//The species modifier is normally movetypes=(~FLYING), i.e. switched off in the air; re-add it
+	//without that exemption so it keeps applying, with the flight delta folded in. The species datum
+	//itself is left untouched — mutating speedmod across apply/remove desyncs on a mid-flight racechange.
+	harpy.add_movespeed_modifier(MOVESPEED_ID_SPECIES, TRUE, 100, override=TRUE, multiplicative_slowdown = harpy.dna.species.speedmod + flight_speedmod)
 	harpy.apply_status_effect(/datum/status_effect/debuff/flight_sound_loop)
 	ADD_TRAIT(harpy, TRAIT_SPELLCOCKBLOCK, ORGAN_TRAIT)
 	harpy.flying = TRUE
@@ -1331,14 +1338,19 @@
 	if(harpy.pulling)
 		harpy.stop_pulling()
 	harpy.remove_status_effect(/datum/status_effect/debuff/flight_sound_loop)
-	harpy.dna.species.speedmod -= 0.3
-	//restore the species baseline instead of leaving no species modifier at all
+	//restore the species baseline exactly as on_species_gain() sets it, instead of leaving none at all
 	harpy.add_movespeed_modifier(MOVESPEED_ID_SPECIES, TRUE, 100, override=TRUE, multiplicative_slowdown = harpy.dna.species.speedmod, movetypes=(~FLYING))
 	var/turf/tile_under_harpy = harpy.loc
 	harpy.movement_type &= ~FLYING
 	tile_under_harpy.zFall(harpy)
 	remove_signals()
 	animate(harpy)
+	//Life() sets FLOATING on anything FLYING; clearing FLYING alone leaves it stuck, and a FLOATING
+	//mob skips the sprint stamina/nutrition drain in carbon/Move() entirely (= infinite sprinting).
+	harpy.float(FALSE)
+	if(harpy.movement_type & FLOATING) //float() no-ops mid-throw, so make sure the flag is really gone
+		harpy.setMovetype(harpy.movement_type & ~FLOATING)
+	harpy.pixel_y = harpy.base_pixel_y //the hover animation above can leave us parked mid-bob
 	REMOVE_TRAIT(harpy, TRAIT_SPELLCOCKBLOCK, ORGAN_TRAIT)
 	harpy.flying = FALSE
 	if(harpy.is_holding_item_of_type(/obj/item/rogueweapon/huntingknife/idagger/harpy_talons))
@@ -1432,6 +1444,10 @@
 		harpy.stop_pulling()
 	var/turf/tile_under_passenger = passenger.loc
 	passenger.movement_type &= ~FLYING
+	passenger.float(FALSE) //see harpy_flight/on_remove: stuck FLOATING = no stamina drain when sprinting
+	if(passenger.movement_type & FLOATING)
+		passenger.setMovetype(passenger.movement_type & ~FLOATING)
+	passenger.pixel_y = passenger.base_pixel_y
 	tile_under_passenger.zFall(passenger)
 
 /atom/movable/screen/alert/status_effect/debuff/harpy_passenger
