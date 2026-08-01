@@ -209,6 +209,20 @@
 	UnregisterSignal(src, list(COMSIG_ATOM_WAS_ATTACKED, COMSIG_MOB_ITEM_ATTACK, COMSIG_HUMAN_MELEE_UNARMED_ATTACK))
 	release_attack_relay()
 
+/// Hooks a summon that has no /datum/component/conjured_minion - raised undead, mostly - into this
+/// mob's summoned_minions relay, so anything that attacks us lands on the summon's threat table.
+/// Self-cleans when the summon dies or is deleted, which the component would otherwise handle.
+/mob/living/proc/track_summon(mob/living/summon)
+	if(QDELETED(summon) || summon == src)
+		return
+	add_summoned_minion(summon)
+	RegisterSignal(summon, list(COMSIG_MOB_DEATH, COMSIG_PARENT_QDELETING), PROC_REF(on_tracked_summon_lost), override = TRUE)
+
+/mob/living/proc/on_tracked_summon_lost(mob/living/source)
+	SIGNAL_HANDLER
+	UnregisterSignal(source, list(COMSIG_MOB_DEATH, COMSIG_PARENT_QDELETING))
+	remove_summoned_minion(source)
+
 /mob/living/proc/request_attack_relay()
 	attack_relay_refs++
 	if(attack_relay_refs > 1)
