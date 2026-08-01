@@ -183,6 +183,11 @@
 	sewrepair = FALSE
 	max_integrity = 75
 	resistance_flags = FIRE_PROOF
+	//VALMORIAN: mandatory on any /regenerating subtype. take_damage() passes repair_time straight to
+	//addtimer(), whose ASSERT(isnum(wait)) fails on null - DM only applies a default argument when
+	//the argument is omitted, not when null is passed explicitly. Leaving this unset meant a runtime
+	//on every hit to the legs and skin that never regenerated. 20% of 75 per tick.
+	repair_time = 30 SECONDS
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/harpy_skin/obj_destruction()
 	visible_message("The skin on the feet is torn!", span_bloody("<b>THE SKIN ON MY FEET IS TORN!!</b>")) // deliberately no ..() — the skin is never deleted, matching ES behavior
