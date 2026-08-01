@@ -29,7 +29,6 @@
 	subclass_stashed_items = list(
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
 	)
-	extra_context = "This subclass gains Expert skill in their weapon of choice."
 
 /datum/outfit/job/templar/tempest/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -128,7 +127,7 @@
 
 /datum/outfit/job/roguetown/templar/tempest/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/weapons = list("Bow", "Crossbow")
+	var/weapons = list("Crossbow", "Bow")
 	switch(H.patron?.type)
 		if(/datum/patron/divine/eora)
 			weapons += "Harp Bow (long)"
