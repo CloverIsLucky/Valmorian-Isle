@@ -1,7 +1,7 @@
 /datum/advclass/templar/tempest
 	name = "Tempest"
 	tutorial = "You are a templar of the Church, trained in ranged combat to bring a Tempest of holy wrath upon your enemies."
-	outfit = /datum/outfit/job/templar/tempest
+	outfit = /datum/outfit/job/roguetown/templar/tempest
 	category_tags = list(CTAG_TEMPLAR)
 	cmode_music = 'sound/music/combat_holy.ogg'
 
@@ -30,7 +30,7 @@
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
 	)
 
-/datum/outfit/job/templar/tempest/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/templar/tempest/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/holysee
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
@@ -132,17 +132,63 @@
 		if(/datum/patron/divine/eora)
 			weapons += "Harp Bow (long)"
 			weapons += "Harp Bow (short)"
-	var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP YOUR GOD'S ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP YOUR GOD'S ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Crossbow")
-			beltr = /obj/item/quiver/bolt/standard
-			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+			H.equip_to_slot_or_del(new /obj/item/quiver/bolt/standard(H), SLOT_BELT_R, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow(H), SLOT_BACK_L, TRUE)
 		if("Bow")
-			beltr = /obj/item/quiver/arrows
-			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows(H), SLOT_BELT_R, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve(H), SLOT_BACK_L, TRUE)
 		if("Harp Bow (long)")
-			beltr = /obj/item/quiver/arrows
-			r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/eora
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows(H), SLOT_BELT_R, TRUE)
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/eora(H))
 		if("Harp Bow (short)")
-			beltr = /obj/item/quiver/arrows
-			r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/eora
+			H.equip_to_slot_or_del(new /obj/item/quiver/arrows(H), SLOT_BELT_R, TRUE)
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/eora(H))
+
+	// -- Start of section for god specific bonuses --
+	if(H.patron?.type == /datum/patron/divine/undivided)
+		H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
+	if(H.patron?.type == /datum/patron/divine/astrata)
+		H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
+		H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
+	if(H.patron?.type == /datum/patron/divine/dendor)
+		H.adjust_skillrank(/datum/skill/labor/farming, SKILL_LEVEL_NOVICE, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/climbing, SKILL_LEVEL_NOVICE, TRUE)
+	if(H.patron?.type == /datum/patron/divine/noc)
+		H.adjust_skillrank(/datum/skill/misc/reading, SKILL_LEVEL_JOURNEYMAN, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
+		H.adjust_skillrank(/datum/skill/craft/alchemy, SKILL_LEVEL_NOVICE, TRUE)
+		H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
+		ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/abyssor)
+		H.adjust_skillrank(/datum/skill/labor/fishing, SKILL_LEVEL_APPRENTICE, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/swimming, SKILL_LEVEL_NOVICE, TRUE)
+		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+		H.grant_language(/datum/language/abyssal)
+	if(H.patron?.type == /datum/patron/divine/necra)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
+		H.cmode_music = 'sound/music/cmode/church/combat_necra.ogg'
+	if(H.patron?.type == /datum/patron/divine/pestra)
+		H.adjust_skillrank(/datum/skill/misc/medicine, SKILL_LEVEL_NOVICE, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/alchemy, SKILL_LEVEL_NOVICE, TRUE)
+		ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+	if(H.patron?.type == /datum/patron/divine/eora)
+		ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
+		H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
+	if(H.patron?.type == /datum/patron/divine/malum)
+		H.adjust_skillrank(/datum/skill/craft/blacksmithing, SKILL_LEVEL_NOVICE, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/armorsmithing, SKILL_LEVEL_NOVICE, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/weaponsmithing, SKILL_LEVEL_NOVICE, TRUE)
+		H.adjust_skillrank(/datum/skill/craft/smelting, SKILL_LEVEL_NOVICE, TRUE)
+		H.adjust_skillrank(/datum/skill/labor/lumberjacking, SKILL_LEVEL_APPRENTICE, TRUE)
+	if(H.patron?.type == /datum/patron/divine/ravox)
+		H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_NOVICE, TRUE)
+	if(H.patron?.type == /datum/patron/divine/xylix)
+		H.adjust_skillrank(/datum/skill/misc/climbing, SKILL_LEVEL_NOVICE, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, SKILL_LEVEL_NOVICE, TRUE)
+		H.adjust_skillrank(/datum/skill/misc/music, SKILL_LEVEL_NOVICE, TRUE)
+	// -- End of section for god specific bonuses --
