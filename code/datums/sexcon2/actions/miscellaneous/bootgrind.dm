@@ -9,8 +9,6 @@
 		return FALSE
 	if(!check_location_accessible(target, user, BODY_ZONE_PRECISE_GROIN, TRUE))
 		return FALSE
-	if(user.resting)
-		return FALSE
 	if(!target.getorganslot(ORGAN_SLOT_TESTICLES))
 		return FALSE
 	return TRUE
@@ -22,12 +20,6 @@
 	if(user == target)
 		return FALSE
 	if(!check_location_accessible(target, user, BODY_ZONE_PRECISE_GROIN, TRUE))
-		return FALSE
-	// Need to stand up
-	if(user.resting)
-		return FALSE
-	// Target can't stand up
-	if(!target.resting)
 		return FALSE
 	if(!target.getorganslot(ORGAN_SLOT_TESTICLES))
 		return FALSE
