@@ -131,7 +131,8 @@
 	var/weapons = list("Bow", "Crossbow")
 	switch(H.patron?.type)
 		if(/datum/patron/divine/eora)
-			weapons += list("Harp Bow (long)", "Harp Bow (short)")
+			weapons += "Harp Bow (long)"
+			weapons += "Harp Bow (short)"
 	var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP YOUR GOD'S ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Crossbow")
