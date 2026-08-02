@@ -291,9 +291,9 @@
 		STATKEY_END = 2,
 		STATKEY_SPD = 1
 	)
-
 	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 	maximum_possible_slots = 1 // Need to keep it 1 for now. May increase to 2 slots but balance
+	age_mod = /datum/class_age_mod/adv_mage
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
@@ -323,9 +323,10 @@
 	backr = /obj/item/rogueweapon/woodstaff/implement/greater
 	backpack_contents = list(
 			/obj/item/rogueweapon/spellbook = 1,
-			/obj/item/chalk = 1,
-			/obj/item/rogueweapon/scabbard/sheath = 1,
+			/obj/item/chalk = 1,,
 			/obj/item/reagent_containers/glass/bottle/rogue/manapot = 1,
+			/obj/item/ritechalk = 1,
+			/obj/item/mini_flagpole/church = 1,
 			)
 	switch(H.patron?.type)
 		if(/datum/patron/divine/noc)
