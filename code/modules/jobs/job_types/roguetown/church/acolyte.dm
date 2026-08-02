@@ -23,7 +23,8 @@
 	job_traits = list(TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_CLERGY)
 	advclass_cat_rolls = list(CTAG_ACOLYTE = 2)
 	job_subclasses = list(
-		/datum/advclass/acolyte
+		/datum/advclass/acolyte,
+		/datum/advclass/nocA
 	)
 
 /datum/advclass/acolyte
@@ -274,3 +275,66 @@
 		H.adjust_skillrank(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/lockpicking, SKILL_LEVEL_NOVICE, TRUE)
 		H.adjust_skillrank_up_to(/datum/skill/misc/music, SKILL_LEVEL_EXPERT, TRUE)
+
+
+
+/datum/advclass/nocA
+	name = "Mystic Theurge"
+	tutorial = "For most in the church, studying the mysticism of the divine is a lifelong pursuit. For you, the call of Noc has brought you to his domain of magic. You are a mystic, a theurge, and a student of the arcane. Your studies will be difficult, but your faith in Noc will guide you to mastery of the arcane arts."
+	outfit = /datum/outfit/job/nocA
+	category_tags = list(CTAG_ACOLYTE)
+	cmode_music = 'sound/music/combat_holy.ogg'
+	allowed_patrons = list(/datum/patron/divine/noc)
+
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_END = 2,
+		STATKEY_SPD = 1
+	)
+
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
+	maximum_possible_slots = 1 // Need to keep it 1 for now. May increase to 2 slots but balance
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
+	subclass_skills = list(
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
+		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+	)
+/datum/outfit/job/nocA
+	name = "Mystic Theurge"
+
+/datum/outfit/job/nocA/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.adjust_blindness(-3)
+	belt = /obj/item/storage/belt/rogue/leather/rope
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
+	beltl = /obj/item/storage/keyring/acolyte
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backr = /obj/item/rogueweapon/woodstaff/implement/greater
+	backpack_contents = list(
+			/obj/item/rogueweapon/spellbook = 1,
+			/obj/item/chalk = 1,
+			/obj/item/rogueweapon/scabbard/sheath = 1,
+			/obj/item/reagent_containers/glass/bottle/rogue/manapot = 1,
+			)
+	switch(H.patron?.type)
+		if(/datum/patron/divine/noc)
+			head = /obj/item/clothing/head/roguetown/roguehood/nochood
+			neck = /obj/item/clothing/neck/roguetown/psicross/noc
+			wrists = /obj/item/clothing/wrists/roguetown/nocwrappings
+			shoes = /obj/item/clothing/shoes/roguetown/sandals
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/noc // this robe is broken unless its in the cloak slot
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+	// -- End of section for god specific bonuses --
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)

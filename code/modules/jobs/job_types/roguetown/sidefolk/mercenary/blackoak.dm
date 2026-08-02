@@ -1,16 +1,16 @@
-// Elven unique mercenary type; should be scary in a way solo but easy to kill with a group or bow.
+// Mercenary type unique to elf; should be scary in a way solo but easy to kill with a group or bow.
 /datum/advclass/mercenary/blackoak
-	name = "Black Oaken Guardian"
-	tutorial = "A shady guardian of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. Thankfully, you are not here today to shed the blood of the Duke's men — unless someone pays you to..."
+	name = "Black Oaken Vanguard"
+	tutorial = "A shady vanguard of the Black Oaks, a paramilitary group from Amerland, trained in melee combat and usage of medium armour. Secretly, you also hunt down political refugees and dissenters from Amerland who hoped to escape retribution in a foreign land."
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_BLACKOAK)
+	forbidden_races = list(RACES_BLACKOAK_TRUE)
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_blackoak.ogg'
 	extra_context = "This class is restricted to the Elf, Half-Elf, and Dark Elf species."
-	subclass_languages = list(/datum/language/oldvalmorian)
-	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_MEDIUMARMOR)
+	subclass_languages = list(/datum/language/elvish)
+	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_WIL = 2,
@@ -62,7 +62,7 @@
 /datum/outfit/job/roguetown/mercenary/blackoak/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Elvish Glaive", "Elvish Curveblade", "Elvish Longsword")
-	var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
+	var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS.") as anything in weapons
 	switch(weapon_choice)
 		if("Elvish Glaive")
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
@@ -79,14 +79,14 @@
 
 /datum/advclass/mercenary/blackoak_ranger
 	name = "Black Oaken Ranger"
-	tutorial = "A shady ranger of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. Thankfully, you are not here today to shed the blood of the Duke's men — unless someone pays you to..."
+	tutorial = "A shady ranger of the Black Oaks, a paramilitary group from Amerland, trained in archery. Secretly, you also hunt down political refugees and dissenters from Amerland who hoped to escape retribution in foreign lands."
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_BLACKOAK)
+	forbidden_races = list(RACES_BLACKOAK_TRUE)
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak_ranger
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_blackoak.ogg'
-	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_WOODWALKER)
+	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_WOODWALKER)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_WIL = 2,
@@ -137,7 +137,7 @@
 /datum/outfit/job/roguetown/mercenary/blackoak_ranger/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Elvish Dagger", "Elvish Saber", "Elvish Shortsword")
-	var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
+	var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS.") as anything in weapons
 	switch(weapon_choice)
 		if("Elvish Dagger")
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
@@ -171,15 +171,15 @@
 
 /datum/advclass/mercenary/blackoak_adept
 	name = "Black Oaken Adept"
-	tutorial = "A spellblade of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. You have honed the ancient Valmorian art of spellbladery - an art that is yours and your people's alone. Thankfully, you are not here today to shed the blood of the Duke's men - unless someone pays you to..."
+	tutorial = "A shady spellblade of the Black Oaks, a paramilitary group from Amerland, trained in arcyne. Secretly, you also hunt down political refugees and dissenters from Amerland who hoped to escape retribution in a foreign land."
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_BLACKOAK)
+	forbidden_races = list(RACES_BLACKOAK_TRUE)
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak_adept
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_blackoak.ogg'
 	class_select_category = CLASS_CAT_RACIAL
-	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_ARCYNE, TRAIT_WOODWALKER)
+	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_ARCYNE, TRAIT_WOODWALKER)
 	subclass_stats = list(
 		STATKEY_INT = 1,
 		STATKEY_PER = 1,
@@ -287,7 +287,7 @@
 	switch(subclass_selected)
 		if("blade")
 			var/weapons = list("Elvish Longsword", "Elvish Saber", "Elvish Curveblade", "Steel Dagger")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
+			var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS.") as anything in weapons
 			switch(weapon_choice)
 				if("Elvish Longsword")
 					r_hand = /obj/item/rogueweapon/sword/long/elvish
@@ -314,7 +314,7 @@
 		if("macebearer")
 			backr = /obj/item/rogueweapon/shield/wood
 			var/mace_weapons = list("Steel Mace", "Steel Warhammer", "Grand Mace", "Battle Axe", "Steel Greataxe")
-			var/mace_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in mace_weapons
+			var/mace_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS.") as anything in mace_weapons
 			var/picked_axe = FALSE
 			switch(mace_choice)
 				if("Steel Mace")

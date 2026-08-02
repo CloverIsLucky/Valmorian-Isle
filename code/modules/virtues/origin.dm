@@ -273,3 +273,23 @@
 
 /datum/virtue/origin/apply_to_human(mob/living/carbon/human/recipient)
 	recipient.dna.species.origin = origin_name
+
+/datum/virtue/origin/amerland
+	name = "Amerlander"
+	origin_name = "Amerland"
+	desc = "I originate from Amerland, once an independent multicultural duchy, it fell victim to a brutal civil war. Just a year ago the Black Oaks, a group of elven supremacists, usurped the throne of Amerland. With non-elves treated as second-class citizens at best and vermins at worst, non-elven refugees and elven dissenters can be found all around the world.<br>"
+	restricted = FALSE
+	added_languages = list(/datum/language/elvish)
+	origin_desc = "An independent duchy of unclear origins, Amerland once stood as a beacon of tolerance and multiculturalism, free from the Holy See's and the Orthodoxy's chains and \
+	housing countless distinct cultures and species. However, about five years ago its grand duke perished without a heir, and the realm soon fell victim to a gruesome civil war between \
+	nobles and warlords. A year ago, the Black Oaks, elven supremacist guerrilla fighters, managed to defeat the factions weakened from years of warring and usurp the empty throne.\n<br><br>\
+	\
+	The Black Oaks were quick to establish a draconian regime, where only elves may hold local nobility and government positions. Half-elves and humans are just barely tolerated, \
+	while other species are outright repressed with heavy taxies and various prohibitions, driving many of them out of the land they once could call a home for everyone. \
+	These discriminatory policies also caused quite a few Amerlander elves to leave the realm, for which they are hunted by the Black Oaks, \
+	who are now a secret police disguising and part-timing as a mercenary warband.\n<br><br>\
+	\
+	Former Amerland allowed practically any faith, even those of the Four, provided the law was followed and the shared morality was maintained. In the present day Amerland, \
+	the worship of PSYDON and the Four is explicitly forbidden, and the realm pays only lip service to the Grenzelhoftian Holy See to avoid conflicts. \
+	The overwhelming majority of Amerlander elves is Dendorite, with token minorities of Abyssorites, Astratans and Noccians. Non-elven population practices a wide variety of faiths, \
+	but some convert to Dendor, hoping for a slightly better treatment."

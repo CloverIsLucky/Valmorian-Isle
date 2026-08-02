@@ -941,7 +941,7 @@
 			. += span_notice("An adherent of the Holy Otavan Inquisition.")
 
 		if((HAS_TRAIT(user, TRAIT_BLACKOAK) && !(src.dna.species.name == "Elf" || src.dna.species.name == "Dark Elf" || src.dna.species.name == "Half-Elf")))
-			. += span_phobia("An invader...")
+			. += span_phobia("A lesser...")
 
 		//For tennite schism god-event
 		if(length(GLOB.tennite_schisms))

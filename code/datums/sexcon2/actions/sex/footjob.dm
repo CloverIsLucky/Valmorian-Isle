@@ -20,12 +20,6 @@
 		return FALSE
 	if(check_sex_lock(user, ORGAN_SLOT_PENIS))
 		return FALSE
-	// Need to be on the floor
-	if(user.resting)
-		return FALSE
-	// Target has to be standing / but also this is for SOME forsaken reason flipped
-	if(!target.resting)
-		return FALSE
 	return TRUE
 
 /datum/sex_action/sex/footjob/get_start_message(mob/living/carbon/human/user, mob/living/carbon/human/target)

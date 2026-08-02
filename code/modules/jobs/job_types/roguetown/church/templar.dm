@@ -27,7 +27,8 @@
 		/datum/advclass/templar/monk,
 		/datum/advclass/templar/crusader,
 		/datum/advclass/templar/noc_spellblade,
-		/datum/advclass/templar/guardian
+		/datum/advclass/templar/guardian,
+		/datum/advclass/templar/tempest,
 	)
 
 /datum/outfit/job/roguetown/templar

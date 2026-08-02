@@ -9,8 +9,6 @@
 		return FALSE
 	if(!check_location_accessible(target, target, BODY_ZONE_PRECISE_MOUTH))
 		return FALSE
-	if(user.resting)
-		return FALSE
 	return TRUE
 
 /datum/sex_action/sex/other/footsmother/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -20,12 +18,6 @@
 	if(user == target)
 		return FALSE
 	if(!check_location_accessible(target, target, BODY_ZONE_PRECISE_MOUTH))
-		return FALSE
-	// Need to stand up
-	if(user.resting)
-		return FALSE
-	// Target can't stand up
-	if(!target.resting)
 		return FALSE
 	if(check_sex_lock(target, BODY_ZONE_PRECISE_MOUTH))
 		return FALSE
