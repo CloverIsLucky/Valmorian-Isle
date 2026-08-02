@@ -2627,6 +2627,14 @@
 		to_chat(src, span_warning("I need a free hand to take it!"))
 		return FALSE
 
+	// The offer stays live even if the item leaves the offerer's hand without going through
+	// doUnEquip - sheathing it is one such path - and taking it then pulls it straight back out of
+	// wherever it ended up, leaving that holster/container still pointing at it.
+	if(!offerer.is_holding(offered_item))
+		to_chat(src, span_warning("[offerer] isn't holding it anymore!"))
+		offerer.stop_offering_item()
+		return FALSE
+
 	accept_offered_item(offerer, offered_item, stealthy)
 	return TRUE
 
