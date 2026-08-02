@@ -22,12 +22,6 @@
 		return FALSE
 	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_MOUTH))
 		return FALSE
-	// Need to be on the floor
-	if(!user.resting)
-		return FALSE
-	// Target has to be standing
-	if(target.resting)
-		return FALSE
 	return TRUE
 
 /datum/sex_action/oral/foot_lick/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)
