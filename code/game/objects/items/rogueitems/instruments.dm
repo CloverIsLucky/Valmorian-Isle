@@ -105,7 +105,7 @@
 			if(!choice || !user)
 				return
 
-			if(playing || !(src in user.held_items) && !(not_held) || user.get_inactive_held_item())
+			if(playing || !(src in user.held_items) && !(not_held) || (!not_held && user.get_inactive_held_item()))
 				return
 
 			if(choice == "Upload New Song")
@@ -117,7 +117,7 @@
 
 				if(!infile)
 					return
-				if(playing || !(src in user.held_items) && !(not_held) || user.get_inactive_held_item())
+				if(playing || !(src in user.held_items) && !(not_held) || (!not_held && user.get_inactive_held_item()))
 					return
 
 				var/filename = "[infile]"
@@ -167,7 +167,7 @@
 						soundloop.stress2give = stressevent
 			if(!(src in user.held_items) && !(not_held))
 				return
-			if(user.get_inactive_held_item())
+			if(!not_held && user.get_inactive_held_item())
 				playing = FALSE
 				soundloop.stop()
 				user.remove_status_effect(/datum/status_effect/buff/playing_music)
@@ -176,7 +176,9 @@
 				playing = TRUE
 				soundloop.set_mid_sounds(list(curfile))
 				soundloop.mid_length = rustg_sound_length("[curfile]")
-				soundloop.start()
+				//VALMORIAN: not_held instruments live inside an organ, and inserted organs are moved to
+				//nullspace - so get_turf(src) is null and playsound() bails. Sing from the singer instead.
+				soundloop.start(not_held ? user : null)
 				user.apply_status_effect(/datum/status_effect/buff/playing_music, stressevent, note_color)
 				if(not_held)
 					user.apply_status_effect(/datum/status_effect/buff/harpy_sing)
