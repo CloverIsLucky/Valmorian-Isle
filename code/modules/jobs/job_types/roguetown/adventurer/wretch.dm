@@ -140,6 +140,15 @@
 		d_list, H, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%"
 	)
 	add_bounty(H.real_name, race, gender, descriptor_height, descriptor_body, descriptor_voice, bounty_total, FALSE, my_crime, bounty_poster)
+	//A posted bounty makes you a target, so it comes with a hardened body. Ported from Emerald Summit,
+	//which granted the same flat +1 to any wretch whose face went up on a poster.
+	H.change_stat("strength", 1)
+	H.change_stat("perception", 1)
+	H.change_stat("intelligence", 1)
+	H.change_stat("constitution", 1)
+	H.change_stat("willpower", 1)	//ES's seventh stat is "endurance"; VI's is willpower
+	H.change_stat("speed", 1)
+	H.change_stat("fortune", 1)
 	if(H.has_flaw(/datum/charflaw/wanted))
 		to_chat(H, span_danger("You are wanted; you have a price on your head. Expect conflict to find you whether you seek it or not."))
 	else
