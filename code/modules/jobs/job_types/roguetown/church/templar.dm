@@ -137,7 +137,14 @@
 			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
 		if(/datum/patron/divine/necra)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/necra
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/necran
+			if(H.mind)
+				var/helms = list("Skull Helm", "Hood Helm")
+				var/helmchoice = input(H, "Choose your headwear", "TAKE UP NOGGIN PROTECTION") as anything in helms
+				switch(helmchoice)
+				if("Skull Helm")
+					head = /obj/item/clothing/head/roguetown/helmet/heavy/necrahelm
+				if("Hood Helm")
+					head = /obj/item/clothing/head/roguetown/helmet/heavy/necran
 			cloak = /obj/item/clothing/cloak/templar/necran
 		if(/datum/patron/divine/pestra)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/pestra
@@ -160,7 +167,14 @@
 			cloak = /obj/item/clothing/cloak/tabard/devotee/noc
 		if(/datum/patron/divine/ravox)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/ravox
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm
+			if(H.mind)
+				var/helms = list("Justice Eagle", "Plumed Helm")
+				var/helmchoice = input(H, "Choose your headwear", "TAKE UP NOGGIN PROTECTION") as anything in helms
+				switch(helmchoice)
+					if("Justice Eagle")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm
+					if("Plumed Helm")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/ravox_visor
 			cloak = /obj/item/clothing/cloak/templar/ravox
 			mask = /obj/item/clothing/head/roguetown/roguehood/ravoxgorget
 		if(/datum/patron/divine/malum)
@@ -197,6 +211,7 @@
 			weapons += "Moonlight Kriegmesser"
 		if(/datum/patron/divine/necra)
 			weapons += "Swift End"
+			weapons += "Respite"
 		if(/datum/patron/divine/pestra)
 			weapons += "Plaguebringer Sickles"
 			weapons += "Lance of Boils"
@@ -259,6 +274,10 @@
 		if("Swift End")
 			H.put_in_hands(new /obj/item/rogueweapon/flail/sflail/necraflail(H))
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, SKILL_LEVEL_NOVICE, TRUE)
+		if("Respite")
+			H.put_in_hands(new /obj/item/rogueweapon/greataxe/steel/necran(H))
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
+			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 		if("Plaguebringer Sickles")
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle(H))
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle(H))

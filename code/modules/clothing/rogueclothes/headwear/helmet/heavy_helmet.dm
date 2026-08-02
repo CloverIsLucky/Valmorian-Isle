@@ -1138,6 +1138,21 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
 
+/obj/item/clothing/head/roguetown/helmet/heavy/ravox_visor
+	name = "plumed ravox helmet"
+	desc = "A helmet with a great, red plume. They will know, in time, that you are the true justiciar of the realm."
+	icon_state = "ravoxhelm"
+	item_state = "ravoxhelm"
+	emote_environment = 3
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	block2add = FOV_BEHIND
+	smeltresult = /obj/item/ingot/steel
+	smelt_bar_num = 2
+	adjustable = CAN_CADJUST
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ravox_visor/ComponentInitialize()
+	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
+
 /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
 	name = "heavy volfskulle bascinet"
 	desc = "A steel bascinet helmet with a snarling visor that protects the entire head and face. It mimics the \
