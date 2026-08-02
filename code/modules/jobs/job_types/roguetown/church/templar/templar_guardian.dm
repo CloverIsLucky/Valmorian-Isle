@@ -67,7 +67,16 @@
 						cloak = /obj/item/clothing/cloak/templar/undivided_alt
 		if(/datum/patron/divine/astrata)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/astrata
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/astratan
+			if(H.mind)
+				var/helms = list("Astratan Helm", "Astratan Bucket", "Astratan Kulah khud")
+				var/helmchoice = input(H, "Choose your headwear", "TAKE UP NOGGIN PROTECTION") as anything in helms
+				switch(helmchoice)
+					if("Astratan Helm")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm
+					if("Astratan Bucket")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/astratan
+					if("Astratan Kulah khud")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/ranesh_stratan
 			cloak = /obj/item/clothing/cloak/templar/astratan
 		if(/datum/patron/divine/abyssor)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/abyssor
@@ -88,7 +97,14 @@
 			cloak = /obj/item/clothing/cloak/templar/necran
 		if(/datum/patron/divine/pestra)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/pestra
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/pestran
+			if(H.mind)
+				var/helms = list("Pestran Helmet", "Bucket Helm")
+				var/helmchoice = input(H, "Choose your headwear", "TAKE UP NOGGIN PROTECTION") as anything in helms
+				switch(helmchoice)
+					if("Pestran Helmet")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/pestran
+					if("Bucket Helm")
+						head =/obj/item/clothing/head/roguetown/helmet/heavy/bucket
 			cloak = /obj/item/clothing/cloak/templar/pestran
 		if(/datum/patron/divine/eora) //Eora content from stonekeep
 			wrists = /obj/item/clothing/neck/roguetown/psicross/eora
@@ -127,8 +143,9 @@
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata) //Unique patron weapons, more can be added here if wanted.
 			weapons += "Solar Judgement"
-			weapons += "Absolutio"
+			weapons += "Astratan Scimitar"
 			weapons += "Sunburst"
+			weapons += "Solar Spear"
 		if(/datum/patron/divine/undivided)
 			weapons += "Decablade"
 		if(/datum/patron/divine/noc)
@@ -150,6 +167,8 @@
 		if(/datum/patron/divine/ravox)
 			weapons += "Duel Settler"
 			weapons += "Censure"
+			weapons += "Ravoxian Glaive"
+			weapons += "Judgement Edge"
 		if(/datum/patron/divine/eora)
 			weapons += "The Heartstring"
 		if(/datum/patron/divine/abyssor)
@@ -181,6 +200,10 @@
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/exe/astrata(H))
 			H.adjust_skillrank(/datum/skill/combat/swords, SKILL_LEVEL_NOVICE, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
+		if("Solar Spear")
+			H.put_in_hands(new /obj/item/rogueweapon/spear/holysteel(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		if("Moonlight Khopesh")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/sabre/nockhopesh(H))
 			H.adjust_skillrank(/datum/skill/combat/swords, SKILL_LEVEL_NOVICE, TRUE)
@@ -226,6 +249,14 @@
 			H.put_in_hands(new /obj/item/rogueweapon/greatsword/grenz/flamberge/ravox(H), TRUE)
 			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H), FALSE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+		if("Ravoxian Glaive")
+			H.put_in_hands(new /obj/item/rogueweapon/halberd/glaive/ravox(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H), FALSE)
+			H.adjust_skillrank(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+		if("Judgement Edge")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/holysteel(H))
+			H.adjust_skillrank(/datum/skill/combat/swords, SKILL_LEVEL_NOVICE, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
 		if("The Heartstring")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/eora(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -233,8 +264,8 @@
 		if("Tidecleaver")
 			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/abyssoraxe(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-		if("Absolutio")
-			H.put_in_hands(new /obj/item/rogueweapon/sword/long/undivided/absolutio(H))
+		if("Astratan Scimitar")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/sabre/shamshir/ranesh_stratan(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 		if("Sunburst")

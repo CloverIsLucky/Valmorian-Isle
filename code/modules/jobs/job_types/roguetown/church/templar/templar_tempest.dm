@@ -71,7 +71,16 @@
 						head = /obj/item/clothing/head/roguetown/helmet/heavy/holyseebarbute
 		if(/datum/patron/divine/astrata)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/astrata
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/astratan
+			if(H.mind)
+				var/helms = list("Astratan Helm", "Astratan Bucket", "Astratan Kulah khud")
+				var/helmchoice = input(H, "Choose your headwear", "TAKE UP NOGGIN PROTECTION") as anything in helms
+				switch(helmchoice)
+					if("Astratan Helm")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm
+					if("Astratan Bucket")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/astratan
+					if("Astratan Kulah khud")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/ranesh_stratan
 			cloak = /obj/item/clothing/cloak/templar/astratan
 		if(/datum/patron/divine/abyssor)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/abyssor

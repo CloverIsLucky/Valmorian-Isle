@@ -1027,6 +1027,17 @@
 	max_blade_int = 225
 	smeltresult = /obj/item/ingot/steel
 
+/obj/item/rogueweapon/spear/holysteel
+	name = "Solar Spear"
+	desc = "Made to pierce the enemies of Astrata like a beam of light. Go forth and bring order."
+	icon_state = "ravspear"
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
+	smeltresult = /obj/item/ingot/steel
+	force = 15
+	force_wielded = 25
+	max_integrity = 250
+
+
 /obj/item/rogueweapon/halberd/ji
 	name = "ji"
 	desc = "A Lingyuese dagger-axe. A spearhead crowns the shaft, while a crescent side-blade hooks outwards - equally suited to thrusting, hooking a mounted foe out of his saddle, or shearing through a footman's guard."
@@ -1100,12 +1111,12 @@
 	. = ..()
 	if(used)
 		return
-		
+
 	var/list/special_options = list()
 	for(var/intent in selection)
 		var/datum/special_intent/S = intent // Hate this DM quirk.
 		special_options[S::name] = S
-	
+
 	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in special_options
 	if(choice)
 		qdel(special)
@@ -1249,6 +1260,17 @@
 	max_blade_int = 200
 	sellprice = 250
 
+/obj/item/rogueweapon/halberd/glaive/ravox
+	possible_item_intents = list(/datum/intent/spear/thrust/oneh, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
+	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/spear/cut/glaive, /datum/intent/spear/cut/glaive/sweep, SPEAR_BASH)
+	name = "gloryous glaive"
+	desc = "I bring him glory for he in turn brings me glory. We are bound together as one. This is written on the blade of these glaives these holy steel instruments wielded by the justicars of ravoxian bent."
+	icon_state = "rav_glaive"
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	smeltresult = /obj/item/ingot/steel
+	max_blade_int = 200 //slight buff due to being holysteel gear
+	wdefense = 9
+
 /obj/item/rogueweapon/halberd/pestran
 	name = "Lance of Boils"
 	desc = "For when a scalpel is too short, and you still need to perform Pestra's holy work."
@@ -1326,12 +1348,12 @@
 	. = ..()
 	if(used)
 		return
-		
+
 	var/list/special_options = list()
 	for(var/intent in selection)
 		var/datum/special_intent/S = intent // Hate this DM quirk.
 		special_options[S::name] = S
-	
+
 	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in special_options
 	if(choice)
 		qdel(special)
@@ -1532,6 +1554,17 @@
 	sellprice = 80
 	no_loot_taint = TRUE
 	max_integrity = 250 //equal to psydonite; putting it at half of this was a neat little experiment but agonizing
+
+/obj/item/rogueweapon/woodstaff/quarterstaff/steel/dendor
+	name = "dendorite warstaff"
+	desc = "Surrounding a solid core of holy steel, The druids of dindor have called upon the briars to wrap and reinforce this weapon to remind people of the fierceness of nature."
+	force = 18
+	force_wielded = 25
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged)
+	icon_state = "dend_warstaff"
+	associated_skill = /datum/skill/combat/staves
+	max_integrity = 400
+	intdamage_factor = 1.2
 
 
 /obj/item/rogueweapon/spear/partizan
