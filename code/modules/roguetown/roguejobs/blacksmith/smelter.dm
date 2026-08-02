@@ -303,7 +303,7 @@
 		max_contained_items = 2
 		alloy = /obj/item/ingot/purifiedaalloy // 3 aaslag, 1 gold, makes 2 purified alloy.
 	else if(blacksteelalloy == 7)
-		max_contained_items = 1 // Blacksteel is supposed to be rare and inefficient. 3 steel and 1 silver into one.
+		max_contained_items = 2 // Blacksteel is supposed to be rare and inefficient. 3 steel and 1 silver into one.
 		alloy = /obj/item/ingot/blacksteel
 	else
 		alloy = null
