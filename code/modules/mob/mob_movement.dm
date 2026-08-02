@@ -247,10 +247,12 @@
 			move_delay = world.time + 10
 			to_chat(src, span_warning("I'm restrained! I can't move!"))
 			return TRUE
-		if(mob.pulledby.grab_state > GRAB_PASSIVE)
-			move_delay = world.time + 10
-			to_chat(src, span_warning("I'm restrained! I can't move!"))
-			return TRUE
+		//VALMORIAN: ANY grab holds us, passive included — we have to resist to get moving again.
+		//This used to be gated on grab_state > GRAB_PASSIVE, which let a passively grabbed target
+		//walk off freely (and, with the old cling block, tow their grabber behind them).
+		move_delay = world.time + 10
+		to_chat(src, span_warning("I can't move!"))
+		return TRUE
 
 	if(mob.pulling && isliving(mob.pulling))
 		if (issimple(mob.pulling))
@@ -268,7 +270,7 @@
 		if (L.compliance)
 			return FALSE
 		move_delay = world.time + 10
-		to_chat(src, span_warning("I am clinging to [L]! I need a stronger grip to stop them!"))
+		to_chat(src, span_warning("[L] still has footing! I need a stronger grip!"))
 		return TRUE
 
 	if(isanimal(mob.pulling))

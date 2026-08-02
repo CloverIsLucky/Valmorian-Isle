@@ -519,8 +519,6 @@
 			var/signal_result = SEND_SIGNAL(target, COMSIG_LIVING_GRAB_SELF_ATTEMPT, target, used_limb)
 			if(signal_result & COMPONENT_CANCEL_GRAB_ATTACK)
 				return FALSE
-			if(C.mind && C != src)
-				changeNext_move(CLICK_CD_WRESTLING)
 		else
 			var/obj/item/grabbing/O = new()
 			O.name = "[target.name]"
@@ -556,6 +554,15 @@
 		O.update_hands(src)
 		update_grab_intents()
 
+	//Anti-grabspam: a conscious, unrestrained target in combat mode gets one free (no stamina, no
+	//bad luck) attempt to shrug the grab off the instant it lands. Skipped when a Master wrestler
+	//grabs someone who isn't one — their grip is good enough that it doesn't get a courtesy roll.
+	if(isliving(AM))
+		var/mob/living/grabbed_mob = AM
+		if(grabbed_mob.mind && grabbed_mob.cmode && grabbed_mob.stat == CONSCIOUS && !grabbed_mob.restrained(ignore_grab = TRUE))
+			if(grabbed_mob.get_skill_level(/datum/skill/combat/wrestling) > 4 || get_skill_level(/datum/skill/combat/wrestling) < 5)
+				grabbed_mob.resist_grab(freeresist = TRUE)
+
 /mob/living/proc/is_limb_covered(obj/item/bodypart/limb)
 	if(!limb)
 		return FALSE
@@ -574,9 +581,10 @@
 /mob/living/proc/set_pull_offsets(mob/living/M, grab_state = GRAB_PASSIVE)
 	if(M.buckled)
 		return //don't make them change direction or offset them if they're buckled into something.
+	//VALMORIAN: the grabbed mob is always spun to face their grabber and always takes the offset.
+	//The combat-mode branch that used to shift the GRABBER instead belonged to the cling system.
 	if(M.dir != turn(get_dir(M,src), 180))
-		if(!((cmode || M.cmode) && M.grab_state < GRAB_AGGRESSIVE))
-			M.setDir(get_dir(M, src))
+		M.setDir(get_dir(M, src))
 	var/offset = 0
 	switch(grab_state)
 		if(GRAB_PASSIVE)
@@ -587,34 +595,19 @@
 			offset = GRAB_PIXEL_SHIFT_NECK
 		if(GRAB_KILL)
 			offset = GRAB_PIXEL_SHIFT_NECK
-	if((cmode || M.cmode) && M.grab_state < GRAB_AGGRESSIVE)
-		switch(get_dir(src, M))
-			if(NORTH)
-				set_mob_offsets("pulledby", 0, 0+offset)
-				layer = MOB_LAYER+0.05
-			if(SOUTH)
-				set_mob_offsets("pulledby", 0, 0-offset)
-				layer = MOB_LAYER-0.05
-			if(EAST)
-				set_mob_offsets("pulledby", 0+offset, 0)
-				layer = MOB_LAYER
-			if(WEST)
-				set_mob_offsets("pulledby", 0-offset, 0)
-				layer = MOB_LAYER
-	else
-		switch(get_dir(M, src))
-			if(NORTH)
-				M.set_mob_offsets("pulledby", 0, 0+offset)
-				M.layer = MOB_LAYER+0.05
-			if(SOUTH)
-				M.set_mob_offsets("pulledby", 0, 0-offset)
-				M.layer = MOB_LAYER-0.05
-			if(EAST)
-				M.set_mob_offsets("pulledby", 0+offset, 0)
-				M.layer = MOB_LAYER
-			if(WEST)
-				M.set_mob_offsets("pulledby", 0-offset, 0)
-				M.layer = MOB_LAYER
+	switch(get_dir(M, src))
+		if(NORTH)
+			M.set_mob_offsets("pulledby", 0, 0+offset)
+			M.layer = MOB_LAYER+0.05
+		if(SOUTH)
+			M.set_mob_offsets("pulledby", 0, 0-offset)
+			M.layer = MOB_LAYER-0.05
+		if(EAST)
+			M.set_mob_offsets("pulledby", 0+offset, 0)
+			M.layer = MOB_LAYER
+		if(WEST)
+			M.set_mob_offsets("pulledby", 0-offset, 0)
+			M.layer = MOB_LAYER
 
 /mob/living/proc/reset_pull_offsets(mob/living/M, override)
 	if(!override && M.buckled)
@@ -1299,10 +1292,12 @@
 	if(.)
 		to_chat(src, span_danger("My spell is disrupted!"))
 
-/mob/proc/resist_grab(moving_resist)
+/mob/proc/resist_grab(moving_resist, freeresist = FALSE)
 	return TRUE //returning 0 means we successfully broke free
 
-/mob/living/resist_grab(moving_resist)
+///freeresist is the automatic roll handed out when a combat-ready target is grabbed: it costs the
+///defender no stamina and can't trigger a bad-luck event, since they didn't choose to spend an action.
+/mob/living/resist_grab(moving_resist, freeresist = FALSE)
 	. = TRUE
 
 	var/wrestling_diff = 0
@@ -1310,6 +1305,9 @@
 	var/mob/living/L = pulledby
 	var/combat_modifier = 1
 	var/agg_grab = FALSE
+
+	if(!L) //grab already broke, or we're somehow pulling ourselves
+		return FALSE
 
 	if(mind)
 		wrestling_diff += (get_skill_level(/datum/skill/combat/wrestling)) //NPCs don't use this
@@ -1348,7 +1346,7 @@
 	resist_chance *= combat_modifier
 	resist_chance = clamp(resist_chance, 5, 95)
 
-	if(!L.compliance || !compliance)
+	if(!freeresist && (!L.compliance || !compliance))
 		if(badluck(7))
 			badluckmessage(src)
 			return
@@ -1358,7 +1356,8 @@
 
 	if(moving_resist && client) //we resisted by trying to move
 		client.move_delay = world.time + 20
-	stamina_add(rand(5,15))
+	if(!freeresist)
+		stamina_add(rand(5,15))
 
 	if(!prob(resist_chance))
 		var/rchance = ""

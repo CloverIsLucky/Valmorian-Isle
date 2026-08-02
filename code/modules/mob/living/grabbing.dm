@@ -165,9 +165,11 @@
 		var/signal_result = SEND_SIGNAL(user, COMSIG_LIVING_GRAB_SELF_ATTEMPT, user, M, sublimb_grabbed, null)
 		if(signal_result & COMPONENT_CANCEL_GRAB_ATTACK)
 			return FALSE
+	//VALMORIAN: speed-scaled (24 - SPD) against a player rather than a flat 3s. Mindless mobs stay
+	//on the baseline so grappling an NPC isn't slower than punching it.
 	var/clickcd = CLICK_CD_MELEE
 	if(M.mind && M != user)
-		clickcd = CLICK_CD_WRESTLING
+		clickcd = CLICK_CD_MELEE * 2 - user.STASPD
 	user.changeNext_move(clickcd)
 
 	var/skill_diff = 0
