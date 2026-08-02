@@ -1292,8 +1292,8 @@
 /area/rogue/indoors/vampire_manor)
 "fy" = (
 /obj/structure/fluff/traveltile/wretch{
-	aportalgoesto = "wretchout5";
-	aportalid = "wretchin5"
+	aportalgoesto = "wretchout3";
+	aportalid = "wretchin3"
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/woods/wretch_lair)
@@ -2036,13 +2036,6 @@
 	list_reagents = list(/datum/reagent/consumable/ethanol/voddena=20);
 	pixel_x = 6;
 	pixel_y = 7
-	},
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave/inhumen)
-"iT" = (
-/obj/structure/fluff/traveltile/wretch{
-	aportalgoesto = "wretchout4";
-	aportalid = "wretchin4"
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
@@ -4259,13 +4252,6 @@
 /obj/structure/fluff/wallclock/vampire,
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/indoors/vampire_manor)
-"rU" = (
-/obj/structure/fluff/traveltile/wretch{
-	aportalgoesto = "wretchout2";
-	aportalid = "wretchin2"
-	},
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave/inhumen)
 "rV" = (
 /obj/structure/chair/bench/church/r,
 /obj/effect/landmark/start/wretch{
@@ -4952,8 +4938,8 @@
 /area/rogue/indoors/banditcamp)
 "uA" = (
 /obj/structure/fluff/traveltile/wretch{
-	aportalgoesto = "wretchout3";
-	aportalid = "wretchin3"
+	aportalgoesto = "wretchout4";
+	aportalid = "wretchin4"
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/wretch_lair)
@@ -11426,8 +11412,8 @@
 /area/rogue/outdoors/woods/wretch_lair)
 "WP" = (
 /obj/structure/fluff/traveltile/wretch{
-	aportalgoesto = "wretchout6";
-	aportalid = "wretchin6"
+	aportalgoesto = "wretchin2";
+	aportalid = "wretchout2"
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
@@ -14516,9 +14502,9 @@ IL
 IL
 IL
 IL
-rU
-rU
-rU
+Or
+Or
+Or
 IL
 IL
 IL
@@ -30274,7 +30260,7 @@ Ev
 Ev
 Ry
 Ry
-Ry
+fy
 IL
 IL
 IL
@@ -31057,7 +31043,7 @@ Xm
 Ev
 Ry
 Ry
-iT
+Or
 IL
 IL
 IL
@@ -31187,7 +31173,7 @@ Ev
 Ev
 Ev
 Ry
-iT
+Or
 IL
 IL
 IL
@@ -31317,7 +31303,7 @@ Ev
 Ev
 Ev
 Ry
-iT
+Or
 IL
 IL
 IL
