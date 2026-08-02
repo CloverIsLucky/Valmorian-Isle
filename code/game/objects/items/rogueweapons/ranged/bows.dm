@@ -503,7 +503,7 @@
 	desc = "As the eagle was killed by the arrow winged with his own feather, so the hand of the world is wounded by its own skill."
 	icon = 'icons/roguetown/weapons/misc32.dmi'
 	icon_state = "bow" //No time for sprite this shit
-	item_state = "bow" 
+	item_state = "bow"
 	possible_item_intents = list(
 		/datum/intent/shoot/bow/short,
 		/datum/intent/arc/bow/short,
@@ -523,3 +523,28 @@
 	chargetime = 0.75
 	chargedrain = 1.5
 	charging_slowdown = 2.5
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/eora
+	name = "eoran harp-bow"
+	desc = "Strings to pluck."
+	icon = 'icons/roguetown/weapons/64.dmi'
+	icon_state = "harpbow"
+	dropshrink = 0
+	force = 15
+	damfactor = 1.25
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/eora //recurve sprite sizes, but the stats of a shortbow
+	name = "eoran harp-bow"
+	desc = "Strings to pluck."
+	icon = 'icons/roguetown/weapons/64.dmi'
+	icon_state = "harpbowb"
+	dropshrink = 0
+	randomspread = 1
+	spread = 1
+	force = 9
+	damfactor = 0.95
+	possible_item_intents = list(
+		/datum/intent/shoot/bow/short,
+		/datum/intent/arc/bow/short,
+		INTENT_GENERIC,
+		)
