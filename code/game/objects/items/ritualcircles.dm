@@ -1457,7 +1457,6 @@
 			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic)
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
-			if(is_heretic && target != user)
 			zizoarmaments(target, helm_choice, armor_choice)
 			spawn(120)
 				icon_state = "zizo_chalky"
@@ -1600,7 +1599,6 @@
 			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic)
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
-			if(is_heretic && target != user)
 			matthiosarmaments(target)
 			spawn(120)
 				icon_state = "matthios_chalky"
@@ -1795,7 +1793,6 @@
 			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic)
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
-			if(is_heretic && target != user)
 			graggararmor(target, helm_choice, armor_choice)
 			spawn(120)
 				icon_state = "graggar_chalky"
@@ -2000,7 +1997,6 @@
 			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic)
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
-			if(is_heretic && target != user)
 			baothaarmaments(target)
 			spawn(120)
 				icon_state = "baotha_chalky"
