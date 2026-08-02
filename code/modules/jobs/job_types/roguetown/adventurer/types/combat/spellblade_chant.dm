@@ -378,12 +378,12 @@ a.choose-btn:hover {
 /proc/get_blade_chant_text(faction, mob/living/carbon/human/H)
 	switch(faction)
 		if("blackoak")
-			return {"<p><em>I am a blade of Tarichea — Valmoria, her name reborn!</em></p>
+			return {"<p><em>I am a blade of Amerland, her name purified!</em></p>
 <p><em>The sword is my law! Blood my ink!</em></p>
 <p><em>True is my strike! Sharp is my edge!</em></p>
 <p><em>With a dozen cuts I shall defend our home.</em></p>
-<p><em>Five hundred yils, unbowed!</em></p>
-<p><em>By blood and steel, five hundred more!</em></p>"}
+<p><em>Never break, never submit!</em></p>
+<p><em>By blood and oak, forever and always!</em></p>"}
 		if("zizite")
 			return {"<p><em>I am a blade of progress.</em></p>
 <p><em>The lady my patron, and knowledge my gift.</em></p>
@@ -423,12 +423,12 @@ a.choose-btn:hover {
 /proc/get_phalanx_chant_text(faction, mob/living/carbon/human/H)
 	switch(faction)
 		if("blackoak")
-			return {"<p><em>I am a blade of Tarichea — Valmoria, her name reborn!</em></p>
+			return {"<p><em>I am a blade of Amerland, her name reborn!</em></p>
 <p><em>The glaive is my law! Blood my ink!</em></p>
 <p><em>Swift is my strike! Sharp is my edge!</em></p>
 <p><em>With a dozen cuts I shall hew our foe.</em></p>
-<p><em>Five hundred yils, unbowed!</em></p>
-<p><em>By blood and steel, five hundred more!</em></p>"}
+<p><em>Never break, never submit!</em></p>
+<p><em>By blood and oak, forever and always!</em></p>"}
 		if("zizite")
 			return {"<p><em>I am a shield of progress.</em></p>
 <p><em>The lady my patron, and knowledge my gift.</em></p>
@@ -468,12 +468,12 @@ a.choose-btn:hover {
 /proc/get_macebearer_chant_text(faction, mob/living/carbon/human/H)
 	switch(faction)
 		if("blackoak")
-			return {"<p><em>I am a mace of Tarichea — Valmoria, her name reborn!</em></p>
+			return {"<p><em>I am a mace of Amerland, her name reborn!</em></p>
 <p><em>The hammer is my law! Blood my ink!</em></p>
-<p><em>Never bowed! Never stopped!</em></p>
-<p><em>With a dozen blows I shall crush all who threaten our home.</em></p>
-<p><em>Five hundred yils, unbowed!</em></p>
-<p><em>By blood and steel, five hundred more!</em></p>"}
+<p><em>No spirit unbroken, no bone unshattered.</em></p>
+<p><em>With a dozen blows I shall crush all who threaten our new home.</em></p>
+<p><em>Never break, never submit!</em></p>
+<p><em>By blood and oak, forever and always!</em></p>"}
 		if("zizite")
 			return {"<p><em>I am a mace of progress.</em></p>
 <p><em>The lady my patron, and knowledge my gift.</em></p>
@@ -513,7 +513,7 @@ a.choose-btn:hover {
 /proc/get_preamble_closing(faction)
 	switch(faction)
 		if("blackoak")
-			return "Hone the tradition of your people! Though the snow elves are gone, your heritage is not! As the most excellent, most long-lived of all races, it is up to you to carry on the legacy of a spellblade! Five hundred yils of martial and arcyne excellence, five hundred yils more!"
+			return "Hone the tradition of your people! Though the snow elves are gone, your heritage is not! As the most excellent, most long-lived of all races, it is up to you to carry on the legacy of a spellblade!"
 		if("zizite")
 			return "Hone the knowledge of your patron! With her ascension, the ignorant cling to the old way, your goddess lies imprisoned. Her teachings are all that remains. Her followers — corrupted, seeking undeath and bones, forgetting that she, too, is the mistress of progress. With your very blade, you shall cut open the wound of the world, cauterize it, and let her light shine through! You are her herald."
 		if("noccite")

@@ -162,10 +162,62 @@ Balloon Alert / Floating Text defines
 	/datum/species/construct/metal,\
 	/datum/species/ooze,\
 
-// All but elves & half-elves.
-#define RACES_BLACKOAK \
+// All but elves, dark elves, sun elves, half-elves and humans (second-class citizens). Used for Black Oaken Grovewalkers (Adventurer, auxiliaries).
+#define RACES_BLACKOAK_LESSER \
+	/datum/species/elf/dark/raider,\
+	/datum/species/dwarf/mountain,\
+	/datum/species/tieberian,\
+	/datum/species/aasimar,\
+	/datum/species/lizardfolk,\
+	/datum/species/lupian,\
+	/datum/species/tabaxi,\
+	/datum/species/vulpkanin,\
+	/datum/species/akula,\
+	/datum/species/moth,\
+	/datum/species/dracon,\
+	/datum/species/anthromorph,\
+	/datum/species/anthromorphsmall,\
+	/datum/species/demihuman,\
+	/datum/species/halforc,\
+	/datum/species/kobold,\
+	/datum/species/goblinp,\
+	/datum/species/dullahan,\
+	/datum/species/dwarf/gnome,\
+	/datum/species/construct/metal,\
+	/datum/species/ooze,\
+
+// All but elves, dark elves and half-elves. Used for Black Oaken Vanguard and Ranger (Mercenary). Sun elves are intentionally not allowed.
+#define RACES_BLACKOAK_TRUE \
 	/datum/species/human/northern,\
 	/datum/species/elf/dark/raider,\
+	/datum/species/elf/sun,\
+	/datum/species/dwarf/mountain,\
+	/datum/species/tieberian,\
+	/datum/species/aasimar,\
+	/datum/species/lizardfolk,\
+	/datum/species/lupian,\
+	/datum/species/tabaxi,\
+	/datum/species/vulpkanin,\
+	/datum/species/akula,\
+	/datum/species/moth,\
+	/datum/species/dracon,\
+	/datum/species/anthromorph,\
+	/datum/species/anthromorphsmall,\
+	/datum/species/demihuman,\
+	/datum/species/halforc,\
+	/datum/species/kobold,\
+	/datum/species/goblinp,\
+	/datum/species/dullahan,\
+	/datum/species/dwarf/gnome,\
+	/datum/species/construct/metal,\
+	/datum/species/ooze,\
+
+// All but elves and dark elves. Used for Black Oaken Stalker (Wretch). Sun elves are intentionally not allowed.
+#define RACES_BLACKOAK_SUPREME \
+	/datum/species/human/northern,\
+	/datum/species/human/halfelf,\
+	/datum/species/elf/dark/raider,\
+	/datum/species/elf/sun,\
 	/datum/species/dwarf/mountain,\
 	/datum/species/tieberian,\
 	/datum/species/aasimar,\

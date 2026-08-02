@@ -307,7 +307,7 @@
 #define TRAIT_SUNLIGHT_SENSITIVE "Sunlight Sensitivity"
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
-#define TRAIT_BLACKOAK "Heritage Vision"
+#define TRAIT_BLACKOAK "Amerlander Bigotry"
 #define TRAIT_DUSTABLE "Dustable"
 #define TRAIT_DUST_LEAVE_HEAD "Dust Leave Head"
 #define TRAIT_DUST_DELETE_GEAR "Dust Delete Gear"
@@ -585,7 +585,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_BLACKBLOOD = span_artery("I was once a creature of the night, but cured by the Otavan Inquisition at a heavy cost. My blood, tainted with tinctures, rites and concoctions, endures infection and holds an odd regenerative factor to it. Unfortunately, most healing miracles do not affect me at all, and I am sensitive to sunlight, aswell."),
 	TRAIT_COMBAT_AWARE = span_notice("My honed senses and intuition allow me to spot notable things in the midst of battle with ease."),
 	TRAIT_TEMPO	= span_greentext("I can keep up with multiple opponents at once."),
-	TRAIT_BLACKOAK = span_warning("The Black Oaks can spot <b>any</b> foreigners and outsiders, no matter how long they've lived in Valmoria. I can spot an invader at a glance."),
+	TRAIT_BLACKOAK = span_warning("I can spot lessers at a glance."),
 	TRAIT_DREAMWALKER = span_warning("I walk the dream and reality at the same time. My mind frays, but my vision shall be reality."),
 	TRAIT_ENGINEERING_GOGGLES = span_warning("I can see structural details others can't."),
 	TRAIT_ASSASSIN = span_warning("My soul has been tainted by foul spirits, through them I honor my pact."),
