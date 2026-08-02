@@ -1458,8 +1458,6 @@
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
 			if(is_heretic && target != user)
-				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			zizoarmaments(target, helm_choice, armor_choice)
 			spawn(120)
 				icon_state = "zizo_chalky"
@@ -1603,8 +1601,6 @@
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
 			if(is_heretic && target != user)
-				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			matthiosarmaments(target)
 			spawn(120)
 				icon_state = "matthios_chalky"
@@ -1800,8 +1796,6 @@
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
 			if(is_heretic && target != user)
-				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			graggararmor(target, helm_choice, armor_choice)
 			spawn(120)
 				icon_state = "graggar_chalky"
@@ -2007,8 +2001,6 @@
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
 			if(is_heretic && target != user)
-				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			baothaarmaments(target)
 			spawn(120)
 				icon_state = "baotha_chalky"
