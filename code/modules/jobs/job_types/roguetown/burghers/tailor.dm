@@ -23,6 +23,8 @@
 		/datum/advclass/tailor
 	)
 
+	virtue_restrictions = list(/datum/virtue/utility/noble)
+
 /datum/advclass/tailor
 	name = "Tailor"
 	tutorial = "You have worked sleepless nights on honing your craft. From sacks, to tapestry and luxurious clothing, there is little you cannot sew into existence. Use your storefront to turn even the ugliest peasant into a proper gentleman; who knows, even the nobility may pay you a visit."
