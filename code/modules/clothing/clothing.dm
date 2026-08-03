@@ -339,6 +339,8 @@
 		return
 	if(!ishuman(user))
 		return
+	if(user.suppress_armor_warning)
+		return
 	// Was this item's armor class actually beyond the user's training?
 	var/dominated = FALSE
 	if(armor_class == ARMOR_CLASS_HEAVY && !HAS_TRAIT(user, TRAIT_HEAVYARMOR))

@@ -12,6 +12,8 @@
 	buckle_lying = FALSE
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	var/taints_loot = FALSE
+	/// Set while an outfit is being equipped, so armor pieces don't warn about training the mob hasn't been granted yet.
+	var/tmp/suppress_armor_warning = FALSE
 
 	ambushable = 1
 
