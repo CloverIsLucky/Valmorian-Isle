@@ -819,7 +819,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["voice_pack"] >> voice_pack
 	sanitize_voice_pack()
 	S["body_size"] >> features["body_size"]
-	if (!features["body_size"])
+	if (!features["body_size"] || pref_species.fixed_body_size) //fixed-size species ignore any saved custom scale
 		features["body_size"] = BODY_SIZE_NORMAL
 	//try to fix any outdated data if necessary
 	if(needs_update >= 0)

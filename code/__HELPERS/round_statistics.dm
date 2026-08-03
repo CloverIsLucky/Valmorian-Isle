@@ -21,6 +21,8 @@
 #define STATS_ALIVE_VULPS "alive_vulps"
 #define STATS_ALIVE_LUPIANS "alive_lupians"
 #define STATS_ALIVE_MOTHS "alive_moths"
+#define STATS_ALIVE_HARPIES "alive_harpies"
+#define STATS_ALIVE_OGRES "alive_ogres"
 
 #define STATS_VAMPIRES "vampires"
 
@@ -356,6 +358,8 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_ALIVE_VULPS = 0,
 	STATS_ALIVE_LUPIANS = 0,
 	STATS_ALIVE_MOTHS = 0,
+	STATS_ALIVE_HARPIES = 0,
+	STATS_ALIVE_OGRES = 0,
 	STATS_PEOPLE_DROWNED = 0,
 	STATS_WATER_CONSUMED  = 0,
 	STATS_LIMBS_BITTEN = 0,

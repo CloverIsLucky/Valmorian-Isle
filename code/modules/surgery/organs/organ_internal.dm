@@ -49,6 +49,8 @@
 	var/food_type = /obj/item/reagent_containers/food/snacks/organ
 	/// Whether this organ has ever been inside a mob
 	var/had_owner = FALSE
+	/// Whether this organ should regenerate if lost (harpy wings/vocal cords). //VALMORIAN: flag ported from ES; ES's regeneration hook in species.dm is not ported yet.
+	var/should_regenerate = FALSE
 
 	grid_width = 32
 	grid_height = 32
@@ -385,6 +387,14 @@
 
 //Looking for brains?
 //Try code/modules/mob/living/carbon/brain/brain_item.dm
+
+///Re-Inserts organs flagged should_regenerate once a mind exists, so their Insert() hooks
+///(spell grants, nullspace items) fire for the actual player. Called from job equip.
+/mob/living/carbon/proc/apply_organ_stuff()
+	if(dna?.species)
+		dna.species.apply_organ_stuff_species(src)
+		return
+	regenerate_organs()
 
 /mob/living/proc/regenerate_organs()
 	return 0

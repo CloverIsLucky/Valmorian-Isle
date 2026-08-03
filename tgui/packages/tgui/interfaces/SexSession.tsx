@@ -20,8 +20,8 @@ export const SexSession = () => {
   const [arousalInput, setArousalInput] = useState('');
 
   // Color mapping for speed and force (matching old sexcon)
-  const speedColors = ['#eac8de', '#e9a8d1', '#f05ee1', '#d146f5'];
-  const forceColors = ['#eac8de', '#e9a8d1', '#f05ee1', '#d146f5'];
+  const speedColors = ['#eac8de', '#e9a8d1', '#f05ee1', '#d146f5', '#d61a43'];
+  const forceColors = ['#eac8de', '#e9a8d1', '#f05ee1', '#d146f5', '#d61a43'];
 
   // Split actions into two columns
   const filteredActions = data.actions.filter((action) =>
@@ -95,7 +95,12 @@ export const SexSession = () => {
                       inline
                       compact
                       onClick={() =>
-                        act('set_speed', { value: Math.min(4, data.speed + 1) })
+                        act('set_speed', {
+                          value: Math.min(
+                            data.speed_names.length,
+                            data.speed + 1,
+                          ),
+                        })
                       }
                     >
                       &gt;
@@ -126,7 +131,12 @@ export const SexSession = () => {
                       inline
                       compact
                       onClick={() =>
-                        act('set_force', { value: Math.min(4, data.force + 1) })
+                        act('set_force', {
+                          value: Math.min(
+                            data.force_names.length,
+                            data.force + 1,
+                          ),
+                        })
                       }
                     >
                       &gt;

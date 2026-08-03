@@ -202,7 +202,12 @@
 	data["mcolor2"] = features["mcolor2"]
 	data["mcolor3"] = features["mcolor3"]
 	data["body_size"] = features["body_size"] * 100
-	data["size_locked"] = istype(virtue, /datum/virtue/size) || istype(virtuetwo, /datum/virtue/size) || istype(virtue_origin, /datum/virtue/size)
+	if(pref_species.fixed_body_size)
+		data["size_locked"] = "race"
+	else if(istype(virtue, /datum/virtue/size) || istype(virtuetwo, /datum/virtue/size) || istype(virtue_origin, /datum/virtue/size))
+		data["size_locked"] = "virtue"
+	else
+		data["size_locked"] = null
 	data["headshot"] = headshot_link
 
 	var/examine_theme_name = "None (Use Viewer's)"

@@ -168,6 +168,7 @@ GLOBAL_LIST_INIT(peasant_positions, list( //Serfs / peasants / generic towners
 	"Servant",
 	"Soilson",
 	"Towner",
+	"Ogre", //ES filed it under youngfolk_positions, a category our latejoin menu never renders
 ))
 
 GLOBAL_LIST_INIT(sidefolk_positions, list( //Weerdoes who hang around the town

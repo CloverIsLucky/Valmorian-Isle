@@ -421,6 +421,11 @@
 				return 2.0
 			else
 				return 0.8
+		if(SEX_FORCE_LUDICROUS)
+			if(giving)
+				return 2.0
+			else
+				return 0.8
 
 /datum/component/arousal/proc/get_force_pain_multiplier(passed_force)
 	switch(passed_force)
@@ -432,6 +437,8 @@
 			return 2.0
 		if(SEX_FORCE_EXTREME)
 			return 3.0
+		if(SEX_FORCE_LUDICROUS)
+			return 4.0
 
 /datum/component/arousal/proc/get_speed_pain_multiplier(passed_speed)
 	switch(passed_speed)
@@ -443,3 +450,5 @@
 			return 1.2
 		if(SEX_SPEED_EXTREME)
 			return 1.4
+		if(SEX_SPEED_LUDICROUS)
+			return 1.6

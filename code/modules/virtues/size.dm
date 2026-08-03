@@ -6,6 +6,8 @@
 	custom_text = "Increases your sprite size. Grants +1 CON."
 
 /datum/virtue/size/giant/apply_to_human(mob/living/carbon/human/recipient)
+	if(recipient.dna?.species?.fixed_body_size) //species with sprite-baked size don't get the scale transform
+		return
 	recipient.transform = recipient.transform.Scale(1.25, 1.25)
 	recipient.transform = recipient.transform.Translate(0, (0.25 * 16))
 	recipient.update_transform()

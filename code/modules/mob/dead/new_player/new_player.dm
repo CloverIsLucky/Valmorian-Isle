@@ -308,6 +308,10 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	var/datum/species/pref_species = client.prefs.pref_species
 	if(length(job.forbidden_races) && (pref_species.type in job.forbidden_races))
 		return JOB_UNAVAILABLE_RACE
+	if(length(job.allowed_races) && !(pref_species.type in job.allowed_races))
+		return JOB_UNAVAILABLE_RACE
+	if(length(pref_species.job_whitelist) && !(job.type in pref_species.job_whitelist))
+		return JOB_UNAVAILABLE_RACE //species locked to its own roles (ogres), mirroring ES's RACES_* whitelists
 	var/list/allowed_sexes = list()
 	if(length(job.allowed_sexes))
 		allowed_sexes |= job.allowed_sexes

@@ -444,6 +444,8 @@ ROUNDSTART_RACES dullahan
 ROUNDSTART_RACES taur
 ROUNDSTART_RACES lamia
 ROUNDSTART_RACES drider
+ROUNDSTART_RACES harpy
+ROUNDSTART_RACES ogre
 
 ## Races that are a meme and should not be accessible in normal gameplay, unless you are insane
 #ROUNDSTART_RACES goblin
