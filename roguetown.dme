@@ -965,6 +965,7 @@
 #include "code\datums\sexcon2\actions\masturbation\_base.dm"
 #include "code\datums\sexcon2\actions\masturbation\anus.dm"
 #include "code\datums\sexcon2\actions\masturbation\breasts.dm"
+#include "code\datums\sexcon2\actions\masturbation\container.dm"
 #include "code\datums\sexcon2\actions\masturbation\finger_vagina.dm"
 #include "code\datums\sexcon2\actions\masturbation\penis.dm"
 #include "code\datums\sexcon2\actions\masturbation\penis_over.dm"
