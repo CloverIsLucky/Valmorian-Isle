@@ -1,5 +1,11 @@
 // Ogre gear ported from Emerald Summit.
 
+//VALMORIAN: ES's /datum/intent/mace/smash/reach, which is its plain mace smash at reach 2. VI has no
+//equivalent - smash/grand is reach 1 - so the two ported ogre polemaces were left with no smash at all
+//in their gripped moveset. Defined here because nothing outside the ogre gear needs it.
+/datum/intent/mace/smash/reach
+	reach = 2
+
 // -------- ES code/modules/clothing/rogueclothes/armor.dm --------
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ogre
@@ -196,6 +202,12 @@
 	force = 25
 	icon = 'icons/roguetown/weapons/ogre64.dmi' //VALMORIAN: ES 64.dmi copied whole - VI's own 64.dmi lacks the ogre states
 	icon_state = "ogre_cudgel"
+	//VALMORIAN: ES's cudgel is two-handable, VI's is deliberately one-handed only (gripped_intents = null),
+	//so the ported Head Knockah inherited that and could not be wielded at all - despite its own description
+	//saying it "can only be wielded effectively by a giant". Give this one its grip back without touching
+	//VI's cudgel balance. Wielded force sits with the other ogre two-handers.
+	force_wielded = 35
+	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze)
 	minstr = 13
 	item_flags = GIANT_WEAPON
 	pixel_y = -16
@@ -240,7 +252,7 @@
 	force = 20
 	//VALMORIAN: ES declared force_wielded twice (40 then 35); DM keeps the last, so live ES ran 35
 	possible_item_intents = list(/datum/intent/mace/strike/reach)
-	gripped_intents = list(/datum/intent/mace/strike/reach, /*/datum/intent/mace/smash/reach,*/ /*VALMORIAN: ES-only, needs port — smash/reach intent absent*/ /datum/intent/effect/daze)
+	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/smash/reach, /datum/intent/effect/daze)
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 	minstr = 15
@@ -255,7 +267,7 @@
 	icon_state = "ogre_mace"
 	force = 25
 	//VALMORIAN: ES declared force_wielded twice (45 then 35); DM keeps the last, so live ES ran 35
-	gripped_intents = list(/datum/intent/mace/strike/reach, /*/datum/intent/mace/smash/reach,*/ /*VALMORIAN: ES-only, needs port — smash/reach intent absent*/ /datum/intent/effect/daze)
+	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/smash/reach, /datum/intent/effect/daze)
 	smelt_bar_num = 2
 	minstr = 15
 	item_flags = GIANT_WEAPON
