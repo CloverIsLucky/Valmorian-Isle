@@ -254,7 +254,7 @@
 	invocations = list("By Ravox, face judgement!")
 
 	charge_required = FALSE
-	cooldown_time = 1 MINUTES
+	cooldown_time = 30 SECOUNDS
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
