@@ -17,16 +17,23 @@
 	charge_time = 10 SECONDS
 	associated_skill = /datum/skill/magic/holy
 	associated_stat = null
+	click_to_activate = TRUE	// without this the spell resolves onto the caster, who is always already a heresiarch
 	self_cast_possible = FALSE
 
 /datum/action/cooldown/spell/convert_heretic/arcyne
 	primary_resource_type = SPELL_COST_ENERGY
 	primary_resource_cost = 125
+	// check_cost() tests both resources, so the inherited devotion secondary has to go too - these
+	// casters have no /datum/devotion and would just get "Devotion too weak!"
+	secondary_resource_type = SPELL_COST_NONE
+	secondary_resource_cost = 0
 	invocations = list("Claude oculos, aperi mentem. Ex ruina spes surgi, mundus cadit, tu spes renova.")
 
 /datum/action/cooldown/spell/convert_heretic/free
 	primary_resource_type = SPELL_COST_ENERGY
 	primary_resource_cost = 125
+	secondary_resource_type = SPELL_COST_NONE
+	secondary_resource_cost = 0
 	invocations = list("Welcome to the righteous path. The future belongs to us.")
 	
 /datum/action/cooldown/spell/convert_heretic/is_valid_target(atom/cast_on)

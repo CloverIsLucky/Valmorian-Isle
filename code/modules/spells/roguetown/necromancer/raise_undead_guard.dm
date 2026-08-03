@@ -38,12 +38,52 @@
 	apply_mob_lifespan(skeleton_new, owner, spawn_lifespan)
 	var/caster_name = owner.mind?.current?.real_name
 	if(caster_name)
-		addtimer(CALLBACK(src, PROC_REF(add_skeleton_faction), skeleton_new, caster_name), 1.1 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(add_skeleton_faction), skeleton_new, owner, caster_name), 1.1 SECONDS)
 	return TRUE
 
-/datum/action/cooldown/spell/raise_undead_guard/proc/add_skeleton_faction(mob/living/skeleton, caster_name)
-	if(!QDELETED(skeleton))
-		skeleton.faction |= list("cabal", "[caster_name]_faction")
+/// Delayed so it lands after the skeleton's own after_creation(). Mirrors
+/// /mob/living/simple_animal/hostile/rogue/skeleton/Initialize(): the raised formation inherits the
+/// caster's factions outright rather than keeping FACTION_UNDEAD, which is what lets those skeletons
+/// engage hostile undead and cabal NPCs instead of standing around next to them.
+/datum/action/cooldown/spell/raise_undead_guard/proc/add_skeleton_faction(mob/living/skeleton, mob/living/caster, caster_name)
+	if(QDELETED(skeleton))
+		return
+	skeleton.summoner = caster_name
+	if(!QDELETED(caster) && caster.mind?.current)
+		skeleton.faction = caster.mind.current.faction.Copy()
+	skeleton.faction |= list("cabal", "[caster_name]_faction")
+	skeleton.ai_controller?.set_blackboard_key(BB_TARGETTING_DATUM, GLOB.undead_minion_targetting)
+	if(!QDELETED(caster))
+		caster.track_summon(skeleton)	// so relay_attack_to_summons() puts our attacker on its threat table
+	pull_nearby_aggro(skeleton, caster)
+
+/// Lifted from /datum/action/cooldown/spell/raise_undead_formation/cast() - shoves the new summon to
+/// the top of every nearby hostile NPC's threat list so the fight starts on it, not on the caster.
+/datum/action/cooldown/spell/raise_undead_guard/proc/pull_nearby_aggro(mob/living/skeleton, mob/living/caster)
+	for(var/mob/living/M in view(8, skeleton))
+		if(M == skeleton)
+			continue
+		if(M.stat == DEAD)
+			continue
+		if(M.mind)
+			continue
+		if(!M.ai_controller)
+			continue
+		if(is_passive_critter(M))	// don't hand the summon a war with the nearest chicken
+			continue
+		if(M.faction_check_mob(skeleton))
+			continue
+		if(caster && M.faction_check_mob(caster))
+			continue
+
+		M.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, skeleton)
+		M.ai_controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, skeleton)
+
+		var/datum/component/ai_aggro_system/aggro = M.GetComponent(/datum/component/ai_aggro_system)
+		if(aggro)
+			aggro.add_threat_to_mob(skeleton, 1000)
+			if(caster)
+				aggro.add_threat_to_mob(caster, -1000)
 
 /datum/action/cooldown/spell/raise_undead_guard/necromancer
 	spawn_lifespan = 45 MINUTES //Longer cooldown, therefore, technically less total than before -> more player skeles will fill in for this.

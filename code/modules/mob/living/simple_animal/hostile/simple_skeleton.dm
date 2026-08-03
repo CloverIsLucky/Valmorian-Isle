@@ -126,6 +126,8 @@
 			summoner = user.mind.current.real_name
 		else
 			summoner = user.name
+		// A raised minion is somebody's tool, not vermin - it shouldn't wander off to gut the livestock.
+		ai_controller?.set_blackboard_key(BB_TARGETTING_DATUM, GLOB.undead_minion_targetting)
 
 	if(is_summoned || cabal_affine)
 		faction = list(FACTION_CABAL)

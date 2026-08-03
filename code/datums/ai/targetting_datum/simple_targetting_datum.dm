@@ -58,6 +58,45 @@
 /datum/targetting_datum/basic/ignore_faction/faction_check(mob/living/living_mob, mob/living/the_target)
 	return FALSE
 
+/// Livestock and other critters that never start a fight of their own - plain simple animals like
+/// cows and chickens, plus the retaliate-only ones like goats and swine. Wolves, bears and the rest
+/// of the seek-and-kill hostiles are not covered and stay fair game.
+/proc/is_passive_critter(atom/thing)
+	if(!istype(thing, /mob/living/simple_animal))
+		return FALSE
+	if(istype(thing, /mob/living/simple_animal/hostile) && !istype(thing, /mob/living/simple_animal/hostile/retaliate))
+		return FALSE
+	return TRUE
+
+/// TRUE once a critter has picked the fight itself - it is hunting the minion or the minion's master,
+/// or it has already earned a place on the minion's threat table by hitting it.
+/proc/critter_has_provoked(mob/living/critter, mob/living/minion)
+	var/mob/living/simple_animal/hostile/beast = critter
+	if(istype(beast) && beast.target)
+		if(beast.target == minion)
+			return TRUE
+		if(minion.summoner && beast.target.name == minion.summoner)
+			return TRUE
+	var/datum/ai_controller/controller = minion.ai_controller
+	if(controller)
+		var/list/aggro_table = controller.blackboard[BB_MOB_AGGRO_TABLE]
+		if(islist(aggro_table) && aggro_table[critter])
+			return TRUE
+	return FALSE
+
+GLOBAL_DATUM_INIT(undead_minion_targetting, /datum/targetting_datum/basic/undead_minion, new)
+
+/// Raised minions hunt anything dangerous, but leave the farmyard alone until it swings first.
+/datum/targetting_datum/basic/undead_minion
+
+/datum/targetting_datum/basic/undead_minion/can_attack(mob/living/living_mob, atom/the_target)
+	. = ..()
+	if(!.)
+		return FALSE
+	if(!is_passive_critter(the_target))
+		return TRUE
+	return critter_has_provoked(the_target, living_mob)
+
 GLOBAL_DATUM_INIT(conjured_targetting, /datum/targetting_datum/basic/conjured, new)
 
 /datum/targetting_datum/basic/conjured

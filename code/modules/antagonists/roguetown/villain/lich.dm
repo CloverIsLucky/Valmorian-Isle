@@ -199,7 +199,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite) //Zombifies dead people
 		// Our Utility Spells
-		H.mind.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/convert_heretic/arcyne)	// liches build no devotion datum, so the base devotion-costed version can never fire
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 		// This is probably a bad idea, but let's live a little.
 		H.mind.AddSpell(new /datum/action/cooldown/spell/summon_terrorhog)

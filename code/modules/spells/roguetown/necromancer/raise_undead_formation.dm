@@ -72,6 +72,10 @@
 		if(!S)
 			continue
 
+		var/mob/living/caster = owner
+		if(istype(caster))
+			caster.track_summon(S)	// so relay_attack_to_summons() puts our attacker on its threat table
+
 		if(miracle)
 			var/holyLV = owner.get_skill_level(/datum/skill/magic/holy)
 			var/bonus = max(0, holyLV - 1) * 2
@@ -91,6 +95,8 @@
 			if(M.mind)
 				continue
 			if(!M.ai_controller)
+				continue
+			if(is_passive_critter(M))	// don't hand the summons a war with the nearest chicken
 				continue
 			if(M.faction_check_mob(S))
 				continue

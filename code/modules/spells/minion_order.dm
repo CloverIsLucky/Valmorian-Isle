@@ -7,7 +7,7 @@
 	Cast on an enemy: Order all minions to attack that target.<br>\
 	Cast on one of your minions: Toggle its stance between retaliate-only and attack-all-strangers.<br>\
 	<br>\
-	Does not affect carbon mobs."
+	Does not affect player-controlled minions."
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "raiseskele"
 	cast_range = 12
@@ -25,11 +25,22 @@
 /datum/action/cooldown/spell/minion_order/lich
 	faction_ordering = TRUE
 
+/// Anything AI-driven and unpiloted can take orders - simple animals, conjured servants, and
+/// the human-bodied NPC skeletons the necromancer raises. The faction check at the call site
+/// is what limits this to the caster's own minions.
+/proc/is_orderable_minion(atom/thing)
+	if(!isliving(thing))
+		return FALSE
+	var/mob/living/candidate = thing
+	if(candidate.client || !candidate.ai_controller)
+		return FALSE
+	return TRUE
+
 /datum/action/cooldown/spell/minion_order/cast(atom/cast_on)
 	. = ..()
 	var/faction_tag = "[owner.mind.current.real_name]_faction"
 
-	if(ismob(cast_on) && (istype(cast_on, /mob/living/simple_animal) || HAS_TRAIT(cast_on, TRAIT_CONJURED_SUMMON)))
+	if(is_orderable_minion(cast_on))
 		var/mob/living/minion = cast_on
 		if(faction_tag in minion.faction)
 			process_minions(order_type = "toggle_stance", target = minion, faction_tag = faction_tag)
@@ -59,10 +70,8 @@
 	var/msg = ""
 
 	for(var/mob/other_mob in oview(order_range, owner))
-		if((istype(other_mob, /mob/living/simple_animal) || HAS_TRAIT(other_mob, TRAIT_CONJURED_SUMMON)) && !other_mob.client)
+		if(is_orderable_minion(other_mob))
 			var/mob/living/minion = other_mob
-			if(!minion.ai_controller)
-				continue
 
 			if((faction_ordering && owner.faction_check_mob(minion)) || (!faction_ordering && faction_tag && (faction_tag in minion.faction)))
 				minion.ai_controller.CancelActions()
