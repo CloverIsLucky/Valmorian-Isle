@@ -67788,7 +67788,7 @@
 "pCy" = (
 /obj/structure/mineral_door/wood{
 	locked = 1;
-	lockid = "veteran";
+	lockid = "garrison";
 	name = "veterans house"
 	},
 /turf/open/floor/rogue/cobblerock,
@@ -84205,7 +84205,7 @@
 "toe" = (
 /obj/structure/mineral_door/wood{
 	locked = 1;
-	lockid = "veteran";
+	lockid = "garrison";
 	name = "veterans house"
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
