@@ -26,8 +26,8 @@
 		TRAIT_LIMBATTACHMENT, // this interacts with trait_ironman, making this take a while to reattach
 		TRAIT_NOPAINSTUN, // look into this later, just remembered Ryan merged NoPainSlow (cur. TRAIT_IGNOREDAMAGESLOWDOWN) into NoPainStun, might be good to separate them again for situations where I want my character to collapse from total pain, but not flinch when being hit
 		TRAIT_NOHUNGER,
-		TRAIT_NOBREATH, 
-		TRAIT_TOXIMMUNE, 
+		TRAIT_NOBREATH,
+		TRAIT_TOXIMMUNE,
 		TRAIT_ZOMBIE_IMMUNE,
 		)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
@@ -71,9 +71,16 @@
 		/datum/customizer/bodypart_feature/underwear,
 		/datum/customizer/bodypart_feature/legwear,
 		/datum/customizer/bodypart_feature/piercing,
+		/datum/customizer/organ/snout/anthro/dullahan, //for no other reason then they default to off
+		/datum/customizer/organ/horns/demihuman,
+		/datum/customizer/organ/wings/anthro,
+		/datum/customizer/organ/horns/tusks,
+		/datum/customizer/organ/tail/dullahan,
+		/datum/customizer/organ/ears/dullahan,
+		/datum/customizer/organ/testicles/anthro,
 		/datum/customizer/organ/penis/anthro,
-		/datum/customizer/organ/breasts/human,
-		/datum/customizer/organ/vagina/human_anthro,
+		/datum/customizer/organ/breasts/animal,
+		/datum/customizer/organ/vagina/animal,
 		)
 	body_marking_sets = list(
 		/datum/body_marking_set/none,
@@ -112,7 +119,7 @@
 
 /datum/species/construct/metal/check_roundstart_eligible()
 	return TRUE
-	
+
 /datum/species/construct/metal/get_skin_list()
 	return list(
 		"BRASS" = "dfbd6c",
@@ -167,7 +174,7 @@
 		if(M == user)
 			if(!do_after(user, 4 SECONDS))
 				return
-		
+
 		if(M.has_status_effect(/datum/status_effect/debuff/integrity_rig))
 			to_chat(user, span_warning("The jury rigged integrity repairs are still holding, for now... If you nail it with a hammer it might fix something?"))
 			return
@@ -264,7 +271,7 @@
 		to_chat(user, span_warning("That material cannot stabilize exposed integrity damage."))
 		return TRUE
 
-	// === INGOT === 
+	// === INGOT ===
 	if(istype(I, /obj/item/ingot))
 		if(M == user)
 			if(!do_after(user, 12 SECONDS, M))
@@ -349,7 +356,7 @@
 		qdel(I)
 		return TRUE
 
-	// === SCRAP === 
+	// === SCRAP ===
 	if(I.type == /obj/item/scrap)
 		var/obj/item/scrap/L = I
 		if(user == M)
@@ -370,7 +377,7 @@
 		new /obj/item/rogueore/iron(get_turf(user))
 		return TRUE
 
-	// === WOOD === 
+	// === WOOD ===
 	if(I.type == /obj/item/grown/log/tree/small)
 		var/obj/item/grown/log/tree/small/L = I
 		if(user == M)
@@ -395,7 +402,7 @@
 			new /obj/item/ash(get_turf(user))
 		return TRUE
 
-	// === LOG === 
+	// === LOG ===
 	if(I.type == /obj/item/grown/log/tree)
 		var/obj/item/grown/log/tree/L = I
 		if(user == M)
@@ -417,7 +424,7 @@
 		new /obj/effect/decal/cleanable/debris/woody(get_turf(user))
 		return TRUE
 
-	// === ROCK === 
+	// === ROCK ===
 	if(istype(I, /obj/item/natural/rock))
 		var/obj/item/natural/rock/S = I
 		if(user == M)
@@ -438,7 +445,7 @@
 		new /obj/effect/decal/cleanable/debris/stony(get_turf(user))
 		return TRUE
 
-	// === ORE === 
+	// === ORE ===
 	if(istype(I, /obj/item/rogueore))
 		power = 5 + I.sellprice * 1.25
 		M.apply_status_effect(/datum/status_effect/buff/oremuncher, power)
@@ -756,7 +763,7 @@
 /datum/status_effect/debuff/integrity_rig/on_apply()
 	owner.add_stress(/datum/stressevent/integrity_rig)
 	. = ..()
-	
+
 /datum/status_effect/debuff/integrity_rig/on_remove()
 	owner.remove_stress(/datum/stressevent/integrity_rig)
 	. = ..()
