@@ -103,6 +103,9 @@ GLOBAL_LIST_INIT(our_forest_sex, typecacheof(list(
 #define isvulp(A) (is_species(A, /datum/species/vulpkanin))
 #define isooze(A) (is_species(A, /datum/species/ooze))
 #define isgnoll(A) (is_species(A, /datum/species/gnoll))
+#define isharpy(A) (is_species(A, /datum/species/harpy))
+#define isopenspace(A) (istype(A, /turf/open/transparent/openspace))
+#define isogre(A) (is_species(A, /datum/species/ogre))
 
 
 //Simple animals

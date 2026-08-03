@@ -215,6 +215,8 @@
 	data += "<font color='#99dfd5'><span class='bold'>Lupians/Venardines & Tabaxi:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_LUPIANS] + GLOB.azure_round_stats[STATS_ALIVE_VULPS] + GLOB.azure_round_stats[STATS_ALIVE_TABAXI]]<br>"
 	data += "<font color='#c0c6c7'><span class='bold'>Constructs:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_CONSTRUCTS]]<br>"
 	data += "<font color='#9ACD32'><span class='bold'>Fluvian & Axians:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_MOTHS] + GLOB.azure_round_stats[STATS_ALIVE_AXIAN]]<br>"
+	data += "<font color='#6a8cb7'><span class='bold'>Harpies:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_HARPIES]]<br>"
+	data += "<font color='#8f7a4d'><span class='bold'>Ogres:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_OGRES]]<br>"
 	data += "</div>"
 
 	data += "</div></div>"

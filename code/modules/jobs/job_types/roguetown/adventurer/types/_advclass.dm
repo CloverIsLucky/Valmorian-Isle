@@ -9,6 +9,8 @@
 	var/subclass_tutorial
 	var/list/allowed_sexes
 	var/list/forbidden_races
+	///Whitelist counterpart to forbidden_races: when set, only these species types may pick the class (e.g. ogre classes).
+	var/list/allowed_races
 	var/list/allowed_patrons
 	var/list/allowed_ages
 	var/pickprob = 100
@@ -192,6 +194,9 @@
 		return FALSE
 
 	if(length(forbidden_races) && (H.dna.species.type in forbidden_races))
+		return FALSE
+
+	if(length(allowed_races) && !(H.dna.species.type in allowed_races))
 		return FALSE
 
 	if(length(allowed_ages) && !(H.age in allowed_ages))

@@ -185,3 +185,57 @@
 /datum/keybinding/mob/target_left_leg/down(client/user)
 	user.body_l_leg()
 	return TRUE
+
+//Ported from Emerald Summit for harpy flight (and the vampire bat). The mob-level `flying`
+//var is set by the harpy_flight status effect; buckle_mob trimmed to Valmorian's 3-arg signature.
+/datum/keybinding/mob/fly_up
+	hotkey_keys = list("Northeast")
+	name = "fly_up"
+	full_name = "Fly Up"
+	description = ""
+	category = CATEGORY_HUMAN
+
+/datum/keybinding/mob/fly_up/down(client/user)
+	if(iscarbon(user.mob) && (user.mob.flying || isharpy(user.mob))) //non-winged carbons fall through silently
+		var/mob/living/carbon/C = user.mob
+		C.try_fly_move(UP)
+	else if(istype(user.mob, /mob/living/simple_animal/hostile/retaliate/bat))
+		var/mob/living/simple_animal/hostile/retaliate/bat/mobius = user.mob
+		var/turf/open/transparent/openspace/turf_above = get_step_multiz(mobius, UP)
+		if(mobius.canZMove(UP, turf_above))
+			if(!do_after(mobius, mobius.fly_time))
+				return
+			mobius.forceMove(turf_above)
+	else if(user.mob.flying)
+		var/mob/mobius = user.mob
+		if(mobius.zMove(UP, TRUE))
+			to_chat(mobius, span_notice("I move upwards."))
+	else
+		return
+	return TRUE
+
+/datum/keybinding/mob/fly_down
+	hotkey_keys = list("Southeast")
+	name = "fly_down"
+	full_name = "Fly Down"
+	description = ""
+	category = CATEGORY_HUMAN
+
+/datum/keybinding/mob/fly_down/down(client/user)
+	if(iscarbon(user.mob) && (user.mob.flying || isharpy(user.mob))) //non-winged carbons fall through silently
+		var/mob/living/carbon/C = user.mob
+		C.try_fly_move(DOWN)
+	else if(istype(user.mob, /mob/living/simple_animal/hostile/retaliate/bat))
+		var/mob/living/simple_animal/hostile/retaliate/bat/mobius = user.mob
+		var/turf/open/transparent/openspace/turf_below = get_step_multiz(mobius, DOWN)
+		if(mobius.canZMove(DOWN, turf_below))
+			if(!do_after(mobius, mobius.fly_time))
+				return
+			mobius.forceMove(turf_below)
+	else if(user.mob.flying)
+		var/mob/mobius = user.mob
+		if(mobius.zMove(DOWN, TRUE))
+			to_chat(mobius, span_notice("I move downwards."))
+	else
+		return
+	return TRUE

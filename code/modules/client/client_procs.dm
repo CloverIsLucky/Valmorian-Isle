@@ -1165,7 +1165,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	if(prefs && prefs.chat_toggles & CHAT_PULLR)
 		to_chat(src, announcement)
 
-/client/proc/show_character_previews(mutable_appearance/MA, map_name = "character_preview_map")
+/client/proc/show_character_previews(mutable_appearance/MA, map_name = "character_preview_map", extra_gap = 0)
 	var/pos = 0
 
 	var/atom/movable/screen/char_preview/background = LAZYACCESS(char_render_holders, "bg")
@@ -1197,15 +1197,19 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		// Centered mode: the 2x2 doll grid is pixel-centered on the 15x15 canvas
 		// (center = 240,240; grid spans 208-272 via the +16px offsets), because the
 		// tgui control's `zoom` viewport is centered on the canvas center.
+		// extra_gap pushes each doll away from the grid center (oversized species like the
+		// ogre's 64px sprites overlap their row-mates at the stock 32px pitch).
+		var/hi = 16 + extra_gap // offset on the center-adjacent tiles 8 (east/north dolls)
+		var/lo = 16 - extra_gap // offset on tiles 7 (west/south dolls)
 		switch(pos)
 			if(1)
-				O.screen_loc = centered ? "[map_name]:8:16,8:16" : "[map_name]:2,2"
+				O.screen_loc = centered ? "[map_name]:8:[hi],8:[hi]" : "[map_name]:2:[extra_gap],2:[extra_gap]"
 			if(2)
-				O.screen_loc = centered ? "[map_name]:7:16,8:16" : "[map_name]:1,2"
+				O.screen_loc = centered ? "[map_name]:7:[lo],8:[hi]" : "[map_name]:1:[-extra_gap],2:[extra_gap]"
 			if(3)
-				O.screen_loc = centered ? "[map_name]:7:16,7:16" : "[map_name]:1,1"
+				O.screen_loc = centered ? "[map_name]:7:[lo],7:[lo]" : "[map_name]:1:[-extra_gap],1:[-extra_gap]"
 			if(4)
-				O.screen_loc = centered ? "[map_name]:8:16,7:16" : "[map_name]:2,1"
+				O.screen_loc = centered ? "[map_name]:8:[hi],7:[lo]" : "[map_name]:2:[extra_gap],1:[-extra_gap]"
 
 /client/proc/clear_character_previews()
 	for(var/atom/movable/screen/S in char_render_holders)

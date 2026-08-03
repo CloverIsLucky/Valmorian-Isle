@@ -188,7 +188,7 @@ type Data = {
   mcolor2: string;
   mcolor3: string;
   body_size: number;
-  size_locked: BooleanLike;
+  size_locked: string | null;
   headshot: string | null;
   examine_theme: string;
   flavortext_short: BooleanLike;
@@ -1749,7 +1749,7 @@ export const CharacterSheet = (props) => {
                                   label="Sprite Scale"
                                   value={
                                     data.size_locked
-                                      ? 'Set by virtue'
+                                      ? `Set by ${data.size_locked}`
                                       : `${data.body_size}%`
                                   }
                                   pref="body_size"

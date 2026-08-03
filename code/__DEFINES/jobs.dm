@@ -227,6 +227,7 @@
 #define JDO_WRETCH 11.2
 #define JDO_GNOLL 11.3
 #define JDO_HAG 11.4
+#define JDO_OGRE 11.5
 
 #define BITFLAG_HOLY_WARRIOR (1<<0)
 #define BITFLAG_ROYALTY (1<<1)

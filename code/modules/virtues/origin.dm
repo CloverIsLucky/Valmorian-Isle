@@ -209,6 +209,29 @@
 	a hierarchy would hardly be apt; it stands proudly with different rings of social status, shrinking gradually in size as one climbs to the top. \
 	In Lirvas, wealth is everything in determining which ring you stand on, and how hard it is to climb higher."
 
+//Ported from Emerald Summit for the Ogre; adapted to Valmorian's origin schema.
+/datum/virtue/origin/racial/gronn
+	name = "Gronn"
+	added_languages = list(/datum/language/gronnic)
+	origin_name = "Gronn"
+	desc = "I originate from the brisk grasslands of Gronn, a tribal confederation of northmen and half-orcs nestled in the Skol River Valley. Gronnic culture is fierce, martial and vengeful, and blood feuds still split the clans to this day."
+	races = list(/datum/species/halforc,
+				/datum/species/goblinp,
+				/datum/species/human/northern,
+				/datum/species/human/halfelf,
+				/datum/species/demihuman,
+				/datum/species/lupian,
+				/datum/species/kobold,
+				/datum/species/anthromorph,
+				/datum/species/ogre,
+)
+	origin_desc = "A tribal confederation of northmen and half-orcs nestled in the Skol River Valley.<br> Centuries of war between humen and orcs have stained these grassy \
+	plains, but a shaky peace was eventually brought when the half-orc warlord Gronn used a clever mix of force and diplomacy to unite the people of the valley into one \
+	loose confederation. Many years after the warlord's death, the League still remains, though it is still prone to constant small-scale internal conflict. At the same \
+	time, the skirmishes between these loosely-aligned tribes has brought its own form of assimilation.<br> Full-blooded orcs are exceedingly rare in the modern day, and it \
+	is not uncommon in Gronn to see half-orcs and humens living in coexistence. The region is a vital source of salt, iron, and timber, and is known for a love of \
+	fermented foods and strong, bitter liquor."
+
 /datum/virtue/origin/racial/underdark
 	name = "Underdweller"
 	added_languages = list(/datum/language/undercommon)
