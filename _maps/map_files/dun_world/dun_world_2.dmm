@@ -68051,7 +68051,7 @@
 "pCy" = (
 /obj/structure/mineral_door/wood{
 	locked = 1;
-	lockid = "garrison";
+	lockid = "veteran";
 	name = "veterans house"
 	},
 /turf/open/floor/rogue/cobblerock,
@@ -74957,6 +74957,13 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/dragonden)
+"rfi" = (
+/obj/structure/fluff/traveltile/wretch{
+	aportalgoesto = "wretchin3";
+	aportalid = "wretchout3"
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/cave)
 "rfl" = (
 /obj/structure/fluff/railing/wood{
 	dir = 1
@@ -84500,7 +84507,7 @@
 "toe" = (
 /obj/structure/mineral_door/wood{
 	locked = 1;
-	lockid = "garrison";
+	lockid = "veteran";
 	name = "veterans house"
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -527534,8 +527541,8 @@ vMR
 vMR
 ujm
 ujm
-cYr
-cYr
+rfi
+rfi
 ujm
 qPv
 qPv
@@ -553426,7 +553433,7 @@ vxe
 vxe
 vxe
 iXD
-sLn
+dkA
 vGz
 dvV
 vxe
