@@ -117,6 +117,16 @@
 		return session
 	return null
 
+/mob/living/proc/has_sex_tail()
+	if(iscarbon(src))
+		var/mob/living/carbon/carbon_src = src
+		if(carbon_src.getorganslot(ORGAN_SLOT_TAIL))
+			return TRUE
+	return get_taur_tail()
+
+/mob/living/proc/has_sex_feet()
+	return !get_taur_tail()
+
 /mob/living/proc/has_hands()
 	return TRUE
 
