@@ -301,6 +301,9 @@
 /obj/item/storage/keyring/warden //All access to wardens
 	keys = list(/obj/item/roguekey/walls, /obj/item/roguekey/warden)
 
+/obj/item/storage/keyring/veteran //Barracks access as a man-at-arms, plus their own house
+	keys = list(/obj/item/roguekey/veteran, /obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/dungeon, /obj/item/roguekey/armory, /obj/item/roguekey/manor)
+
 ///////////
 // MANOR //
 ///////////

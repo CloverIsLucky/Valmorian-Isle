@@ -576,7 +576,7 @@
 	attack_verb = list("punches", "jabs", "clocks", "strikes")
 	chargetime = 0
 	noaa = FALSE
-	animname = "bite"
+	animname = ATTACK_EFFECT_PUNCH
 	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
 	misscost = 1
 	releasedrain = 1
@@ -627,7 +627,7 @@
 	//icon_state
 	attack_verb = list("mauls", "scratches", "claws")
 	chargetime = 0
-	animname = "blank22"
+	animname = ATTACK_EFFECT_CLAW
 	hitsound = list('sound/combat/hits/punch/punch (1).ogg', 'sound/combat/hits/punch/punch (2).ogg', 'sound/combat/hits/punch/punch (3).ogg')
 	misscost = 1
 	releasedrain = 1	//More than punch cus pen factor.

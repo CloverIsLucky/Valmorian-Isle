@@ -394,8 +394,15 @@
 	if(!O)
 		return 0
 
+	// Job and advclass armor training (TRAIT_HEAVYARMOR / TRAIT_MEDIUMARMOR) is granted *after* the outfit is
+	// equipped - job_traits in after_spawn(), traits_applied at the end of the advclass equip - so warning
+	// per-piece here tells a trained knight they can't wear their own plate. Suppress it and check once,
+	// next tick, by which point the traits are on.
+	suppress_armor_warning = TRUE
 	. = O.equip(src, visualsOnly)
+	suppress_armor_warning = FALSE
 	if(!visualsOnly)
+		addtimer(CALLBACK(src, PROC_REF(warn_armor_class_deferred)), 0)
 		// Recalculate pain threshold for NPC since they set STAWIL directly
 		if(ai_controller)
 			recalculate_pain_threshold()
@@ -403,6 +410,14 @@
 			taints_loot = TRUE
 		if(taints_loot)
 			flag_worn_as_looted()
+
+/// One armor-training warning for a whole outfit, fired a tick after equipOutfit so job/advclass traits have landed.
+/mob/living/carbon/human/proc/warn_armor_class_deferred()
+	if(QDELETED(src) || !client)
+		return
+	if(check_armor_skill())
+		return
+	to_chat(src, span_warning("I'm not trained to wear armor of this weight. My ability to parry, dodge, run and cast spells will be greatly impaired."))
 
 /mob/living/carbon/human/proc/flag_worn_as_looted()
 	for(var/obj/item/I in get_equipped_items(TRUE) + held_items)

@@ -35,6 +35,10 @@
 		var/mob/living/L = A
 		if(!used_intent.noaa)
 			playsound(get_turf(src), pick(GLOB.unarmed_swingmiss), 100, FALSE)
+			//Clicking a mob directly with fists never reached do_attack_animation, and going through it
+			//would bail anyway - do_item_attack_animation returns early with no used_item. Use the
+			//simple path, which is what it exists for: "Used by non-weapon intents or simple mobs".
+			do_attack_animation_simple(A, used_intent.animname, used_intent = used_intent)
 //			src.emote("attackgrunt")
 		if(used_intent.releasedrain)
 			stamina_add(ceil(used_intent.releasedrain * rmb_stam_penalty))

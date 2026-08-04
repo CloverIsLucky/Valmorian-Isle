@@ -353,9 +353,19 @@
 	plane = GAME_PLANE_UPPER
 	obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN
 	attacked_sound = list("sound/combat/hits/onmetal/metalimpact (1).ogg", "sound/combat/hits/onmetal/metalimpact (2).ogg")
+	/// Sprite to show once broken. Defaults to our own icon_state with a "b" on the end; set it
+	/// where the broken sprite is named after something else, as with the passage bars.
+	var/broken_icon_state
 
 /obj/structure/bars/obj_break(damage_flag)
 	loud_message("A sickening, metallic scrape of bars getting broken rings out", hearing_distance = 14)
+	//structure.dmi only ever got broken sprites for barsb, cemeteryb, chainlinkb, floorgrilleb and
+	//passage1b. Shutters, pipes, shop bars and the decoy bookcase have none, and assigning one
+	//regardless left them rendering as the error icon.
+	var/broken_state = broken_icon_state || "[initial(icon_state)]b"
+	if(broken_state in icon_states(icon))
+		icon_state = broken_state
+	density = FALSE
 	. = ..()
 
 /obj/structure/bars/CanPass(atom/movable/mover, turf/target)
@@ -394,10 +404,6 @@
 	return !density
 	..()
 */
-/obj/structure/bars/obj_break(damage_flag)
-	icon_state = "[initial(icon_state)]b"
-	density = FALSE
-	..()
 
 /obj/structure/bars/cemetery
 	icon_state = "cemetery"
@@ -408,6 +414,7 @@
 	density = TRUE
 	max_integrity = 1500
 	redstone_structure = TRUE
+	broken_icon_state = "passage1b"	//named after the open state, not the closed one we start on
 
 /obj/structure/bars/passage/steel
 	name = "steel bars"
@@ -427,6 +434,7 @@
 	icon_state = "shutter0"
 	density = TRUE
 	opacity = TRUE
+	broken_icon_state = null	//a shutter has no broken sprite, and broken bars would look wrong in one
 	redstone_structure = TRUE
 
 /obj/structure/bars/passage/shutter/redstone_triggered()

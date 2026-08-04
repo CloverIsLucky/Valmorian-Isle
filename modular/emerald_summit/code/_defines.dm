@@ -16,9 +16,13 @@
 
 #define TAIL_LAMIA	(1<<20)
 
-#define ARMOR_LEATHER_STUDDED list("blunt" = 80, "slash" = 80, "stab" = 60, "piercing" = 20, "fire" = 0, "magic" = 0)
-#define ARMOR_CUIRASS list("blunt" = 40, "slash" = 100, "stab" = 80, "piercing" = 60, "fire" = 0, "magic" = 0)
-#define ARMOR_HEAD_BAD list("blunt" = 50, "slash" = 20, "stab" = 30, "piercing" = 10, "fire" = 0, "magic" = 0)
+// VALMORIAN: these came over as ES's raw percentage armour values, but VI grades armour in tiers
+// (DR_NONE..DR_ULTRA = 0..5, DBLOCK_NONE..DBLOCK_BSTEEL = 0..4 - see code/__DEFINES/armor_defines.dm).
+// A "slash" of 100 in that system is far off the scale, so the ported pieces were effectively
+// invulnerable. Point them at VI's equivalent grades instead.
+#define ARMOR_LEATHER_STUDDED ARMOR_BRIGANDINE	//brigandine rerebraces; VI's own copy uses this
+#define ARMOR_CUIRASS ARMOR_PLATE				//steel/silver/iron cuirasses; matches /armor/plate/cuirass
+#define ARMOR_HEAD_BAD ARMOR_PADDED_BAD			//briar thorns - light padding, blunt-leaning
 
 #define ROCK_CHARGE_REDUCTION 0.15
 #define GEM_CHARGE_REDUCTION 0.25
