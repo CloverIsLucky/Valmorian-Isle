@@ -4,6 +4,7 @@
 /datum/species/aasimar
 	name = "Aasimar"
 	id = "aasimar"
+	default_accent = "Assimar accent"
 	origin_default = /datum/virtue/origin/otava
 	origin = "Otava"
 	base_name = "Godtouched"

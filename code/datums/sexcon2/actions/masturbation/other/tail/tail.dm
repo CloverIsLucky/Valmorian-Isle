@@ -10,7 +10,7 @@
 		return FALSE
 	if(!target.getorganslot(ORGAN_SLOT_PENIS))
 		return FALSE
-	if(!user.getorganslot(ORGAN_SLOT_TAIL))
+	if(!user.has_sex_tail())
 		return FALSE
 	if(check_sex_lock(user, ORGAN_SLOT_TAIL))
 		return FALSE
@@ -26,9 +26,9 @@
 		return FALSE
 	if(!target.getorganslot(ORGAN_SLOT_PENIS))
 		return FALSE
-	if(!user.getorganslot(ORGAN_SLOT_TAIL))
+	if(!user.has_sex_tail())
 		return FALSE
-	if(check_sex_lock(user, ORGAN_SLOT_VAGINA))
+	if(check_sex_lock(user, ORGAN_SLOT_TAIL))	//was ORGAN_SLOT_VAGINA - copy-paste, it locks the tail
 		return FALSE
 	return TRUE
 

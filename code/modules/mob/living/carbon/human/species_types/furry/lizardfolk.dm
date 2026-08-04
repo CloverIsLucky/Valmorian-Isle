@@ -4,6 +4,7 @@
 /datum/species/lizardfolk
 	name = "Zardman"
 	id = "lizardfolk"
+	default_accent = "Lizard accent"
 	origin_default = /datum/virtue/origin/lirvas
 	origin = "Lirvas"
 	base_name = "Zard"

@@ -125,6 +125,9 @@
 
 /datum/species/taur/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	..()
+	// Accents are applied by /datum/species/handle_speech, which only runs for species that hook
+	// COMSIG_MOB_SAY themselves - there is no registration on the base type.
+	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 	// copy_to() re-runs Taurize afterwards with the player's chosen body and colour; this guarantees
 	// a taur lower body on paths that never touch preferences (admin species swaps, wabbajack).
 	if(!C.get_taur_tail())
@@ -132,4 +135,5 @@
 
 /datum/species/taur/on_species_loss(mob/living/carbon/C)
 	. = ..()
+	UnregisterSignal(C, COMSIG_MOB_SAY)
 	C.ensure_not_taur()

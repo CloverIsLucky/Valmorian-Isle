@@ -11,6 +11,8 @@
 		return FALSE
 	if(!target.getorganslot(ORGAN_SLOT_PENIS))
 		return FALSE
+	if(!user.has_sex_feet())	//a taur's lower body claims the foot zones but has no feet
+		return FALSE
 	return TRUE
 
 /datum/sex_action/sex/other/footjob/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -24,6 +26,8 @@
 	if(!target.getorganslot(ORGAN_SLOT_PENIS))
 		return FALSE
 	if(check_sex_lock(target, ORGAN_SLOT_PENIS))
+		return FALSE
+	if(!user.has_sex_feet())
 		return FALSE
 	return TRUE
 

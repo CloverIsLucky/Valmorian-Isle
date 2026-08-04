@@ -19,7 +19,7 @@
 
 	voice_pitch = 1
 	/// This is probably dead code, but moved to human_defines and I learned to hate people who deatomize it. It's war now.
-	var/char_accent = "No accent"
+	var/char_accent = "Species default"
 
 	var/footstep_type = FOOTSTEP_MOB_HUMAN
 

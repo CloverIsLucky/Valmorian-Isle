@@ -1,4 +1,10 @@
-GLOBAL_LIST_INIT(character_accents, list("No accent",
+// "Species default" defers to /datum/species/default_accent - a lamia hisses, a dwarf burrs, and so on
+// without the player having to know which entry below matches their race. It is the value new
+// characters start on, and legacy saves holding "No accent" are read the same way (see
+// get_effective_accent) because that string was the old default and nobody could have picked it
+// deliberately. "Plainspoken" is the explicit opt-out.
+GLOBAL_LIST_INIT(character_accents, list("Species default",
+	"Plainspoken",
 	"Dwarf accent",
 	"Dwarf Gibberish accent",
 	"Dark Elf accent",

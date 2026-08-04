@@ -4,6 +4,7 @@
 /datum/species/moth
 	name = "Fluvian"
 	id = "moth"
+	default_accent = "Inzectoid accent"
 	is_subrace = TRUE
 	origin_default = /datum/virtue/origin/unknown
 	origin = "The Seven Winds" // I am going to be doing a larger PR with the permission and use of Sarkness lore. Let us just please get this bug fixed.

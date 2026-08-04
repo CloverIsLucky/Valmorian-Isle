@@ -4,6 +4,7 @@
 /datum/species/dwarf
 	name = "Dwarfb"
 	id = "dwarf"
+	default_accent = "Dwarf accent"
 	max_age = 200
 	languages = list(
 		/datum/language/common,
