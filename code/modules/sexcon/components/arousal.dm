@@ -354,6 +354,33 @@
 			partner.adjust_triumphs(1)
 			to_chat(partner, span_love("Our loving is a true TRIUMPH!"))
 
+	if(partner)
+		var/user_beautiful = HAS_TRAIT(climaxer, TRAIT_BEAUTIFUL)
+		var/user_ugly = HAS_TRAIT(climaxer, TRAIT_UNSEEMLY) || HAS_TRAIT(climaxer, TRAIT_DISFIGURED)
+		var/target_beautiful = HAS_TRAIT(partner, TRAIT_BEAUTIFUL)
+		var/target_ugly = HAS_TRAIT(partner, TRAIT_UNSEEMLY) || HAS_TRAIT(partner, TRAIT_DISFIGURED)
+		if((user_ugly && target_ugly) || (user_beautiful && target_beautiful))
+			climaxer.add_stress(/datum/stressevent/cummax)
+			partner.add_stress(/datum/stressevent/cummax)
+		else
+			var/user_goodlover = HAS_TRAIT(climaxer, TRAIT_GOODLOVER)
+			var/target_goodlover = HAS_TRAIT(partner, TRAIT_GOODLOVER)
+			if(target_ugly && !user_ugly && !user_goodlover)
+				if(user_beautiful)
+					climaxer.add_stress(/datum/stressevent/unseemly_made_love/beautiful)
+				else
+					climaxer.add_stress(/datum/stressevent/unseemly_made_love)
+				partner.add_stress(/datum/stressevent/cummax)
+			if(user_ugly && !target_ugly && !target_goodlover)
+				if(target_beautiful)
+					partner.add_stress(/datum/stressevent/unseemly_made_love/beautiful)
+				else
+					partner.add_stress(/datum/stressevent/unseemly_made_love)
+				climaxer.add_stress(/datum/stressevent/cummax)
+
+	if(partner && action?.intensity >= 4 && climaxer.has_flaw(/datum/charflaw/addiction/sadist))
+		partner.emote("paincrit", forced = TRUE)
+
 
 /datum/component/arousal/proc/set_charge(amount)
 	var/empty = (charge < CHARGE_FOR_CLIMAX)
