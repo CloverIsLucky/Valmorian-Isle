@@ -42,16 +42,15 @@
 		return
 	var/datum/sex_session/old_session = get_sex_session(src, target)
 	if(old_session)
-		if(old_session.head_focus != head_focus)	//reopened via the other route - refilter the menu
+		if(old_session.head_focus != head_focus)
 			old_session.head_focus = head_focus
-			old_session.update_static_data(src)
-		old_session.ui_interact(src)
+		old_session.show_ui()
 		return old_session
 
 	var/datum/sex_session/session = new /datum/sex_session(src, target)
 	session.head_focus = head_focus
 	LAZYADD(GLOB.sex_sessions, session)
-	session.ui_interact(src)
+	session.show_ui()
 	return session
 
 /mob/living/carbon/human/proc/make_sucking_noise()
