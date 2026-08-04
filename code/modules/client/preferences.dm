@@ -357,6 +357,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	randomize_all_customizer_accessories()
 	reset_descriptors()
 	virtue_origin = new pref_species.origin_default
+	char_accent = "Species default"
 	taur_type = null
 	var/datum/charflaw/no_flaw = new /datum/charflaw/noflaw()
 	charflaws = list(no_flaw)
