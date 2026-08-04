@@ -11,6 +11,7 @@
 /datum/species/lamia
 	name = "Lamia"
 	id = "lamia"
+	default_accent = "Hissy accent"
 	is_subrace = TRUE
 	origin_default = /datum/virtue/origin/etrusca
 	origin = "Etrusca"
@@ -82,7 +83,7 @@
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
 		/datum/customizer/organ/tail_feature/anthro,
-		/datum/customizer/organ/snout/lizard,
+		/datum/customizer/organ/snout/lizard/optional,
 		/datum/customizer/organ/ears/lizard,
 		/datum/customizer/organ/frills/anthro,
 		/datum/customizer/organ/horns/anthro,
@@ -160,6 +161,9 @@
 
 /datum/species/lamia/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	..()
+	// Accents are applied by /datum/species/handle_speech, which only runs for species that hook
+	// COMSIG_MOB_SAY themselves - there is no registration on the base type.
+	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 	// Only if they haven't got one already. copy_to() Taurizes with the player's chosen colour, and
 	// this call uses the default, so an unconditional call here disagrees on colour, fails Taurize's
 	// same-part short circuit, and drops+reattaches the lower body every time the species is applied.
@@ -168,6 +172,7 @@
 
 /datum/species/lamia/on_species_loss(mob/living/carbon/C)
 	. = ..()
+	UnregisterSignal(C, COMSIG_MOB_SAY)
 	C.ensure_not_taur()
 
 /datum/species/lamia/spec_fully_heal(mob/living/carbon/human/H)

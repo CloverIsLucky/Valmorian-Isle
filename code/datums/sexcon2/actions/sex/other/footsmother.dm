@@ -9,6 +9,8 @@
 		return FALSE
 	if(!check_location_accessible(target, target, BODY_ZONE_PRECISE_MOUTH))
 		return FALSE
+	if(!user.has_sex_feet())	//a taur's lower body claims the foot zones but has no feet
+		return FALSE
 	return TRUE
 
 /datum/sex_action/sex/other/footsmother/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -20,6 +22,8 @@
 	if(!check_location_accessible(target, target, BODY_ZONE_PRECISE_MOUTH))
 		return FALSE
 	if(check_sex_lock(target, BODY_ZONE_PRECISE_MOUTH))
+		return FALSE
+	if(!user.has_sex_feet())
 		return FALSE
 	return TRUE
 

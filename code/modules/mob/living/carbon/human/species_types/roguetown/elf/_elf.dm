@@ -4,6 +4,7 @@
 /datum/species/elf
 	name = "Elfb"
 	id = "elf"
+	default_accent = "Elf accent"
 	max_age = 850
 	organs = list(
 		ORGAN_SLOT_BRAIN = /obj/item/organ/brain,

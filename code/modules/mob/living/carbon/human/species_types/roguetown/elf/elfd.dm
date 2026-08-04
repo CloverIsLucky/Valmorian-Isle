@@ -4,6 +4,7 @@
 /datum/species/elf/dark
 	name = "Dark Elf"
 	id = "elfd"
+	default_accent = "Dark Elf accent"
 	is_subrace = TRUE
 	origin_default = /datum/virtue/origin/racial/underdark
 	origin = "Underdark"

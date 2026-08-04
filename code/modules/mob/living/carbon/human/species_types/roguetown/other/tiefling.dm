@@ -4,6 +4,7 @@
 /datum/species/tieberian
 	name = "Tiefling"
 	id = "tiefling"
+	default_accent = "Tiefling accent"
 	origin_default = /datum/virtue/origin/etrusca
 	origin = "Etrusca"
 	base_name = "Godtouched"

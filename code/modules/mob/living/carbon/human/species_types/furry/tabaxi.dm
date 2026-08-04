@@ -4,6 +4,7 @@
 /datum/species/tabaxi
 	name = "Tabaxi"
 	id = "tabaxi"
+	default_accent = "Feline accent"
 	is_subrace = TRUE
 	origin_default = /datum/virtue/origin/raneshen
 	origin = "Raneshen"

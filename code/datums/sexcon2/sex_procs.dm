@@ -1,3 +1,19 @@
+/// Whether this mob has a tail the tail actions can use. A lamia's coils and a drider's abdomen are
+/// /obj/item/bodypart/taur limbs rather than an ORGAN_SLOT_TAIL organ, so asking the organ slot alone
+/// hides every tail action from exactly the species that most obviously has one.
+/mob/living/proc/has_sex_tail()
+	if(iscarbon(src))
+		var/mob/living/carbon/carbon_src = src
+		if(carbon_src.getorganslot(ORGAN_SLOT_TAIL))
+			return TRUE
+	return get_taur_tail()
+
+/// Whether this mob has feet the foot actions can use. Taurs have none - but their lower body lists
+/// both foot zones as subtargets, so get_bodypart() hands the taur limb back and nothing upstream
+/// notices. Every foot action has to ask the owner of the feet explicitly.
+/mob/living/proc/has_sex_feet()
+	return !get_taur_tail()
+
 /mob/living/carbon/human/proc/get_highest_grab_state_on(mob/living/carbon/human/victim)
 	var/grabstate = null
 	if(r_grab && r_grab.grabbed == victim)

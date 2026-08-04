@@ -10,6 +10,8 @@
 		return FALSE
 	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_MOUTH))
 		return FALSE
+	if(!target.has_sex_feet())	//a taur's lower body claims the foot zones but has no feet
+		return FALSE
 	return TRUE
 
 /datum/sex_action/oral/foot_lick/can_perform(mob/living/user, mob/living/target)
@@ -21,6 +23,8 @@
 	if(check_sex_lock(user, BODY_ZONE_PRECISE_MOUTH)) //don't make me regret not locking your feet out while they are getting licked
 		return FALSE
 	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_MOUTH))
+		return FALSE
+	if(!target.has_sex_feet())
 		return FALSE
 	return TRUE
 

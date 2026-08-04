@@ -812,7 +812,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	S["char_accent"]		>> char_accent
 	if (!char_accent)
-		char_accent = "No accent"
+		char_accent = "Species default"
 
 	S["pronouns"] >> pronouns
 	S["voice_type"] >> voice_type

@@ -4,6 +4,7 @@
 /datum/species/lupian
 	name = "Lupian"
 	id = "lupian"
+	default_accent = "Lupian accent"
 	is_subrace = TRUE
 	origin_default = /datum/virtue/origin/hammerhold
 	origin = "Hammerhold"

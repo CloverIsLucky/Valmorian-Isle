@@ -4,6 +4,7 @@
 /datum/species/dracon
 	name = "Drakian"
 	id = "dracon"
+	default_accent = "Lizard accent"
 	is_subrace = TRUE
 	origin_default = /datum/virtue/origin/lirvas
 	origin = "Lirvas"
