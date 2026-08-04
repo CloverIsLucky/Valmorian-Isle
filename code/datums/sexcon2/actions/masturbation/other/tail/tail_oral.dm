@@ -8,7 +8,7 @@
 		return FALSE
 	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_MOUTH))
 		return FALSE
-	if(!user.getorganslot(ORGAN_SLOT_TAIL))
+	if(!user.has_sex_tail())
 		return FALSE
 	return TRUE
 
@@ -20,7 +20,7 @@
 		return FALSE
 	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_MOUTH))
 		return FALSE
-	if(!user.getorganslot(ORGAN_SLOT_TAIL))
+	if(!user.has_sex_tail())
 		return FALSE
 	return TRUE
 

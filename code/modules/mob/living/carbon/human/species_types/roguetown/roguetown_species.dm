@@ -1,5 +1,19 @@
 /datum/species
 	var/amtfail = 0
+	/// Accent this species speaks with when the player hasn't overridden it in preferences.
+	/// Must be a name from GLOB.character_accents; null means the race has no accent of its own.
+	var/default_accent = null
+
+/// Resolves what a mob actually speaks with. The player's pick wins; "Species default" (and the
+/// legacy "No accent", which was the old default value and so cannot be a deliberate choice) fall
+/// back to the species. "Plainspoken" is the explicit opt-out and returns null.
+/datum/species/proc/get_effective_accent(mob/living/carbon/human/H)
+	var/chosen = H?.char_accent
+	if(chosen == "Plainspoken")
+		return null
+	if(!chosen || chosen == "Species default" || chosen == "No accent")
+		return default_accent
+	return chosen
 
 /datum/species/proc/get_accent_list(mob/living/carbon/human/H, type)
 	// "Posh accent" and "Saut al-Atash accent" are font-only (GLOB.accent_spans)
@@ -29,7 +43,7 @@
 		"Avar accent" = "russian_replacement.json",
 		"Pirate accent" = "axian_replacement.json",
 	)
-	var/filename = accent_files[H.char_accent]
+	var/filename = accent_files[get_effective_accent(H)]
 	if(!filename)
 		return
 	// Not every accent json defines every replacement category; missing keys are fine.

@@ -32,6 +32,12 @@
 		/datum/sprite_accessory/snout/stubbyalt,
 		)
 
+// Lizardfolk and kobolds are snouted by definition; lamia are humen from the waist up and only
+// borrow the lizard sprite set, so they get the same choices with an off switch.
+/datum/customizer/organ/snout/lizard/optional
+	allows_disabling = TRUE
+	default_disabled = TRUE
+
 /datum/customizer/organ/snout/vulpkanin
 	customizer_choices = list(/datum/customizer_choice/organ/snout/vulpkanin)
 

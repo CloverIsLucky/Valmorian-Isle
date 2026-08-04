@@ -4,6 +4,7 @@
 /datum/species/halforc
 	name = "Half Orc"
 	id = "halforc"
+	default_accent = "Half Orc accent"
 	origin_default = /datum/virtue/origin/avar
 	origin = "Aavnr"
 	base_name = "Humen"

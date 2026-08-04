@@ -204,7 +204,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/list/descriptor_entries = list()
 	var/list/custom_descriptors = list()
 
-	var/char_accent = "No accent"
+	var/char_accent = "Species default"
 
 	var/list/gear_list = list()	// Assoc list: item_name = list("color"=..., "custom_name"=..., "custom_desc"=...)
 
@@ -357,6 +357,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	randomize_all_customizer_accessories()
 	reset_descriptors()
 	virtue_origin = new pref_species.origin_default
+	char_accent = "Species default"
 	taur_type = null
 	var/datum/charflaw/no_flaw = new /datum/charflaw/noflaw()
 	charflaws = list(no_flaw)

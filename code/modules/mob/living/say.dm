@@ -232,8 +232,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			if(H.dna?.species)
 				stuff = H.dna.species.get_span_language(L)
 			// Font-based accents apply when speaking Common with no species span
-			if(!length(stuff) && L.type == /datum/language/common && H.char_accent)
-				stuff = GLOB.accent_spans[H.char_accent]
+			if(!length(stuff) && L.type == /datum/language/common && H.dna?.species)
+				stuff = GLOB.accent_spans[H.dna.species.get_effective_accent(H)]
 			if(stuff)
 				spans |= stuff
 		else

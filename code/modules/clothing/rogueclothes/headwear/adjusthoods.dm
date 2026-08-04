@@ -24,6 +24,8 @@
 	block2add = FOV_BEHIND
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
+	/// Hair-hiding flags parked while the hood is worn under the hair, restored when it goes back over.
+	var/hair_flags_stashed = NONE
 
 /obj/item/clothing/head/roguetown/roguehood/ComponentInitialize()
 	. = ..()
@@ -47,8 +49,14 @@
 	to_chat(user, span_info("I wear \the [src] [overarmor ? "under" : "over"] my hair."))
 	if(overarmor)
 		alternate_worn_layer = HOOD_LAYER //Below Hair Layer
+		// Layering alone isn't enough - HIDEHAIR still culls the hair overlay, so wearing the hood
+		// under hair you don't have just makes you bald. Drop the flag with the layer.
+		hair_flags_stashed = flags_inv & (HIDEHAIR|HIDEFACIALHAIR)
+		flags_inv &= ~(HIDEHAIR|HIDEFACIALHAIR)
 	else
 		alternate_worn_layer = BACK_LAYER //Above Hair Layer
+		flags_inv |= hair_flags_stashed
+		hair_flags_stashed = NONE
 	user.update_inv_wear_mask()
 	user.update_inv_head()
 
