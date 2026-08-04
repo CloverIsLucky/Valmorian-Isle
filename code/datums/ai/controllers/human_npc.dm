@@ -5,6 +5,10 @@
 	movement_delay = 0.1 SECONDS
 	max_target_distance = 13
 	ai_movement = /datum/ai_movement/hybrid_pathing
+	/// Without this a human NPC has *no* idle behaviour, which left the loot subtree as the only
+	/// thing it did with an empty plan - the "NPCs beeline for bottles" report. Ported from
+	/// Scarlet Reach's npc_idle().
+	idle_behavior = /datum/idle_behavior/idle_npc_wander
 	blackboard = list(
 		BB_WEAPON_TYPE = /obj/item/rogueweapon,
 		BB_ARMOR_CLASS = 2,
@@ -15,8 +19,6 @@
 		BB_HUMAN_NPC_LAST_ATTACK_ZONE = null,  // last zone we attacked
 		BB_HUMAN_NPC_WEAKPOINT = null,         // cached weakpoint zone if we found one
 		BB_HUMAN_NPC_JUMP_COOLDOWN = 0,        // world.time when we can next jump
-		BB_HUMAN_NPC_FLANK_ANGLE = null,       // our claimed flank direction (degrees, 0-359)
-		BB_HUMAN_NPC_FLANK_TARGET = null,      // the turf we're moving toward for flanking
 		BB_HUMAN_NPC_HARASS_MODE = FALSE,      // TRUE when in hit-and-run mode
 		BB_HUMAN_NPC_HARASS_RETREATING = FALSE,// TRUE when in the back-off phase of harass
 		BB_HUMAN_NPC_HARASS_COOLDOWN = 0,      // world.time before we can dart in again
@@ -95,6 +97,7 @@
 /// Archer human NPC. Adds archer-specific planning subtrees and blackboard keys on top of
 /// the base. Uses the same melee subtree as a fallback when out of ammo / in melee range.
 /datum/ai_controller/human_npc/archer
+	idle_behavior = /datum/idle_behavior/idle_npc_wander
 	blackboard = list(
 		BB_WEAPON_TYPE = /obj/item/rogueweapon,
 		BB_ARMOR_CLASS = 2,
@@ -105,8 +108,6 @@
 		BB_HUMAN_NPC_LAST_ATTACK_ZONE = null,
 		BB_HUMAN_NPC_WEAKPOINT = null,
 		BB_HUMAN_NPC_JUMP_COOLDOWN = 0,
-		BB_HUMAN_NPC_FLANK_ANGLE = null,
-		BB_HUMAN_NPC_FLANK_TARGET = null,
 		BB_HUMAN_NPC_HARASS_MODE = FALSE,
 		BB_HUMAN_NPC_HARASS_RETREATING = FALSE,
 		BB_HUMAN_NPC_HARASS_COOLDOWN = 0,
