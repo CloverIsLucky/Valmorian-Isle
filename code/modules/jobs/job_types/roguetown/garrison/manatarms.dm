@@ -370,9 +370,8 @@
 /datum/outfit/job/roguetown/manorguard/bailiff/pre_equip(mob/living/carbon/human/H)
 	..()
 
-	head = /obj/item/clothing/head/roguetown/menacing/executioner
+	head = /obj/item/clothing/head/roguetown/roguehood/black
 	neck = /obj/item/clothing/neck/roguetown/gorget
-	mask = /obj/item/clothing/head/roguetown/roguehood/black
 	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/bailiff
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/leather
@@ -383,6 +382,15 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		H.set_blindness(0)
+		var/armor_options = list("Unarmoured", "Leather Armor")
+		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
+		switch(armor_choice)
+			if("Unarmoured") //New MAA skirmisher
+				armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/bailiff
+			if("Leather Armor") //OG more or less RT guardsman archer
+				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rope/chain = 1,
