@@ -8,12 +8,12 @@ SUBSYSTEM_DEF(dungeon_generator)
 	wait = 0.5 SECONDS
 
 	var/list/parent_types = list()
-	var/list/templates_by_category = list() 
+	var/list/templates_by_category = list()
 	var/list/templates_by_connection = list()
 	var/list/templates_by_connection_and_depth = list()
 	var/list/filler_templates_by_connection = list()
-	var/list/markers = list() 
-	var/list/failed_markers = list() 
+	var/list/markers = list()
+	var/list/failed_markers = list()
 	var/list/placed_count = list()
 
 	var/generation_stage = STAGE_EXPANSION
@@ -30,13 +30,6 @@ SUBSYSTEM_DEF(dungeon_generator)
 	var/prot_min_x = 0; var/prot_max_x = 0; var/prot_min_y = 0; var/prot_max_y = 0
 
 /datum/controller/subsystem/dungeon_generator/Initialize(start_timeofday)
-	// Maps without a dungeon entrance skip the dungeon z-level entirely; don't cache
-	// templates or poll for markers there.
-	if(SSmapping.config && !SSmapping.config.load_dungeon)
-		generation_complete = TRUE
-		setup_done = TRUE
-		can_fire = FALSE
-		return ..()
 
 	var/list/dungeon_templates = list()
 	templates_by_connection = list()
@@ -51,7 +44,7 @@ SUBSYSTEM_DEF(dungeon_generator)
 	for(var/path in subtypesof(/datum/map_template/dungeon))
 		var/datum/map_template/dungeon/path_type = path
 		if(initial(path_type.abstract_type) == path || ispath(path, /datum/map_template/dungeon/entry))
-			continue 
+			continue
 
 		var/datum/map_template/dungeon/T = new path
 		if(!T || !T.mappath) continue
@@ -60,10 +53,10 @@ SUBSYSTEM_DEF(dungeon_generator)
 		dungeon_templates += T
 		cache_template_connections(T)
 
-	
+
 	templates_by_category[/datum/map_template/dungeon] = dungeon_templates
 
-	addtimer(CALLBACK(src, .proc/find_initial_map_data), 50) 
+	addtimer(CALLBACK(src, .proc/find_initial_map_data), 50)
 	return ..()
 
 /datum/controller/subsystem/dungeon_generator/proc/find_initial_map_data()
@@ -93,7 +86,7 @@ SUBSYSTEM_DEF(dungeon_generator)
 			var/obj/O = found_points[i]
 			prot_min_x = min(prot_min_x, O.x); prot_max_x = max(prot_max_x, O.x)
 			prot_min_y = min(prot_min_y, O.y); prot_max_y = max(prot_max_y, O.y)
-	
+
 	markers |= found_points
 	setup_done = TRUE
 	setup_attempts = 0
@@ -126,7 +119,7 @@ SUBSYSTEM_DEF(dungeon_generator)
 		var/idx = rand(1, length(markers))
 		var/obj/effect/dungeon_directional_helper/helper = markers[idx]
 		markers.Cut(idx, idx + 1)
-		
+
 		if(helper && !QDELETED(helper))
 			if(!try_grow_at_marker(helper))
 				failed_markers |= helper
@@ -145,11 +138,11 @@ SUBSYSTEM_DEF(dungeon_generator)
 
 	var/list/area_dims = scan_free_area(start_step, direction)
 	var/max_dist = area_dims["h"]
-	if(max_dist < 4) return FALSE 
+	if(max_dist < 4) return FALSE
 
 	var/opp_dir = reverse_direction(direction)
 	var/list/checking_list = get_candidate_templates(opp_dir, max_dist)
-	
+
 	for(var/datum/map_template/dungeon/T in checking_list)
 		var/offset = T.get_dir_offset(opp_dir)
 		if(offset == null) continue
@@ -181,7 +174,7 @@ SUBSYSTEM_DEF(dungeon_generator)
 		var/turf/T = get_step_dist(start_T, dir, i)
 		if(!T || !is_strictly_void(T) || is_protected(T.x, T.y)) break
 		depth = i
-	return list("h" = depth) 
+	return list("h" = depth)
 
 /datum/controller/subsystem/dungeon_generator/proc/get_step_dist(turf/start, dir, dist)
 	var/tx = start.x; var/ty = start.y
@@ -292,7 +285,7 @@ SUBSYSTEM_DEF(dungeon_generator)
 /datum/controller/subsystem/dungeon_generator/proc/try_spawn_filler(direction, turf/target_turf)
 	var/opp_dir = reverse_direction(direction)
 	var/list/checking_list = shuffle(filler_templates_by_connection[direction_key(opp_dir)])
-	
+
 	for(var/datum/map_template/dungeon/T in checking_list)
 		var/offset = T.get_dir_offset(opp_dir)
 		if(offset == null) continue
