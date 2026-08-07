@@ -22,7 +22,7 @@
 		"...an old hunter stands in front of your counter and demands two dozen arrows. He hands you a bundle of sticks with a smile on his face..."
 	)
 	expert_name = "Weaponsmith"
-	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	max_untraited_level = SKILL_LEVEL_JOURNEYMAN
 	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/skill/craft/armorsmithing
@@ -33,7 +33,7 @@
 		"...the veteran's armor, battered beyond recognition, mirrors the scars upon his body. Yet, without your craft, he'd have fallen long ago. With skilled hands and a half a day's work, the armor is reborn - stronger than the day it was forged..."
 	)
 	expert_name = "Armorsmith"
-	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	max_untraited_level = SKILL_LEVEL_JOURNEYMAN
 	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/skill/craft/blacksmithing
@@ -45,7 +45,7 @@
 		"...the furnaces are lit and the forges roar. Today is a good day, and the lord of flame has blessed your smithy, the greatest in all the lands..."
 	)
 	expert_name = "Blacksmith"
-	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	max_untraited_level = SKILL_LEVEL_JOURNEYMAN
 	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_ENCHANTING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/skill/craft/smelting
@@ -58,7 +58,7 @@
 
 	)
 	expert_name = "Smelter"
-	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	max_untraited_level = SKILL_LEVEL_JOURNEYMAN
 	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_ENCHANTING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
 
 
@@ -82,7 +82,7 @@
 	)
 	expert_name = "Mason"
 	// No longer niche with gemcarving etc
-	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	max_untraited_level = SKILL_LEVEL_JOURNEYMAN
 	trait_uncap = list(TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
@@ -105,7 +105,7 @@
 		"...with steady hands you shape a new limb, each joint and cog designed to restore what was lost. Your work is a quiet promise; they will walk again..."
 	)
 	expert_name = "Engineer"
-	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	max_untraited_level = SKILL_LEVEL_JOURNEYMAN
 	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_ENCHANTING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
 
 
@@ -118,7 +118,7 @@
 		"...a one-eyed chef begins mashing apples in front of you before filling some pie dough. He can barely stop himself from salivating as he teaches you his secret ingredient..."
 	)
 	expert_name = "Cook"
-	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	max_untraited_level = SKILL_LEVEL_JOURNEYMAN
 	trait_uncap = list(TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SURVIVAL_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
@@ -131,7 +131,7 @@
 		"...you turn over the fabric, and within the two layers of the gown, you hide a secret stitched into the gown, your initials, hidden within. A forbidden mark in some cultures... you never liked the bride much..."
 	)
 	expert_name = "Sewer"
-	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	max_untraited_level = SKILL_LEVEL_JOURNEYMAN
 	trait_uncap = list(TRAIT_SEWING_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SURVIVAL_EXPERT = SKILL_LEVEL_JOURNEYMAN,
 	TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_JOURNEYMAN,
@@ -145,7 +145,7 @@
 		"...the hunter, their voice as rough as bark and their skin weathered like grain lets out a hearty laugh as he shows you his stitching..."
 	)
 	expert_name = "Tanner"
-	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	max_untraited_level = SKILL_LEVEL_JOURNEYMAN
 	trait_uncap = list(TRAIT_SEWING_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SURVIVAL_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_JOURNEYMAN,
@@ -159,7 +159,7 @@
 		"...a slab of clay is molded into a beautiful statue. A testiment to Malum's blessings, and Xylix's insperation. A pure work of beauty..."
 	)
 	expert_name = "Potter"
-	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	max_untraited_level = SKILL_LEVEL_JOURNEYMAN
 	trait_uncap = list(TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
