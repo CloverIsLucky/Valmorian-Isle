@@ -555,7 +555,7 @@
 
 	.=..()
 	var/area/rogue/our_area = get_area(owner)
-	if(!(our_area.church_area))
+	if(!(our_area.holy_area))
 		owner.remove_status_effect(/datum/status_effect/buff/churchbuff)
 
 // Lesser Miracle effect
