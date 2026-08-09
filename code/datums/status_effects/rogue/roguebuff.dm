@@ -496,7 +496,7 @@
 /atom/movable/screen/alert/status_effect/buff/churchbuff
 	name = "Church Defender"
 	desc = "This holy ground grants me the power to quash any dissent here."
-	icon_state = "tenbless"
+	icon_state = "guardsman"
 
 /datum/status_effect/buff/churchbuff
 	id = "churchbuff"
