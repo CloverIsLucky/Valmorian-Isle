@@ -33586,12 +33586,12 @@
 /obj/item/flashlight/flare/torch/lantern,
 /obj/item/listeningdevice,
 /obj/item/listeningdevice,
-/obj/item/scomstone,
-/obj/item/scomstone,
 /obj/structure/closet/crate/roguecloset,
 /obj/item/rope/inqarticles/inquirycord,
 /obj/item/rope/inqarticles/inquirycord,
 /obj/item/rope/inqarticles/inquirycord,
+/obj/item/speakerinq,
+/obj/item/speakerinq,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/inq/office)
 "hJE" = (
@@ -48092,6 +48092,7 @@
 /obj/item/clothing/gloves/roguetown/chain/psydon,
 /obj/item/clothing/gloves/roguetown/otavan/inqgloves,
 /obj/item/clothing/mask/rogue/sack/psy,
+/obj/item/scomstone,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/inq/office)
 "kYI" = (
@@ -65763,7 +65764,7 @@
 	},
 /obj/item/paper,
 /obj/item/reagent_containers/food/snacks/tallow/red,
-/obj/item/inqarticles/tallowpot,
+/obj/item/tallowpot,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/inq/basement)
 "peg" = (
@@ -82744,13 +82745,11 @@
 /obj/structure/table/wood{
 	icon_state = "map5"
 	},
-/obj/item/inqarticles/tallowpot{
-	pixel_x = -8
-	},
 /obj/item/reagent_containers/food/snacks/tallow/red{
 	pixel_y = 3;
 	pixel_x = 8
 	},
+/obj/item/tallowpot,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/inq)
 "sVA" = (
@@ -92680,7 +92679,7 @@
 	pixel_y = 32
 	},
 /obj/item/reagent_containers/food/snacks/tallow/red,
-/obj/item/inqarticles/tallowpot,
+/obj/item/tallowpot,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/inq/office)
 "vfh" = (
