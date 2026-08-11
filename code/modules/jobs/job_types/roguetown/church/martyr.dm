@@ -433,7 +433,7 @@
 
 				I.max_blade_int = 9999
 				I.blade_int = I.max_blade_int
-				
+
 				current_holder.adjust_skillrank(/datum/skill/misc/athletics, 6, FALSE)
 
 				current_holder.STASTR = 20
@@ -552,6 +552,10 @@
 	)
 	subclass_stashed_items = list(
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
+	)
+
+	subclass_virtues = list(
+		/datum/virtue/combat/devotee
 	)
 
 /datum/outfit/job/roguetown/martyr
