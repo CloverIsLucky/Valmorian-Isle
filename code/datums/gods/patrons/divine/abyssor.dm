@@ -1,6 +1,6 @@
 /datum/patron/divine/abyssor
 	name = "Abyssor"
-	domain = "God of Stars, Storms, Waters, Sailors, Explorers, Heroism.
+	domain = "God of Stars, Storms, Waters, Sailors, Explorers, Heroism."
 	desc = "The great Navigator of the stars and seas, Abyssor's lance of lighting drives the sea-beasts from the ships of faithful mariners. Bidding his followers to forsake the familiar for the terrible beauty of unexplored lands, he calls the adventurous to slay the fell creatures of forsaken shores."
 	mob_traits = list(TRAIT_ABYSSOR_SWIM, TRAIT_SEA_DRINKER)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
