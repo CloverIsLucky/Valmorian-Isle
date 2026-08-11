@@ -43,25 +43,29 @@
 	return span_warning("[user] gets off [target].")
 
 /datum/sex_action/sex/other/anal/handle_climax_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	user.visible_message(span_love("[user] cums into [target]'s butt!"))
-	target.virginity = FALSE
+	user.visible_message(span_love("[target] cums into [user]'s butt!"))
+	user.virginity = FALSE
 	return "into"
 
 /datum/sex_action/sex/other/anal/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] rides [target]."))
+	var/is_knotting = sex_session.do_knot_action
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] [is_knotting ? "knot-rides" : "rides"] [target]."))
 
 /datum/sex_action/sex/other/anal/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/is_knotting = sex_session.do_knot_action
 	playsound(target, sex_session.get_force_sound(), 50, TRUE, -2, ignore_walls = FALSE)
 	do_thrust_animate(user, target)
 
 	do_onomatopoeia(user)
 
-	sex_session.perform_sex_action(user, 2, 4, FALSE)
+	var/user_pleasure = is_knotting ? 9 : 4
+	sex_session.perform_sex_action(user, 2, user_pleasure, FALSE)
 
 	if(sex_session.considered_limp(target))
 		sex_session.perform_sex_action(target, 1.2, 4, TRUE)
 	else
-		sex_session.perform_sex_action(target, 2.4, 9, TRUE)
+		var/target_pleasure = is_knotting ? 14 : 9
+		sex_session.perform_sex_action(target, 2.4, target_pleasure, TRUE)
 	sex_session.handle_passive_ejaculation(target)
