@@ -1,8 +1,7 @@
 /datum/patron/divine/xylix
 	name = "Xylix"
-	domain = "God of Trickery, Freedom and Inspiration"
-	desc = "The Laughing God, both famous and infamous for his sway over the forces of luck. Xylix is known for the inspiration of many a bards lyric. Speaks through his gift to man; the Tarot deck."
-	worshippers = "Gamblers, Bards, Artists, and the Silver-Tongued"
+	domain = "God of Comedy and Tragedy, Lies and Truth, Risk and Reward."
+	desc = "The Laughing god is many things. All of them Contrasts of the other. It is this Duality that makes this god able to do his duties. To truly understand Xylix, you must in turn understand his contrasts. He will always Lie, and he will always tell the Truth."
 	mob_traits = list(TRAIT_XYLIX)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/self/xylixslip				= CLERIC_T0,
