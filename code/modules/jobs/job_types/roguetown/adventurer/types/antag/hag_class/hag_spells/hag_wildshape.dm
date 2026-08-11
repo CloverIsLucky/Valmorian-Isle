@@ -67,7 +67,7 @@
 		adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
 		adjust_skillrank(/datum/skill/misc/sneaking, SKILL_LEVEL_EXPERT, TRUE)
 
-		AddSpell(new /obj/effect/proc_holder/spell/self/hagclaws) 
+		AddSpell(new /obj/effect/proc_holder/spell/self/hagclaws)
 		apply_status_effect(/datum/status_effect/debuff/hag_bog_tether/wildshape)
 	//faction |= list("hag", "spiders")
 
@@ -82,7 +82,9 @@
 		TRAIT_HARDDISMEMBER,
 		TRAIT_PIERCEIMMUNE,
 		TRAIT_LONGSTRIDER,
-		TRAIT_BOGWALKER
+		TRAIT_BOGWALKER,
+		TRAIT_DARKVISION,
+		TRAIT_KNEESTINGER_IMMUNITY, //kneestingers cos DUH bog antag. But not he full NPC immune trait and shit. If their gonna fight! their gonna fight.
 	)
 	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_WEAR_MASK, SLOT_ARMOR, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT, SLOT_BACK_R, SLOT_BACK_L, SLOT_S_STORE)
 	nojumpsuit = 1
