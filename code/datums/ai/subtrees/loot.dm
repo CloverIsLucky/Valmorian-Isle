@@ -1,7 +1,16 @@
+// Scarlet Reach has no loot subtree at all - its NPCs only ever idle. We keep ours, because the
+// consumable subtrees (use_bandage / use_powder / use_healing_drink / use_throwable) are useless if
+// nothing ever stocks them, but it is scoped so that scavenging is opportunistic rather than the
+// NPC's whole personality. Before this, looting was literally the only thing a human NPC did with
+// an empty plan, so they crossed rooms for any bottle in sight, forever.
 /datum/ai_planning_subtree/loot
-	var/scan_range = 7
+	/// Deliberately short. This is "pick up what's underfoot", not "go shopping" - a wider radius
+	/// is what produced the NPCs marching across the map after a bottle they had no use for.
+	var/scan_range = 3
 	/// Minimum time between world scans. Loot isn't time-sensitive, so we skip most ticks.
 	var/scan_cooldown = 4 SECONDS
+	/// How many of one item class an NPC will carry before it stops wanting more.
+	var/carry_limit = 2
 
 /datum/ai_planning_subtree/loot/SelectBehaviors(datum/ai_controller/controller, delta_time)
 	if(controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET])
@@ -54,7 +63,17 @@
 		return FALSE
 	if(HAS_TRAIT(candidate, TRAIT_NODROP))
 		return FALSE
-	return TRUE
+	return _has_room_for(inv, candidate)
+
+/// TRUE if we're still short in any class this item counts as. An NPC already carrying two healing
+/// draughts has no business walking to a third.
+/datum/ai_planning_subtree/loot/proc/_has_room_for(datum/component/ai_inventory_manager/inv, obj/item/candidate)
+	for(var/ai_flag in inv.inventory_map)
+		if(!(candidate.flags_ai_inventory & ai_flag))
+			continue
+		if(length(inv.inventory_map[ai_flag]) < carry_limit)
+			return TRUE
+	return FALSE
 
 
 /datum/ai_behavior/loot_pick_up
