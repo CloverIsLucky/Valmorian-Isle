@@ -212,6 +212,7 @@
 	desire_stop = FALSE
 	current_action = null
 	schedule_idle_reap()
+	show_ui()
 
 /datum/sex_session/proc/can_perform_action(action_type, performing = FALSE)
 	if(!action_type)

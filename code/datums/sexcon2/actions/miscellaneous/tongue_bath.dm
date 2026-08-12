@@ -2,7 +2,6 @@
 	name = "Bathe with tongue"
 	intensity = 3
 	debug_erp_panel_verb = FALSE
-	works_on_detached_head = TRUE
 	works_via_own_detached_head = TRUE	//tongue work - the head carries the tongue
 
 /datum/sex_action/miscellaneous/tonguebath/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
