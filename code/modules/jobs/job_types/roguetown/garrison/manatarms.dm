@@ -370,7 +370,7 @@
 /datum/outfit/job/roguetown/manorguard/bailiff/pre_equip(mob/living/carbon/human/H)
 	..()
 
-	head = /obj/item/clothing/head/roguetown/roguehood/black
+	head = /obj/item/clothing/head/roguetown/menacing/executioner
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/bailiff
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
