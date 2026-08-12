@@ -43,6 +43,7 @@
 	if(parent.is_new_player())
 		return
 	var/mob/living/carbon/human/dummy/mannequin = generate_or_wait_for_human_dummy(DUMMY_HUMAN_SLOT_PREFERENCES)
+	mannequin.wipe_state()
 	copy_to(mannequin, 1, TRUE, TRUE)
 
 	mannequin.rebuild_obscured_flags()

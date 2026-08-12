@@ -1923,7 +1923,7 @@
 			layer = 3.99 + pixelshift_layer //So mobs can pixelshift layers while lying down
 	else
 		if(layer == LYING_MOB_LAYER)
-			layer = initial(layer)
+			layer = initial(layer) + pixelshift_layer
 	update_cone_show()
 	update_transform()
 	lying_prev = lying

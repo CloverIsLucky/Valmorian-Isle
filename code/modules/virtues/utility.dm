@@ -370,7 +370,7 @@
 			continue
 		var/obj/item/bodypart/old_limb = recipient.get_bodypart(zone)
 		if(old_limb)
-			old_limb.drop_limb()
+			old_limb.drop_limb(FALSE, TRUE)
 			qdel(old_limb)
 		var/obj/item/bodypart/new_limb = new to_attach()
 		new_limb.attach_limb(recipient)

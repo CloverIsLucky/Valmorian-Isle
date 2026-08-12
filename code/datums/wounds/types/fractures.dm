@@ -357,7 +357,7 @@
 	var/mob/living/carbon/carbon_owner = owner
 	if(!carbon_owner.stat && prob(5))
 		carbon_owner.vomit(1, blood = TRUE, stun = TRUE)
-		if(HAS_TRAIT(carbon_owner, TRAIT_IRONMAN)) // oops, compensating the lack of blood vomit with this
+		if(HAS_TRAIT(carbon_owner, TRAIT_IRONMAN) && !HAS_TRAIT(carbon_owner, TRAIT_NOHUNGER))
 			carbon_owner.OffBalance(50)
 			carbon_owner.Jitter(50)
 			carbon_owner.Immobilize(50)
