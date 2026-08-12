@@ -1,7 +1,7 @@
 /datum/patron/divine/dendor
 	name = "Dendor"
 	domain = "God of the Instinct, Wilderness, Growth, Animals, Balance."
-	desc = "The Thousands and One, this is an apt title for the God of the Wilds. Broken into thousands of seperate aspects, each are Dendor, each with their own wants and lessons. What one Dendor cult believes could be vastly different than the next. All are valid under the Treefathers grace."
+	desc = "God of the wilderness and the wild things, Dendor is possessed of the animal impulse. In the form of speaking beasts and mad imaginings, Dendor speaks to his adherents from the thousands of minds of nature's form. To ask Dendor for guidance is to ask an animal mind; a hare will bid you to flee and run, a wolf will bid you tear the throats from your enemies, and the spider will teach you to hide, weave, wait and envenom. Such mixed messages make Dendor the mad god, but the animal world survives well enough with thoughtless instinct alone."
 	mob_traits = list(TRAIT_KNEESTINGER_IMMUNITY, TRAIT_LEECHIMMUNE)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/spiderspeak 			= CLERIC_T0,
