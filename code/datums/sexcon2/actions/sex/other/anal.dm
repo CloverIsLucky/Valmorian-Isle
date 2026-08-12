@@ -43,7 +43,7 @@
 	return span_warning("[user] gets off [target].")
 
 /datum/sex_action/sex/other/anal/handle_climax_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	user.visible_message(span_love("[target] cums into [user]'s butt!"))
+	user.visible_message(span_love("[user] cums into [target]'s butt!"))
 	user.virginity = FALSE
 	return "into"
 

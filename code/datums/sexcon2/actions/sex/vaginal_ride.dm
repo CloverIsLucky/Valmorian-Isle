@@ -56,8 +56,8 @@
 	sex_session.handle_passive_ejaculation(user)
 
 /datum/sex_action/sex/vaginal_ride/handle_climax_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	user.visible_message(span_love("[target] cums into [user]'s cunt!"))
-	target.try_impregnate(user)
+	user.visible_message(span_love("[user] cums into [target]'s cunt!"))
+	user.try_impregnate(target)
 	user.virginity = FALSE
 	target.virginity = FALSE
 	return "into"

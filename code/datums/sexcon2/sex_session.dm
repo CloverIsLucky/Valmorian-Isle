@@ -57,6 +57,7 @@
 	// A session outlives neither participant, and doesn't outlive going idle.
 	RegisterSignal(user, COMSIG_PARENT_QDELETING, PROC_REF(on_participant_deleted))
 	if(target && target != user)
+		RegisterSignal(target, COMSIG_SEX_CLIMAX, PROC_REF(on_climax))
 		RegisterSignal(target, COMSIG_PARENT_QDELETING, PROC_REF(on_participant_deleted))
 	schedule_idle_reap()
 
@@ -81,7 +82,7 @@
 		user << browse(null, "window=sexcon")
 	UnregisterSignal(user, list(COMSIG_SEX_CLIMAX, COMSIG_SEX_AROUSAL_CHANGED, COMSIG_PARENT_QDELETING))
 	if(target && target != user)
-		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+		UnregisterSignal(target, list(COMSIG_SEX_CLIMAX, COMSIG_PARENT_QDELETING))
 	if(collective)
 		collective.sessions -= src
 		// If this was the last session in the collective, remove the collective
