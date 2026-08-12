@@ -27,24 +27,9 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 
 	var/list/selected_tickets = list()
 
-	var/list/admin_hide_charname = list()
-
 	var/obj/effect/statclick/ticket_list/astatclick = new(null, null, AHELP_ACTIVE)
 	var/obj/effect/statclick/ticket_list/cstatclick = new(null, null, AHELP_CLOSED)
 	var/obj/effect/statclick/ticket_list/rstatclick = new(null, null, AHELP_RESOLVED)
-
-/datum/admin_help_tickets/New()
-	var/json_data = file2text("data/admin_hide_charname.json")
-	if(json_data)
-		var/list/loaded = safe_json_decode(json_data)
-		if(islist(loaded))
-			admin_hide_charname = loaded
-	. = ..()
-
-/datum/admin_help_tickets/proc/SaveHideCharname()
-	var/path = "data/admin_hide_charname.json"
-	fdel(path)
-	WRITE_FILE(path, json_encode(admin_hide_charname))
 
 /datum/admin_help_tickets/Destroy()
 	QDEL_LIST(active_tickets)
@@ -194,8 +179,6 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 			full_ticket["initiator_connected"] = selected.initiator ? TRUE : FALSE
 			data["selected_ticket"] = full_ticket
 
-	data["admin_hide_charname"] = (user.ckey in admin_hide_charname)
-
 	return data
 
 /datum/admin_help_tickets/ui_static_data(mob/user)
@@ -219,14 +202,6 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 			selected_tickets[user.ckey] = ticket_id
 			return TRUE
 
-		if("toggle_charname")
-			if(user.ckey in admin_hide_charname)
-				admin_hide_charname -= user.ckey
-			else
-				admin_hide_charname += user.ckey
-			SaveHideCharname()
-			return TRUE
-
 		if("send_message")
 			var/ticket_id = params["ticket_id"]
 			var/datum/admin_help/ticket = TicketByID(ticket_id)
@@ -241,10 +216,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 			if(!message)
 				return FALSE
 
-			var/show_charname = !(user.ckey in admin_hide_charname)
-			var/admin_name = key_name_admin(user, show_charname)
-
-			ticket.AddInteraction("<font color='blue'>PM from [admin_name]: [message]</font>")
+			ticket.AddInteraction("<font color='blue'>PM from [key_name_ahelp(user)]: [message]</font>")
 
 			if(ticket.initiator)
 				to_chat(ticket.initiator, span_adminhelp("<b>Admin PM from-<font color='red'>[user.client.holder.fakekey ? user.client.holder.fakekey : user.key]</font></b>: <span class='linkify'>[message]</span>"))
@@ -474,9 +446,9 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 			if(embed_type != "image" && embed_type != "video")
 				return FALSE
 			var/prefix = embed_type == "image" ? "EMBED_IMAGE:" : "EMBED_VIDEO:"
-			ticket.AddInteraction("<font color='blue'>PM from [key_name_admin(user)]: [prefix][url]</font>")
+			ticket.AddInteraction("<font color='blue'>PM from [key_name_ahelp(user)]: [prefix][url]</font>")
 			if(ticket.initiator)
-				to_chat(ticket.initiator, span_adminhelp("<b>Admin [key_name_admin(user)] embedded a [embed_type] in your ticket.</b>"))
+				to_chat(ticket.initiator, span_adminhelp("<b>An admin embedded a [embed_type] in your ticket.</b>"))
 			log_admin_private("Ticket #[ticket.id]: [key_name(user)] embedded [embed_type]: [url]")
 			message_admins(span_adminnotice("<font color='blue'>Ticket #[ticket.id] [ticket.TicketHref("Show Ticket")] - [key_name_admin(user)] sent [ticket.initiator_key_name] an (embedded [embed_type]).</font>"))
 			return TRUE
@@ -560,8 +532,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	_interactions = list()
 
 	if(is_bwoink)
-		var/show_charname = !(usr?.ckey in GLOB.ahelp_tickets.admin_hide_charname)
-		AddInteraction("<font color='blue'>PM from [key_name_admin(usr, show_charname)]: [msg]</font>")
+		AddInteraction("<font color='blue'>PM from [key_name_ahelp(usr)]: [msg]</font>")
 		message_admins("<font color='blue'>Ticket [TicketHref("#[id]")] created</font>")
 	else
 		AddInteraction("<font color='green'>Ticket opened. Your message has been sent to the admin team.</font>")
@@ -676,7 +647,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	if(initiator)
 		initiator.current_ticket = src
 
-	AddInteraction("<font color='purple'>Reopened by [key_name_admin(usr)]</font>")
+	AddInteraction("<font color='purple'>Reopened by [key_name_ahelp(usr)]</font>")
 	var/msg = span_adminhelp("Ticket [TicketHref("#[id]")] reopened by [key_name_admin(usr)].")
 	message_admins(msg)
 	log_admin_private(msg)
@@ -700,7 +671,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	state = AHELP_CLOSED
 	GLOB.ahelp_tickets.ListInsert(src)
 	to_chat(initiator, span_adminhelp("Ticket closed by [usr?.client?.holder?.fakekey? usr.client.holder.fakekey : "an administrator"]."))
-	AddInteraction("<font color='red'>Closed by [key_name].</font>")
+	AddInteraction("<font color='red'>Closed by [key_name_ahelp(usr)].</font>")
 	if(!silent)
 		SSblackbox.record_feedback("tally", "ahelp_stats", 1, "closed")
 		var/msg = "Ticket [TicketHref("#[id]")] closed by [key_name]."
@@ -717,7 +688,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 
 	addtimer(CALLBACK(initiator, TYPE_PROC_REF(/client, giveadminhelpverb)), 50)
 
-	AddInteraction("<font color='green'>Resolved by [key_name].</font>")
+	AddInteraction("<font color='green'>Resolved by [key_name_ahelp(usr)].</font>")
 	to_chat(initiator, span_adminhelp("Your ticket has been resolved by [usr?.client?.holder?.fakekey? usr.client.holder.fakekey : "an administrator"]. The Adminhelp verb will be returned to you shortly."))
 	if(!silent)
 		SSblackbox.record_feedback("tally", "ahelp_stats", 1, "resolved")
@@ -743,7 +714,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	var/msg = "Ticket [TicketHref("#[id]")] rejected by [key_name]"
 	message_admins(msg)
 	log_admin_private(msg)
-	AddInteraction("Rejected by [key_name].")
+	AddInteraction("Rejected by [key_name_ahelp(usr)].")
 	Close(silent = TRUE)
 
 //Resolve ticket with IC Issue message
@@ -760,7 +731,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	msg = "Ticket [TicketHref("#[id]")] marked as IC by [key_name]"
 	message_admins(msg)
 	log_admin_private(msg)
-	AddInteraction("Marked as IC issue by [key_name]")
+	AddInteraction("Marked as IC issue by [key_name_ahelp(usr)]")
 	Resolve(silent = TRUE)
 
 //Let the initiator know their ahelp is being handled
@@ -777,7 +748,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	msg = "Ticket [TicketHref("#[id]")] is being handled by [key_name]"
 	message_admins(msg)
 	log_admin_private(msg)
-	AddInteraction("Being handled by [key_name]")
+	AddInteraction("Being handled by [key_name_ahelp(usr)]")
 
 //Show the ticket panel
 /datum/admin_help/proc/TicketPanel()
@@ -793,7 +764,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 		var/msg = "Ticket [TicketHref("#[id]")] titled [name] by [key_name_admin(usr)]"
 		message_admins(msg)
 		log_admin_private(msg)
-		AddInteraction("Retitled by [key_name_admin(usr)]")
+		AddInteraction("Retitled by [key_name_ahelp(usr)]")
 
 //Forwarded action from admin/Topic
 /datum/admin_help/proc/Action(action)
@@ -883,38 +854,23 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 		if(findtext(rest, "<font color='red'>"))
 			msg_data["is_admin"] = FALSE
 			msg_data["author"] = initiator_key_name
-			var/last_colon = 0
-			var/search_pos = 1
-			while(TRUE)
-				var/pos = findtext(clean_text, ": ", search_pos)
-				if(pos)
-					last_colon = pos
-					search_pos = pos + 1
-				else
-					break
-			if(last_colon)
-				msg_data["message"] = trim(copytext(clean_text, last_colon + 2))
+			var/first_colon = findtext(clean_text, ": ")
+			if(first_colon)
+				msg_data["message"] = trim(copytext(clean_text, first_colon + 2))
 			else
 				msg_data["message"] = trim(clean_text)
 		else if(findtext(rest, "<font color='blue'>") || findtext(rest, "PM from"))
 			msg_data["is_admin"] = TRUE
 			msg_data["author"] = "Admin"
+			var/name_end = 0
 			if(findtext(clean_text, "PM from"))
 				var/name_start = findtext(clean_text, "PM from") + 8
-				var/name_end = findtext(clean_text, ":", name_start)
+				name_end = findtext(clean_text, ":", name_start)
 				if(name_end)
 					msg_data["author"] = trim(copytext(clean_text, name_start, name_end))
-			var/last_colon = 0
-			var/search_pos = 1
-			while(TRUE)
-				var/pos = findtext(clean_text, ": ", search_pos)
-				if(pos)
-					last_colon = pos
-					search_pos = pos + 1
-				else
-					break
-			if(last_colon)
-				msg_data["message"] = trim(copytext(clean_text, last_colon + 2))
+			var/first_colon = findtext(clean_text, ": ", name_end ? name_end : 1)
+			if(first_colon)
+				msg_data["message"] = trim(copytext(clean_text, first_colon + 2))
 			else
 				msg_data["message"] = trim(clean_text)
 		else if(findtext(rest, "<font color='green'>"))
@@ -978,9 +934,9 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 			if(embed_type != "image" && embed_type != "video")
 				return FALSE
 			var/prefix = embed_type == "image" ? "EMBED_IMAGE:" : "EMBED_VIDEO:"
-			AddInteraction("<font color='blue'>PM from [key_name_admin(usr)]: [prefix][url]</font>")
+			AddInteraction("<font color='blue'>PM from [key_name_ahelp(usr)]: [prefix][url]</font>")
 			if(initiator)
-				to_chat(initiator, span_adminhelp("<b>Admin [key_name_admin(usr)] embedded a [embed_type] in your ticket.</b>"))
+				to_chat(initiator, span_adminhelp("<b>An admin embedded a [embed_type] in your ticket.</b>"))
 			log_admin_private("Ticket #[id]: [key_name(usr)] embedded [embed_type]: [url]")
 			return TRUE
 
