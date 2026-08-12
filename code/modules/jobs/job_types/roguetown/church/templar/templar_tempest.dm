@@ -71,7 +71,16 @@
 						head = /obj/item/clothing/head/roguetown/helmet/heavy/holyseebarbute
 		if(/datum/patron/divine/astrata)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/astrata
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/astratan
+			if(H.mind)
+				var/helms = list("Astratan Helm", "Astratan Bucket", "Astratan Kulah khud")
+				var/helmchoice = input(H, "Choose your headwear", "TAKE UP NOGGIN PROTECTION") as anything in helms
+				switch(helmchoice)
+					if("Astratan Helm")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm
+					if("Astratan Bucket")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/astratan
+					if("Astratan Kulah khud")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/ranesh_stratan
 			cloak = /obj/item/clothing/cloak/templar/astratan
 		if(/datum/patron/divine/abyssor)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/abyssor
@@ -88,7 +97,14 @@
 			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
 		if(/datum/patron/divine/necra)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/necra
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/necran
+			if(H.mind)
+				var/helms = list("Skull Helm", "Hood Helm")
+				var/helmchoice = input(H, "Choose your headwear", "TAKE UP NOGGIN PROTECTION") as anything in helms
+				switch(helmchoice)
+				if("Skull Helm")
+					head = /obj/item/clothing/head/roguetown/helmet/heavy/necrahelm
+				if("Hood Helm")
+					head = /obj/item/clothing/head/roguetown/helmet/heavy/necran
 			cloak = /obj/item/clothing/cloak/templar/necran
 		if(/datum/patron/divine/pestra)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/pestra
@@ -104,7 +120,14 @@
 			cloak = /obj/item/clothing/cloak/tabard/devotee/noc
 		if(/datum/patron/divine/ravox)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/ravox
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm
+			if(H.mind)
+				var/helms = list("Justice Eagle", "Plumed Helm")
+				var/helmchoice = input(H, "Choose your headwear", "TAKE UP NOGGIN PROTECTION") as anything in helms
+				switch(helmchoice)
+					if("Justice Eagle")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm
+					if("Plumed Helm")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/ravox_visor
 			cloak = /obj/item/clothing/cloak/templar/ravox
 			mask = /obj/item/clothing/head/roguetown/roguehood/ravoxgorget
 		if(/datum/patron/divine/malum)

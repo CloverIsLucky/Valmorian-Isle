@@ -148,7 +148,7 @@
 	grid_height = 64
 	grid_width = 32
 	force = 20
-	throwforce = 32 //You ever had an axe thrown at you? 
+	throwforce = 32 //You ever had an axe thrown at you?
 	throw_speed = 6 //Batarangs, baby.
 	max_integrity = 50 //Brittle design, hits hard, breaks quickly.
 	armor_penetration = PEN_MEDIUM //On-par with steel tossblades.
@@ -223,8 +223,8 @@
 	max_integrity = 100
 	icon_state = "chatchet"
 	smeltresult = /obj/item/ingot/copper
-	throwforce = 20 //You ever had an axe thrown at you? 
-	throw_speed = 3 
+	throwforce = 20 //You ever had an axe thrown at you?
+	throw_speed = 3
 	armor_penetration = PEN_LIGHT
 
 /obj/item/rogueweapon/stoneaxe/handaxe
@@ -240,14 +240,14 @@
 	smeltresult = /obj/item/ingot/iron
 	gripped_intents = null
 	wdefense = 2
-	throwforce = 25 //You ever had an axe thrown at you? 
+	throwforce = 25 //You ever had an axe thrown at you?
 	embedding = list("embedded_pain_multiplier" = 6, "embed_chance" = 30, "embedded_fall_chance" = 50) //Lesser variant of the Hurlbat's dedicated power.
 	wlength = WLENGTH_SHORT
 	w_class = WEIGHT_CLASS_SMALL
 	wbalance = WBALANCE_SWIFT
 	grid_height = 96 //Can be stowed in the belt as a larger - if slightly more intimidating - counterpart to the Hunting Knife.
 	grid_width = 32
-	throw_speed = 3 
+	throw_speed = 3
 	armor_penetration = PEN_LIGHT
 	is_tool = TRUE
 	anvilrepair = /datum/skill/craft/weaponsmithing
@@ -415,7 +415,7 @@
 	inhand_y_dimension = 64
 	bigboy = TRUE
 	is_tool = TRUE
-		
+
 /obj/item/rogueweapon/stoneaxe/woodcut/getonmobprop(tag)
 	. = ..()
 	if(tag)
@@ -648,6 +648,18 @@
 	throwforce = 32
 	throw_speed = 3
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 33, "embedded_fall_chance" = 2)
+
+/obj/item/rogueweapon/greataxe/steel/necran
+	name = "Respite"
+	desc = "An axe, anointed in censer soot and wrapped with linens. The tool of a headsman, for a purpose far greater than mere servitude. \
+	Fit with a well-honed head, coupled to a well balanced shaft. It bears the blessing of respite."
+	icon_state = "necroberd"
+	force = 18//+3, typical of Templar weapons.
+	force_wielded = 33//As above. No peel, unlike Tidecleaver.
+	max_blade_int = 300//+50
+	max_integrity = 300//+50 - Tidecleaver is +150. This gets blade int AND integrity, by comparison.
+	walking_stick = TRUE
+	vorpal = TRUE // snicker snack this shit cuts heads off effortlessly (DO NOT PUT THIS ON ANYTHING ELSE UNLESS IT'S SUPER FUCKING RARE!!!)
 
 /obj/item/rogueweapon/greataxe/steel/knight
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/strike)
