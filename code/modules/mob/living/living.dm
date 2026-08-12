@@ -443,7 +443,6 @@
 
 	if(isliving(AM))
 		var/mob/living/target = AM
-		log_combat(src, target, "grabbed", addition="passive grab")
 		if(!iscarbon(src))
 			target.LAssailant = null
 		else
@@ -488,7 +487,6 @@
 			log_combat(src, target, "tried grabbing", addition="passive grab")
 			return
 
-		log_combat(src, target, "grabbed", addition="passive grab")
 		playsound(src.loc, 'sound/combat/shove.ogg', 50, TRUE, -1)
 		if(iscarbon(target))
 			var/mob/living/carbon/C = target

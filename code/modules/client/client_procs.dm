@@ -128,6 +128,20 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		cmd_admin_pm(href_list["priv_msg"],null)
 		return
 
+	if(href_list["viewticket"])
+		get_adminhelp()
+		return
+
+	if(href_list["replyticket"])
+		if(!current_ticket)
+			to_chat(src, span_notice("You don't have an active admin help ticket to reply to."))
+			return
+		var/msg = input(src, "Reply to the admin team:", "Adminhelp reply") as message|null
+		if(!msg)
+			return
+		adminhelp(msg)
+		return
+
 	if(href_list["playerlistrogue"])
 		if(SSticker.current_state != GAME_STATE_FINISHED)
 			return
