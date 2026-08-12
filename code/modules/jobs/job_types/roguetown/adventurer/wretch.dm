@@ -175,7 +175,8 @@
 		result["final_slots"] = cap
 		return result
 
-	var/slots = max(1, FLOOR((player_count - 10) / 10, 1))
+	var/bonus = SSgamemode.current_storyteller?.wretch_bonus || 0
+	var/slots = max(1, FLOOR((player_count - 10) / 10, 1) + bonus)
 	result["final_slots"] = max(0, min(slots, cap))
 
 	return result

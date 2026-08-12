@@ -101,6 +101,8 @@
 	allow_dreamwalker = TRUE
 	preferred_gnoll_mode = GNOLL_SCALING_FLAT	// max 2
 	wretch_slot_cap = 9
+	wretch_bonus = 1
+	bandit_bonus = 1
 
 /datum/storyteller/gamemode/guaranteed_antag/low_wretch
 	name = "Tempered Intensity"
@@ -112,6 +114,8 @@
 	allow_dreamwalker = FALSE
 	preferred_gnoll_mode = GNOLL_SCALING_SINGLE	// max 1
 	wretch_slot_cap = 4
+	wretch_bonus = -1
+	bandit_bonus = 0
 
 // ----------------------------------------------------------------------------------------------------------
 // TEN pool - no hard antags, soft antags only. Standard is the lighter option, Medium the default fallback.

@@ -38,7 +38,8 @@
 	if(!cap)
 		cap = maximum_antags
 	var/people = SSgamemode.get_correct_popcount()
-	var/slots = max(1, FLOOR((people - 10) / 10, 1))
+	var/bonus = SSgamemode.current_storyteller?.bandit_bonus || 0
+	var/slots = max(1, FLOOR((people - 10) / 10, 1) + bonus)
 	return min(slots, cap)
 
 /datum/round_event/antagonist/solo/bandits/start()
