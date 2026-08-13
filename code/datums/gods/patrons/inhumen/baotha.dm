@@ -2,7 +2,6 @@
 	name = "Baotha"
 	domain = "Goddess of Hedonism, Addiction, Anguish, and Heartbreak"
 	desc = "The twin sister of Eora, fallen to disgrace. She brings comfort to those who can't find it elsewhere but the bottom of a bottle; and she tempts those who have lost much into her fold through offers of relief and pleasure, yet they soon find themselves unable to escape her grasp. Seen as a scorned lover by many, and followed by such."
-	worshippers = "Widows, Gamblers, Addicts, and Scorned Lovers"
 	mob_traits = list(TRAIT_DEPRAVED, TRAIT_CICERONE)
 	miracles = list(/datum/action/cooldown/spell/touch/orison						= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/baothavice				= CLERIC_T0,
@@ -31,9 +30,9 @@
 		"Lady of Heartbreak",
 		"Scarlet Lady",
 		"Baosumi",
-		"Thorns", // Queen of thorns, Lady of thorns, etc etc. 
+		"Thorns", // Queen of thorns, Lady of thorns, etc etc.
 		"Belladoth",
-		"Beladoth" //SOMEONE WILL MISPELL IT, I JUST KNOW IT. 
+		"Beladoth" //SOMEONE WILL MISPELL IT, I JUST KNOW IT.
 	)
 
 /datum/patron/inhumen/baotha/can_pray(mob/living/follower)
