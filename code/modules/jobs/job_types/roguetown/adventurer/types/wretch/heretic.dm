@@ -575,16 +575,16 @@
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Katar")
-			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_MASTER, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
 			r_hand = /obj/item/rogueweapon/katar
 		if("Steel Knuckles")
-			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_MASTER, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
 			beltr = /obj/item/rogueweapon/knuckles
 		if("Punch Dagger")
-			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_MASTER, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
 			beltr = /obj/item/rogueweapon/katar/punchdagger
 		if ("MY BARE HANDS!!! Weaponless Oath & No Malus") //Dis might be abit strong...idk we shall see.
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
@@ -592,6 +592,7 @@
 			ADD_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_WEAPONLESS, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_BADTRAINER, TRAIT_GENERIC) //ye cry about it.
 		if("Steel Quarterstaff") //DE and polearms kicks ass trust me!
 			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE)
 			r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel
