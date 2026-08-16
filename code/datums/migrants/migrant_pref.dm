@@ -14,6 +14,9 @@
 	var/datum/migrant_wave/wave = MIGRANT_WAVE(wave_type)
 	if(!wave)
 		return
+	if(!prefs?.parent?.check_agevet())
+		to_chat(prefs.parent, span_warning("You are not yet verified. Please verify your age before joining."))
+		return
 	// Hidden waves are only queueable while an admin has them forced and forming.
 	if(wave.hidden && !SSmigrants.is_forced_forming(wave_type))
 		return

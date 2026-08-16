@@ -212,6 +212,8 @@ SUBSYSTEM_DEF(migrants)
 	else
 		candidates = active_migrants
 	for(var/client/client as anything in candidates)
+		if(!client.check_agevet())
+			continue
 		if(!can_be_role(client, assignment.role_type))
 			continue
 		assignment.client = client

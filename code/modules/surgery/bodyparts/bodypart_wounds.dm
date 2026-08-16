@@ -65,7 +65,7 @@
 /obj/item/bodypart/proc/add_wound(datum/wound/wound, silent = FALSE, crit_message = FALSE)
 	if(!wound || !owner || (owner.status_flags & GODMODE))
 		return
-	if(isooze(owner) && wound.severity >= WOUND_SEVERITY_MODERATE) // Handles wounds for murklings.
+	if(isooze(owner) && wound.severity >= WOUND_SEVERITY_MODERATE && status != BODYPART_ROBOTIC) // Handles wounds for murklings.
 		if(ispath(wound, /datum/wound))
 			wound = new wound()
 		if(is_ooze_wound(wound))

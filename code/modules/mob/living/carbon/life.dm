@@ -583,7 +583,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			energy_add(4)
 	//Healing while sleeping in a bed
 	if(IsSleeping())
-		if(HAS_TRAIT(src, TRAIT_NOREGEN) || HAS_TRAIT(src, TRAIT_IRONMAN))
+		if(HAS_TRAIT(src, TRAIT_NOREGEN))
 			return
 		var/sleepy_mod = 0.5
 		var/doesnt_hunger = HAS_TRAIT(src, TRAIT_NOHUNGER)
@@ -611,20 +611,20 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 						sleepy_mod = 2 // just equivalent to a bedroll
 		if(nutrition > 0 || doesnt_hunger)
 			energy_add(sleepy_mod * 15)
-		if(hydration > 0 || doesnt_hunger)
-			if(!bleed_rate)
-				blood_volume = min(blood_volume + (4 * sleepy_mod), BLOOD_VOLUME_NORMAL)
-			for(var/obj/item/bodypart/affecting as anything in bodyparts)
-				//for context, it takes 5 small cuts (0.2 x 5) or 3 normal cuts (0.4 x 3) for a bodypart to not be able to heal itself
-				if(affecting.get_bleed_rate() >= 1)
-					continue
-				if(affecting.heal_damage(sleepy_mod, sleepy_mod, required_status = BODYPART_ORGANIC))
-					src.update_damage_overlays()
-				for(var/datum/wound/wound as anything in affecting.wounds)
-					if(!wound.sleep_healing)
+		if(!HAS_TRAIT(src, TRAIT_IRONMAN))
+			if(hydration > 0 || doesnt_hunger)
+				if(!bleed_rate)
+					blood_volume = min(blood_volume + (4 * sleepy_mod), BLOOD_VOLUME_NORMAL)
+				for(var/obj/item/bodypart/affecting as anything in bodyparts)
+					if(affecting.get_bleed_rate() >= 1)
 						continue
-					wound.heal_wound(wound.sleep_healing * sleepy_mod)
-			adjustToxLoss(-sleepy_mod)
+					if(affecting.heal_damage(sleepy_mod, sleepy_mod, required_status = BODYPART_ORGANIC))
+						src.update_damage_overlays()
+					for(var/datum/wound/wound as anything in affecting.wounds)
+						if(!wound.sleep_healing)
+							continue
+						wound.heal_wound(wound.sleep_healing * sleepy_mod)
+				adjustToxLoss(-sleepy_mod)
 	else
 		var/sleepy_mod = 0
 		var/sleep_threshold = 30
