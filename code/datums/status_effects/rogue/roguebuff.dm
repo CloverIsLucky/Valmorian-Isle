@@ -493,6 +493,16 @@
 	desc = "These are my hunting grounds. My prey won't escape me."
 	icon_state = "buff"
 
+/atom/movable/screen/alert/status_effect/buff/churchbuff
+	name = "Church Defender"
+	desc = "This holy ground grants me the power to quash any dissent here."
+	icon_state = "guardsman"
+
+/datum/status_effect/buff/churchbuff
+	id = "churchbuff"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/churchbuff
+	effectedstats = list("constitution" = 2,"endurance" = 2, "speed" = 1, "strength" = 1) //Their church. They are isolated a bit and not supposed to be easy frags
+
 /datum/status_effect/buff/wardenbuff
 	id = "wardenbuff"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/wardenbuff
@@ -540,6 +550,13 @@
 	var/area/rogue/our_area = get_area(owner)
 	if(!(our_area.warden_area))
 		owner.remove_status_effect(/datum/status_effect/buff/wardenbuff)
+
+/datum/status_effect/buff/churchbuff/process()
+
+	.=..()
+	var/area/rogue/our_area = get_area(owner)
+	if(!(our_area.holy_area))
+		owner.remove_status_effect(/datum/status_effect/buff/churchbuff)
 
 // Lesser Miracle effect
 /atom/movable/screen/alert/status_effect/buff/healing
@@ -918,7 +935,7 @@
 	return TRUE
 
 /datum/status_effect/buff/psyhealing/tick()
-	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN)) 
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	if(HAS_TRAIT(owner, TRAIT_HALFHEAL))
 		healing_on_tick /= 2
@@ -966,7 +983,7 @@
 	name = "Processing: Refined"
 	desc = "I am currently processing refined minerals, greatly regenerating my shell's integrity."
 	icon_state = "buff"
-	
+
 /atom/movable/screen/alert/status_effect/buff/gemmuncher
 	name = "Processing: Gem"
 	desc = "I am currently processing an arcyne conduit, efficiently regenerating my shell's integrity and reinvigorating my core."
@@ -2451,7 +2468,7 @@
 	id = "Stagehand"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/stagehands_silence
 	duration = 20 MINUTES
-	// this was supposed to only apply if you had less than 12 speed but it broke whenever other spd mods applied. 
+	// this was supposed to only apply if you had less than 12 speed but it broke whenever other spd mods applied.
 	// i couldnt fix it, unfortunately.
 	// IF people use it to game just fucking remove it we cant have shiut in thjis codebase anymore
 	effectedstats = list(STATKEY_SPD = 1)
@@ -2466,7 +2483,7 @@
 	to_chat(owner, span_warning("My footsteps feel lighter and quieter. What is that droning sound in my head...?"))
 	// inspired by matthiosmuffle
 	ADD_TRAIT(owner, TRAIT_SILENT_FOOTSTEPS, "xylixboon")
-	ADD_TRAIT(owner, TRAIT_LIGHT_STEP, "xylixboon") 
+	ADD_TRAIT(owner, TRAIT_LIGHT_STEP, "xylixboon")
 
 
 /datum/status_effect/buff/stagehands_silence/on_remove()
@@ -2504,7 +2521,7 @@
 	var/gave_buff = FALSE
 
 /atom/movable/screen/alert/status_effect/buff/hermes_trismegistus
-	name = "Hermetick Blessing" // yes, hermetick. with a k. 
+	name = "Hermetick Blessing" // yes, hermetick. with a k.
 	desc = "Looking at HERMES has given me a blessing of the Stars... written words begin to make more sense." // dont ask how this works its magic biyatch
 
 /datum/status_effect/buff/hermes_trismegistus/on_apply()
