@@ -1951,7 +1951,7 @@
 	name = "Rune of Hedonism"
 	desc = "A holy rune of <font color='bf64d0'>Baotha.</font> </br> <i>Relief for the broken hearted.</i>"
 	icon_state = "baotha_chalky"
-	var/baotharites = list("Rite of Armaments", "Joybringer")
+	var/baotharites = list("Rite of Armaments", "Joybringer", "Unholy Boon of Fertility")
 
 /obj/structure/ritualcircle/baotha/attack_hand(mob/living/user)
 	if(!..())
@@ -2019,6 +2019,65 @@
 			user.apply_status_effect(/datum/status_effect/joybringer)
 
 			return TRUE
+		if("Unholy Boon of Fertility")
+			var/list/valids_on_rune = list()
+			for(var/mob/living/carbon/human/peep in range(0, loc))
+				valids_on_rune += peep
+			if(!valids_on_rune.len)
+				to_chat(user, "No valid targets on the rune!")
+				return
+			var/mob/living/carbon/human/blessing_target = input(user, "Choose a host") as null|anything in valids_on_rune
+			if(!blessing_target || QDELETED(blessing_target) || blessing_target.loc != loc)
+				return
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("Purple flame, awaken desire!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("Claim this body, shape it to your will!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("Let them burn for thee alone!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			icon_state = "baotha_active"
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			baothafertility(blessing_target)
+			spawn(120)
+				icon_state = "baotha_chalky"
+
+/obj/structure/ritualcircle/baotha/proc/baothafertility(mob/living/carbon/human/target)
+	if(!target || QDELETED(target) || target.loc != loc)
+		to_chat(usr, "Selected target is not on the rune!")
+		return
+	if(HAS_TRAIT(target, TRAIT_BAOTHA_FERTILITY_BOON))
+		loc.visible_message(span_cult("They have already been blessed!"))
+		return
+	var/prompt = alert(target, "The Goddess of corrupted affection is about to give you the boon of fertility; to bear children!",, "Let it happen...", "Resist!")
+	if(prompt == "Let it happen...")
+		to_chat(target, span_warning("A strange feeling of warmth spreads inside your abdomen, growing hotter and hotter until it almost feels like you are on fire, but pain never comes..."))
+		target.Stun(60)
+		target.Knockdown(60)
+		loc.visible_message(span_cult("[target] moans and shivers on top of the rune. Lashes of purple flame dance across their lower abdomen as a new marking appears against their form."))
+		spawn(20)
+			var/mutable_appearance/marking_overlay = mutable_appearance('icons/roguetown/misc/baotha_marking.dmi', "marking_[target.gender == "male" ? "m" : "f"]", -BODY_LAYER)
+			target.add_overlay(marking_overlay)
+			target.update_body_parts()
+			playsound(target, 'sound/health/fastbeat.ogg', 60)
+			spawn(40)
+				to_chat(target, span_purple("Enjoy the new you!"))
+				ADD_TRAIT(target, TRAIT_BAOTHA_FERTILITY_BOON, TRAIT_GENERIC)
+				var/obj/item/organ/vagina/vagina = target.getorganslot(ORGAN_SLOT_VAGINA)
+				if(vagina && !vagina.fertility)
+					vagina.fertility = TRUE
+	if(prompt == "Resist!")
+		to_chat(target, span_warning("I sincerely proposed you my greatest blessing, and you rejected me? How foolish!"))
+		target.Stun(60)
+		target.Knockdown(60)
+		to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
+		target.emote("Agony")
+		target.apply_damage(100, BRUTE, BODY_ZONE_CHEST)
+		loc.visible_message(span_cult("[target] is violently thrashing atop the rune, writhing, as they dare to defy Baotha."))
 
 /obj/structure/ritualcircle/baotha/proc/baothaarmaments(mob/living/carbon/human/target)
 	if(!HAS_TRAIT(target, TRAIT_DEPRAVED))

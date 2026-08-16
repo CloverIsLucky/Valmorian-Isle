@@ -47,7 +47,11 @@
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	var/is_knotting = sex_session.do_knot_action
 	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
-	do_thrust_animate(user, target)
+	if(is_head_focus(user, target))
+		if(!do_head_focus_effects(user, target))
+			do_thrust_animate(user, target)
+	else
+		do_thrust_animate(user, target)
 	do_onomatopoeia(user)
 
 	sex_session.perform_sex_action(user, 2, 0, TRUE)

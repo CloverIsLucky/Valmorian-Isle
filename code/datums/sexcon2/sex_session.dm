@@ -57,6 +57,7 @@
 	// A session outlives neither participant, and doesn't outlive going idle.
 	RegisterSignal(user, COMSIG_PARENT_QDELETING, PROC_REF(on_participant_deleted))
 	if(target && target != user)
+		RegisterSignal(target, COMSIG_SEX_CLIMAX, PROC_REF(on_climax))
 		RegisterSignal(target, COMSIG_PARENT_QDELETING, PROC_REF(on_participant_deleted))
 	schedule_idle_reap()
 
@@ -77,10 +78,11 @@
 
 /datum/sex_session/Destroy(force, ...)
 	deltimer(reap_timer)
-	SStgui.close_uis(src)
+	if(user?.client)
+		user << browse(null, "window=sexcon")
 	UnregisterSignal(user, list(COMSIG_SEX_CLIMAX, COMSIG_SEX_AROUSAL_CHANGED, COMSIG_PARENT_QDELETING))
 	if(target && target != user)
-		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+		UnregisterSignal(target, list(COMSIG_SEX_CLIMAX, COMSIG_PARENT_QDELETING))
 	if(collective)
 		collective.sessions -= src
 		// If this was the last session in the collective, remove the collective
@@ -105,7 +107,7 @@
 	collective = new_collective
 
 /datum/sex_session/proc/on_arousal_changed()
-	SStgui.update_uis(src)
+	return
 
 /datum/sex_session/proc/check_climax()
 	var/list/arousal_data = list()
@@ -210,6 +212,7 @@
 	desire_stop = FALSE
 	current_action = null
 	schedule_idle_reap()
+	show_ui()
 
 /datum/sex_session/proc/can_perform_action(action_type, performing = FALSE)
 	if(!action_type)
@@ -408,188 +411,116 @@
 		if(SEX_FORCE_HIGH, SEX_FORCE_EXTREME, SEX_FORCE_LUDICROUS)
 			return pick(SEX_SOUNDS_HARD)
 
-/datum/sex_session/ui_interact(mob/user, datum/tgui/ui)
-	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		ui = new(user, src, "SexSession", "Sate Desires")
-		ui.open()
+/datum/sex_session/proc/show_ui()
+	var/list/dat = list()
+	var/force_name = get_force_string()
+	var/speed_name = get_speed_string()
+	var/obj/item/organ/penis/got_cock = user.getorganslot(ORGAN_SLOT_PENIS)
 
-/datum/sex_session/ui_state(mob/user)
-	return GLOB.conscious_state
+	dat += "<center><a href='?src=[REF(src)];task=speed_down'>\<</a> [speed_name] <a href='?src=[REF(src)];task=speed_up'>\></a>"
+	dat += " ~|~ <a href='?src=[REF(src)];task=force_down'>\<</a> [force_name] <a href='?src=[REF(src)];task=force_up'>\></a>"
+	if(got_cock)
+		var/manual_arousal_name = get_manual_arousal_string()
+		dat += " ~|~ <a href='?src=[REF(src)];task=manual_arousal_down'>\<</a> [manual_arousal_name] <a href='?src=[REF(src)];task=manual_arousal_up'>\></a>"
+	dat += "</center>"
 
-/datum/sex_session/ui_static_data(mob/user)
-	var/list/data = list()
+	dat += "<center><a href='?src=[REF(src)];task=toggle_finished'>[do_until_finished ? "UNTIL IM FINISHED" : "UNTIL I STOP"]</a>"
 
-	// Build action list (doesn't change during session)
-	var/list/actions = list()
+	if(current_action && !desire_stop)
+		var/datum/sex_action/action = SEX_ACTION(current_action)
+		if(action.knot_on_finish)
+			if(got_cock)
+				switch(got_cock.penis_type)
+					if(PENIS_TYPE_KNOTTED, PENIS_TYPE_TAPERED_DOUBLE_KNOTTED, PENIS_TYPE_BARBED_KNOTTED)
+						if(do_knot_action)
+							dat += " | <a href='?src=[REF(src)];task=toggle_knot'><font color='#d146f5'>USING KNOT</font></a>"
+						else
+							dat += " | <a href='?src=[REF(src)];task=toggle_knot'><font color='#eac8de'>NOT USING KNOT</font></a>"
+	dat += "</center>"
+
+	dat += "<center><a href='?src=[REF(src)];task=set_arousal'>SET AROUSAL</a> | <a href='?src=[REF(src)];task=freeze_arousal'>[get_arousal_frozen() ? "UNFREEZE AROUSAL" : "FREEZE AROUSAL"]</a></center>"
+
+	if(target == user)
+		dat += "<center>Doing unto yourself[head_focus ? "'s head" : ""]</center>"
+	else
+		dat += "<center>Doing unto [target][head_focus ? "'s head" : ""]</center>"
+
+	if(current_action && !desire_stop)
+		dat += "<center><a href='?src=[REF(src)];task=stop'>Stop</a></center>"
+	else
+		dat += "<br>"
+
+	dat += "<table width='100%'><td width='50%'></td><td width='50%'></td><tr>"
+	var/i = 0
 	for(var/action_type in GLOB.sex_actions)
 		var/datum/sex_action/action = SEX_ACTION(action_type)
 		if(head_focus && !action.works_on_detached_head)
-			continue //a session on a severed head only deals in the head
+			continue
 		if(!action.shows_on_menu(user, target))
 			continue
-		actions += list(list(
-			"name" = action.name,
-			"type" = action_type,
-			"description" = action.description || "",
-			"requires_grab" = action.require_grab
-		))
-	data["actions"] = actions
+		dat += "<td>"
+		var/link = ""
+		if(!can_perform_action(action_type))
+			link = "linkOff"
+		if(current_action == action_type)
+			link = "linkOn"
+		dat += "<center><a class='[link]' href='?src=[REF(src)];task=action;action_type=[action_type]'>[action.name]</a></center>"
+		dat += "</td>"
+		i++
+		if(i >= 2)
+			i = 0
+			dat += "</tr><tr>"
+	dat += "</tr></table>"
 
-	// Static UI strings. The fifth (Ludicrous) tier only renders for those who can reach it.
-	var/list/speed_names = list("SLOW", "STEADY", "QUICK", "UNRELENTING", "FURIOUS")
-	var/list/force_names = list("GENTLE", "FIRM", "ROUGH", "BRUTAL", "FERAL")
-	var/cap = get_setting_cap()
-	data["speed_names"] = speed_names.Copy(1, cap + 1)
-	data["force_names"] = force_names.Copy(1, cap + 1)
-	data["has_penis"] = user.getorganslot(ORGAN_SLOT_PENIS) ? TRUE : FALSE
+	var/datum/browser/popup = new(user, "sexcon", "<center>Sate Desire</center>", 500, 550)
+	popup.set_content(dat.Join())
+	popup.open()
 
-	// Check if user has knotted penis
-	var/has_knotted_penis = FALSE
-	var/obj/item/organ/penis/penis = user.getorganslot(ORGAN_SLOT_PENIS)
-	if(penis)
-		switch(penis.penis_type)
-			if(PENIS_TYPE_KNOTTED, PENIS_TYPE_TAPERED_DOUBLE_KNOTTED, PENIS_TYPE_BARBED_KNOTTED)
-				has_knotted_penis = TRUE
-	data["has_knotted_penis"] = has_knotted_penis
-
-	return data
-
-/datum/sex_session/ui_data(mob/user)
-	var/list/data = list()
-
-	var/mob/living/my_user = user
-	if(!istype(my_user, /mob/living))
-		return
-
-	data["title"] = get_sex_session_header_text()
-	data["character_info"] = my_user.return_character_information()
-	data["current_action"] = current_action
-	data["speed"] = get_current_speed()
-	data["force"] = get_current_force()
-	data["manual_arousal"] = manual_arousal || SEX_MANUAL_AROUSAL_DEFAULT
-	data["do_until_finished"] = do_until_finished
-	data["do_knot_action"] = do_knot_action
-
+/datum/sex_session/proc/get_arousal_frozen()
 	var/list/arousal_data = list()
 	SEND_SIGNAL(user, COMSIG_SEX_GET_AROUSAL, arousal_data)
-	var/current_arousal = arousal_data["arousal"] || 0
-	data["arousal"] = min(100, (current_arousal / ACTIVE_EJAC_THRESHOLD) * 100)
-	data["frozen"] = arousal_data["frozen"] || FALSE
+	return arousal_data["frozen"] || FALSE
 
-	// Which actions can be performed
-	var/list/can_perform = list()
-	for(var/action_type in GLOB.sex_actions)
-		var/datum/sex_action/action = SEX_ACTION(action_type)
-		if(head_focus && !action.works_on_detached_head)
-			continue //a session on a severed head only deals in the head
-		if(!action.shows_on_menu(user, target))
-			continue
-		if(can_perform_action(action_type))
-			can_perform += action_type
-	data["can_perform"] = can_perform
-
-	// Session info
-	data["session_name"] = collective?.collective_display_name || "Private Session"
-	var/list/participants = list()
-	if(collective)
-		for(var/datum/sex_session/sess in collective.sessions)
-			if(sess == src)
-				continue
-			participants += list(list(
-				"name" = sess.user?.name || "Unknown",
-				"ref" = REF(sess.user)
-			))
-	data["participants"] = participants
-
-	return data
-
-/datum/sex_session/ui_act(action, params)
-	. = ..()
-	if(.)
+/datum/sex_session/Topic(href, href_list)
+	if(usr != user)
 		return
-
-	switch(action)
-		if("start_action")
-			try_start_action(text2path(params["action_type"]))
-			. = TRUE
-		if("stop_action")
-			stop_current_action()
-			. = TRUE
-		if("set_speed")
-			set_current_speed(params["value"])
-			. = TRUE
-		if("set_force")
-			set_current_force(params["value"])
-			. = TRUE
-		if("cycle_arousal")
-			manual_arousal = (manual_arousal % SEX_MANUAL_AROUSAL_MAX) + 1
-			. = TRUE
+	switch(href_list["task"])
+		if("action")
+			var/action_path = text2path(href_list["action_type"])
+			if(!action_path)
+				return
+			try_start_action(action_path)
+		if("stop")
+			try_stop_current_action()
+		if("speed_up")
+			adjust_speed(1)
+		if("speed_down")
+			adjust_speed(-1)
+		if("force_up")
+			adjust_force(1)
+		if("force_down")
+			adjust_force(-1)
+		if("manual_arousal_up")
+			manual_arousal = clamp(manual_arousal + 1, SEX_MANUAL_AROUSAL_MIN, SEX_MANUAL_AROUSAL_MAX)
+		if("manual_arousal_down")
+			manual_arousal = clamp(manual_arousal - 1, SEX_MANUAL_AROUSAL_MIN, SEX_MANUAL_AROUSAL_MAX)
 		if("toggle_finished")
 			do_until_finished = !do_until_finished
-			. = TRUE
 		if("toggle_knot")
 			do_knot_action = !do_knot_action
-			. = TRUE
-		if("set_arousal_value")
-			SEND_SIGNAL(user, COMSIG_SEX_SET_AROUSAL, params["amount"])
-			user.apply_status_effect(/datum/status_effect/debuff/no_coom_cheating)
-			. = TRUE
+		if("set_arousal")
+			var/amount = input(user, "Value above 120 will immediately cause orgasm!", "Set Arousal") as null|num
+			if(!isnull(amount))
+				SEND_SIGNAL(user, COMSIG_SEX_SET_AROUSAL, amount)
+				user.apply_status_effect(/datum/status_effect/debuff/no_coom_cheating)
 		if("freeze_arousal")
 			SEND_SIGNAL(user, COMSIG_SEX_FREEZE_AROUSAL)
-			. = TRUE
-		if("update_session_name")
-			if(collective)
-				collective.collective_display_name = params["name"]
-			. = TRUE
-		if("refresh")
-			. = TRUE
-	if(.)
-		SStgui.update_uis(src)
-
-/datum/sex_session/proc/get_sex_session_header_text()
-	return "Interacting with [target?.name || "Unknown"][head_focus ? "'s head" : ""]..."
-
-/datum/sex_session/proc/get_session_tab_content()
-	var/list/content = list()
-
-	content += "<div class='session-info'>"
-
-	// Session name editing
-	var/session_name = collective?.collective_display_name || "Private Session"
-	content += "<div style='margin: 10px 0;'>"
-	content += "<label style='color: #d4af8c; font-weight: bold;'>Session Name:</label><br>"
-	content += "<input type='text' id='sessionNameInput' class='session-name-input' value='[session_name]' placeholder='Enter session name...'>"
-	content += "<button onclick='updateSessionName()' class='control-btn' style='margin-left: 5px;'>Update</button>"
-	content += "</div>"
-
-	// Participants list
-	content += "<div class='participants-list'>"
-	content += "<h4 style='color: #d4af8c;'>Participants:</h4>"
-
-	var/list/participants = list(user, target)
-	if(collective)
-		participants = collective.involved_mobs
-
-	for(var/mob/living/carbon/human/participant in participants)
-		var/display_name = participant.get_face_name() || participant.name
-		var/is_you = (participant == user) ? " (You)" : ""
-		content += "<div class='participant-item'>[display_name][is_you]</div>"
-
-	content += "</div>"
-
-	return content.Join("")
+	show_ui()
 
 /datum/sex_session/proc/get_current_speed()
 	return speed || SEX_SPEED_LOW
 
 /datum/sex_session/proc/get_current_force()
 	return force || SEX_FORCE_LOW
-
-/datum/sex_session/proc/set_current_speed(new_speed)
-	speed = clamp(new_speed, SEX_SPEED_MIN, get_setting_cap())
-
-/datum/sex_session/proc/set_current_force(new_force)
-	force = clamp(new_force, SEX_FORCE_MIN, get_setting_cap())
 
 #undef SEX_SESSION_IDLE_TIMEOUT
