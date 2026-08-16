@@ -34,7 +34,13 @@
 	var/admin_slot = SSgamemode.get_admin_slot(antag_datum, storyteller_slot_key)
 	if(!isnull(admin_slot))
 		return max(0, admin_slot)
-	return SSgamemode.story_antag_slot_cap(antag_datum, roundstart = roundstart)
+	var/cap = SSgamemode.story_antag_slot_cap(antag_datum, roundstart = roundstart)
+	if(!cap)
+		cap = maximum_antags
+	var/people = SSgamemode.get_correct_popcount()
+	var/bonus = SSgamemode.current_storyteller?.bandit_bonus || 0
+	var/slots = max(1, FLOOR((people - 10) / 10, 1) + bonus)
+	return min(slots, cap)
 
 /datum/round_event/antagonist/solo/bandits/start()
 	var/datum/job/bandit_job = SSjob.GetJob("Bandit")

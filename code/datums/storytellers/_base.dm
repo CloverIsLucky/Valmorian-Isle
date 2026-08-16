@@ -90,6 +90,10 @@
 	var/preferred_gnoll_mode = GNOLL_SCALING_SINGLE
 	/// Hard cap on wretch job slots this preset will ever open. Default 10 = T1 max - lower clamps T1 and skips T2.
 	var/wretch_slot_cap = 10
+	/// Bonus (or penalty) added to the population-based wretch slot count before capping.
+	var/wretch_bonus = 0
+	/// Bonus (or penalty) added to the population-based bandit slot count before capping.
+	var/bandit_bonus = 0
 
 	// --- Gamemode preset configuration ---
 	/// Which vote pool this preset belongs to (GAMEMODE_POOL_*). Presets sharing a pool are excluded together the round after one wins.
