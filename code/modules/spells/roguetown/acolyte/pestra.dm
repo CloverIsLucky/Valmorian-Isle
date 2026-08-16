@@ -575,16 +575,17 @@
 	sound = 'sound/magic/revive.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 2 MINUTES
+	recharge_time = 3 MINUTES
 	miracle = TRUE
-	devotion_cost = 30
+	devotion_cost = 200
 	/// Amount of PQ gained for curing zombos
 	var/unzombification_pq = PQ_GAIN_UNZOMBIFY
-	var/is_lethal = TRUE
+	var/is_lethal = FALSE
 
 /obj/effect/proc_holder/spell/invoked/cure_rot/priest
 	desc = "Burn out the rot by Astratas will."
-	is_lethal = FALSE
+	recharge_time = 2 MINUTES
+	devotion_cost = 30
 
 /obj/effect/proc_holder/spell/invoked/cure_rot/cast(list/targets, mob/living/user)
 	var/stinky = FALSE
