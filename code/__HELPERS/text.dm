@@ -98,6 +98,12 @@
 /proc/sanitize(t,list/repl_chars = null)
 	return html_encode(sanitize_simple(t,repl_chars))
 
+/proc/sanitize_preserve_newlines(t)
+	var/list/lines = splittext(t, "\n")
+	for(var/i = 1 to lines.len)
+		lines[i] = sanitize(lines[i])
+	return jointext(lines, "<br>")
+
 //Runs sanitize and strip_html_simple
 //I believe strip_html_simple() is required to run first to prevent '<' from displaying as '&lt;' after sanitize() calls byond's html_encode()
 /proc/strip_html(t,limit=MAX_MESSAGE_LEN)
