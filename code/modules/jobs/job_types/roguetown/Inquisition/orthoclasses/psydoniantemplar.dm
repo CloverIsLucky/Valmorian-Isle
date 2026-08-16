@@ -3,7 +3,7 @@
 	tutorial = "Psydonite knights, clad in fluted chainmaille and blessed with the capacity to invoke lesser \
 	miracles. In lieu of greater miracles and rituals, they compensate through martial discipline and blessed weaponry."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/psydoniantemplar
 	category_tags = list(CTAG_ORTHODOXIST)
 	subclass_languages = list(/datum/language/otavan)
@@ -110,6 +110,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Psydonic Executioner Sword")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/exe/psy(H))
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword/noble, SLOT_BELT_R, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Psydonic War Axe")
@@ -130,12 +131,11 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		if("Psydonic Grand Mace")
 			H.put_in_hands(new /obj/item/rogueweapon/mace/goden/psymace(H))
-			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_R, TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		if("Psydonic Maul")
 			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
 			H.put_in_hands(new /obj/item/rogueweapon/mace/maul/grand/psy(H))
-			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		if("Psydonic Halberd + Arming Sword")
 			H.put_in_hands(new /obj/item/rogueweapon/halberd/psyhalberd(H))
