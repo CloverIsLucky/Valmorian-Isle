@@ -526,6 +526,7 @@
 // first problem that comes to mind is bathoan armor ritual....
 /datum/advclass/wretch/heretic/monk
 	name = "Heretic Monk"
+	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "You father your unholy cause through the most devout ways. Raw power, holy or unholy magics and preaching. Spread your faith though muscle or words. You are no simple cleric but a scholar. More then likely trained by a unholy Ecclesial sect, maybe even a priest."
 	outfit = /datum/outfit/job/wretch/heretic_monk
 	category_tags = list(CTAG_WRETCH)
@@ -538,7 +539,7 @@
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 3,
-		STATKEY_WIL = 4,
+		STATKEY_WIL = 3,
 		STATKEY_SPD = 2,
 	) //its pretty good. but rounded. Statpack to pick your specialty I guess? They'd be very weak to more dedicated speed builds.
 	  // I'd love to get them int for support maxing. But it offsets struggler to much.
@@ -640,7 +641,7 @@
 	H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
 	H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 
-/datum/outfit/job/roguetown/wretch/heretic_monk/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/wretch/heretic_monk/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
@@ -712,7 +713,7 @@
 		if(/datum/patron/old_god) //guess ur a odd speedy type of disciple now. I personally fucking hate ''psydonite heretics'' since no one ever does it fun here. But we can think on nuking this nonsense later.
 			H.change_stat(STATKEY_WIL, 1)
 			H.change_stat(STATKEY_CON, 1)
-			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/silver, SLOT_NECK, TRUE) //weeping cross would be funny...food for thought
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/silver, SLOT_RING, TRUE) //weeping cross would be funny...food for thought
 			H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/chain/psydon, SLOT_GLOVES, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roguetown/boots/psydonboots, SLOT_SHOES, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/psydontabard/black, SLOT_CLOAK, TRUE) //was tempted to give them the skin but like...I'd have to fucc with the class a lot for it. So nope. Lazy
