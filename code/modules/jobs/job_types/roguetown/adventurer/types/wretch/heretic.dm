@@ -610,8 +610,17 @@
 				H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
 			if(istype(H.patron, /datum/patron/inhumen))
 				H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
+			if(istype(H.patron, /datum/patron/old_god)) //rare vow-broken absolver. Potentially kinda crazy? But i needed somethig.
+				ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
+				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+				H.change_stat("speed", -4) //yus that is a net loss on stats I'm punishing u. Good luck and drive a interesting enough story to not get fragged.
+				H.change_stat("constitution", 4)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/psydonlux_tamper)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/psydonabsolve)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 
 
+	head = /obj/item/clothing/head/roguetown/headband/monk
 	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/monk/holy
 	neck = /obj/item/clothing/neck/roguetown/leather
 	gloves = /obj/item/clothing/gloves/roguetown/angle
@@ -641,7 +650,7 @@
 	H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
 	H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 
-/datum/outfit/job/wretch/heretic_monk/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/wretch/heretic/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
