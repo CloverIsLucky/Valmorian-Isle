@@ -6,7 +6,7 @@
 	Where your fists fall short, your wits prevail. Where your magyck falters, your fists answer. \
 	His will be done."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/sojourner
 	subclass_languages = list(/datum/language/otavan, /datum/language/celestial)
 	category_tags = list(CTAG_ORTHODOXIST)
@@ -72,15 +72,11 @@
 	while(!sidearm_selected && world.time - open_time < 5 MINUTES)
 		stoplag(1)
 	H << browse(null, "window=spellfist_tutorial")
-
-	if(!sidearm_selected)
-		sidearm_selected = "katar"
-
 	switch(sidearm_selected)
 		if("katar")
-			H.put_in_hands(new /obj/item/rogueweapon/katar/psydon(H))
+			r_hand =/obj/item/rogueweapon/katar/psydon
 		if("knuckledusters")
-			H.put_in_hands(new /obj/item/rogueweapon/knuckledusters/psy(H))
+			r_hand = /obj/item/rogueweapon/knuckledusters/psy
 
 	head = /obj/item/clothing/head/roguetown/headband/naledi
 	mask = /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner

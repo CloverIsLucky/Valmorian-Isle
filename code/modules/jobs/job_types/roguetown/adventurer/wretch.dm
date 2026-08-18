@@ -167,53 +167,16 @@
 		cap = 10
 	result["cap"] = cap
 
-	// Combat population (garrison + holy warriors + half-weight acolytes) - used for tier 2 and the readout.
-	var/garrison_count = SSgamemode.garrison
-	var/holy_count = SSgamemode.holy_warrior
-	var/acolyte_count = SSgamemode.half_combatant
-	var/combat_count = garrison_count + holy_count + FLOOR(acolyte_count * 0.5, 1)
-	result["garrison"] = garrison_count
-	result["holy_warrior"] = holy_count
-	result["acolyte"] = acolyte_count
-	result["combat_total"] = combat_count
-
 	if(is_storyteller_soft_antag_blocked())
-		result["tier1_slots"] = 0
-		result["major_antag_active"] = FALSE
-		result["tier2_extra"] = 0
 		result["final_slots"] = 0
 		return result
 
-	// Check for major round antagonists (lich, vampire lord, any bandits) — they lock tier 2.
-	var/major_antag_active = FALSE
-	for(var/datum/antagonist/antag as anything in GLOB.antagonists)
-		if(QDELETED(antag) || QDELETED(antag.owner))
-			continue
-		if(istype(antag, /datum/antagonist/lich) || istype(antag, /datum/antagonist/vampire/lord) || istype(antag, /datum/antagonist/bandit))
-			major_antag_active = TRUE
-			break
-	result["major_antag_active"] = major_antag_active
-
-	// Admin disabled soft scaling: wretches are fixed at the admin's chosen number (the cap), no pop scaling.
 	if(!SSgamemode.allow_vote && !SSgamemode.soft_scaling)
-		result["tier1_slots"] = cap
-		result["tier2_extra"] = 0
 		result["final_slots"] = cap
 		return result
 
-	// Tier 1: base 5, +1 per 10 players above 40, clamped to cap. (Unchanged preset scaling.)
-	var/slots = 5
-	if(player_count > 40)
-		slots += floor((player_count - 40) / 10)
-	slots = min(slots, cap)
-	result["tier1_slots"] = slots
-
-	// Tier 2: Garrison-gated expansion above 10, bounded by the cap.
-	var/tier2_max = 0
-	if(slots >= 10 && cap > 10 && !major_antag_active)
-		tier2_max = min(max(0, combat_count - 10), 5, cap - slots)
-		slots += tier2_max
-	result["tier2_extra"] = tier2_max
+	var/bonus = SSgamemode.current_storyteller?.wretch_bonus || 0
+	var/slots = max(1, FLOOR((player_count - 10) / 10, 1) + bonus)
 	result["final_slots"] = max(0, min(slots, cap))
 
 	return result

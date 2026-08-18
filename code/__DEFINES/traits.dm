@@ -187,6 +187,7 @@
 #define TRAIT_CURSE_MALUM "Curse of Malum" //cannot craft or use smith hammer or level skills in sleep menu
 #define TRAIT_CURSE_EORA "Curse of Eora" //world is ugly
 #define TRAIT_CURSE_RESIST "Curse Resistance" //Some folk with a tendency to get cursed are resistant
+#define TRAIT_BAOTHA_FERTILITY_BOON "Marked and shaped by Baotha"
 
 // ASCENDANT CULTIST TRAITS (all of them recognize each other)
 #define TRAIT_FREEMAN "Blessing of Matthios" //recognized by bandits as an ally

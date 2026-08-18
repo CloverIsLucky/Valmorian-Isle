@@ -24,7 +24,7 @@
 	color = "#99005e"
 	toxpwr = 0
 	taste_description = "raspberry"
-	metabolization_rate = 0.01
+	metabolization_rate = 0.5
 	var/venom_resistance
 
 /obj/item/reagent_containers/glass/bottle/alchemical/spidervenom_paralytic

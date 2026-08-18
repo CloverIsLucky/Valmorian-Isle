@@ -443,7 +443,6 @@
 
 	if(isliving(AM))
 		var/mob/living/target = AM
-		log_combat(src, target, "grabbed", addition="passive grab")
 		if(!iscarbon(src))
 			target.LAssailant = null
 		else
@@ -488,7 +487,6 @@
 			log_combat(src, target, "tried grabbing", addition="passive grab")
 			return
 
-		log_combat(src, target, "grabbed", addition="passive grab")
 		playsound(src.loc, 'sound/combat/shove.ogg', 50, TRUE, -1)
 		if(iscarbon(target))
 			var/mob/living/carbon/C = target
@@ -1923,7 +1921,7 @@
 			layer = 3.99 + pixelshift_layer //So mobs can pixelshift layers while lying down
 	else
 		if(layer == LYING_MOB_LAYER)
-			layer = initial(layer)
+			layer = initial(layer) + pixelshift_layer
 	update_cone_show()
 	update_transform()
 	lying_prev = lying

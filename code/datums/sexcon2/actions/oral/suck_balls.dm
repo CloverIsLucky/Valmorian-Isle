@@ -2,17 +2,26 @@
 	name = "Suck their balls"
 	intensity = 3
 	flipped = TRUE
+	works_on_detached_head = TRUE
 	debug_erp_panel_verb = FALSE
 
 /datum/sex_action/oral/suck_balls/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target && !detached_head_self_service(user))
 		return FALSE
-	if(!target.getorganslot(ORGAN_SLOT_TESTICLES))
-		return FALSE
-	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_GROIN, TRUE))
-		return FALSE
-	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_MOUTH))
-		return FALSE
+	if(is_head_focus(user, target))
+		if(!user.getorganslot(ORGAN_SLOT_TESTICLES))
+			return FALSE
+		if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_GROIN, TRUE))
+			return FALSE
+		if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_MOUTH))
+			return FALSE
+	else
+		if(!target.getorganslot(ORGAN_SLOT_TESTICLES))
+			return FALSE
+		if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_GROIN, TRUE))
+			return FALSE
+		if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_MOUTH))
+			return FALSE
 	return TRUE
 
 /datum/sex_action/oral/suck_balls/can_perform(mob/living/user, mob/living/target)
@@ -21,28 +30,45 @@
 		return FALSE
 	if(user == target && !detached_head_self_service(user))
 		return FALSE
-	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_GROIN, TRUE))
-		return FALSE
-	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_MOUTH))
-		return FALSE
-	if(!target.getorganslot(ORGAN_SLOT_TESTICLES))
-		return FALSE
-	if(check_sex_lock(user, BODY_ZONE_PRECISE_MOUTH))
-		return FALSE
-	if(check_sex_lock(target, ORGAN_SLOT_TESTICLES))
-		return FALSE
+	if(is_head_focus(user, target))
+		if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_GROIN, TRUE))
+			return FALSE
+		if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_MOUTH))
+			return FALSE
+		if(!user.getorganslot(ORGAN_SLOT_TESTICLES))
+			return FALSE
+		if(check_sex_lock(target, BODY_ZONE_PRECISE_MOUTH))
+			return FALSE
+		if(check_sex_lock(user, ORGAN_SLOT_TESTICLES))
+			return FALSE
+	else
+		if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_GROIN, TRUE))
+			return FALSE
+		if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_MOUTH))
+			return FALSE
+		if(!target.getorganslot(ORGAN_SLOT_TESTICLES))
+			return FALSE
+		if(check_sex_lock(user, BODY_ZONE_PRECISE_MOUTH))
+			return FALSE
+		if(check_sex_lock(target, ORGAN_SLOT_TESTICLES))
+			return FALSE
 	return TRUE
 
 /datum/sex_action/oral/suck_balls/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
 	if(user == target)
 		user.visible_message(span_warning("[user] starts using [user.p_their()] severed head to suck [user.p_their()] own balls..."))
+	else if(is_head_focus(user, target))
+		user.visible_message(span_warning("[user] makes [get_head_name(user, target)] suck [user.p_their()] balls..."))
 	else
 		user.visible_message(span_warning("[user] starts sucking [target]'s balls..."))
 
 /datum/sex_action/oral/suck_balls/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] stops sucking [tgt_poss(user, target)] balls ..."))
+	if(is_head_focus(user, target))
+		user.visible_message(span_warning("[user] pulls [get_head_name(user, target)] away from [user.p_their()] balls..."))
+	else
+		user.visible_message(span_warning("[user] stops sucking [tgt_poss(user, target)] balls ..."))
 
 /datum/sex_action/oral/suck_balls/lock_sex_object(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	sex_locks |= new /datum/sex_session_lock(user, BODY_ZONE_PRECISE_MOUTH)
@@ -50,13 +76,18 @@
 
 /datum/sex_action/oral/suck_balls/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] sucks [tgt_poss(user, target)] balls..."))
+	if(is_head_focus(user, target))
+		user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] makes [get_head_name(user, target)] suck [user.p_their()] balls..."))
+	else
+		user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] sucks [tgt_poss(user, target)] balls..."))
 
 /datum/sex_action/oral/suck_balls/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	user.make_sucking_noise()
 	if(user == target)
 		do_self_head_effects(user)
+	else if(is_head_focus(user, target))
+		do_head_focus_effects(user, target)
 
 	sex_session.perform_sex_action(target, 1, 3, TRUE)
 	sex_session.handle_passive_ejaculation(target)

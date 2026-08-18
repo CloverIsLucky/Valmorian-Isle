@@ -22,9 +22,6 @@
 	var/space_ruin_levels = 7
 	var/space_empty_levels = 1
 
-	/// Whether to load the procedural dungeon z-levels (otherz/dungeon.json) and run
-	/// the dungeon generator. Set false on maps with no dungeon entrance.
-	var/load_dungeon = TRUE
 
 	/// List of unit tests that are skipped when running this map
 	var/list/skipped_tests
@@ -132,9 +129,6 @@
 		log_world("map_config space_empty_levels is not a number!")
 		return
 
-	temp = json["load_dungeon"]
-	if (!isnull(temp))
-		load_dungeon = temp ? TRUE : FALSE
 
 	allow_custom_shuttles = json["allow_custom_shuttles"] != FALSE
 

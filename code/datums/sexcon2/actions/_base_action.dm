@@ -83,6 +83,10 @@
 		return TRUE //Battlefuck buff
 	return TRUE
 
+/datum/sex_action/proc/is_head_focus(mob/living/user, mob/living/target)
+	var/datum/sex_session/session = get_sex_session(user, target)
+	return session?.head_focus && user != target
+
 /datum/sex_action/proc/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	SHOULD_CALL_PARENT(TRUE)
 	return TRUE
@@ -111,12 +115,16 @@
 /datum/sex_action/proc/tgt_poss(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
 		return "[user.p_their()] own"
+	if(is_head_focus(user, target))
+		return "[get_head_name(user, target)]'s"
 	return "[target]'s"
 
-///For actions on the severed head itself: "their severed head's" when self, else "[target]'s".
+///For actions on the severed head itself: "their severed head's" when self, "[head name]'s" in head_focus, else "[target]'s".
 /datum/sex_action/proc/tgt_head_poss(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
 		return "[user.p_their()] severed head's"
+	if(is_head_focus(user, target))
+		return "[get_head_name(user, target)]'s"
 	return "[target]'s"
 
 /datum/sex_action/proc/check_location_accessible(mob/living/carbon/human/user, mob/living/carbon/human/target, location = BODY_ZONE_CHEST, grabs = FALSE, skipundies = TRUE)
@@ -289,6 +297,28 @@
 ///back to the normal body animation.
 /datum/sex_action/proc/do_self_head_effects(mob/living/carbon/human/user)
 	var/obj/item/bodypart/head/dullahan/head = reachable_detached_dullahan_head(user, user)
+	if(!head)
+		return FALSE
+	do_thrust_animate(head, user)
+	for(var/i in 1 to rand(1, 2))
+		if(!user.cmode)
+			new /obj/effect/temp_visual/heart/sex_effects(get_turf(head))
+		else
+			new /obj/effect/temp_visual/heart/sex_effects/red_heart(get_turf(head))
+	return TRUE
+
+///Returns the detached dullahan head's name for use in messages, e.g. "Michael's head".
+///Falls back to "[target]'s severed head" if the head can't be found.
+/datum/sex_action/proc/get_head_name(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/obj/item/bodypart/head/dullahan/head = reachable_detached_dullahan_head(target, user)
+	if(head)
+		return "[head]"
+	return "[target]'s severed head"
+
+///When a non-dullahan uses the detached head: animate the head toward the user and show hearts
+///on the head's turf. Returns FALSE if no reachable head, so callers can fall back.
+/datum/sex_action/proc/do_head_focus_effects(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/obj/item/bodypart/head/dullahan/head = reachable_detached_dullahan_head(target, user)
 	if(!head)
 		return FALSE
 	do_thrust_animate(head, user)

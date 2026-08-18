@@ -48,6 +48,16 @@
 	stressadd = -2
 	desc = "<span class='green'>I was caught.</span>"
 
+/datum/stressevent/unseemly_made_love
+	timer = 15 MINUTES
+	stressadd = 2
+	desc = span_red("That was... unpleasant to look at.")
+
+/datum/stressevent/unseemly_made_love/beautiful
+	timer = 20 MINUTES
+	stressadd = 3
+	desc = span_red("How could someone so hideous touch ME?")
+
 /datum/stressevent/blue_balls
 	timer = 1 MINUTES
 	stressadd = 2
