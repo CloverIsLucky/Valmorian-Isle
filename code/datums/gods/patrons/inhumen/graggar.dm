@@ -1,9 +1,9 @@
 /datum/patron/inhumen/graggar
 	name = "Graggar"
 	domain = "God of Rule by Might, Grievance and Revenge"
-	desc = "We are bound and shackled to the birthright of nobles, beaten and whipped by the arms of their lackeys. That authority and dominion be split in twain between mind and body is an abomination; the coward that commands us never wields the lash, and the coward that lashes never feels the sting of guilt. \
-Might does not make right, it is right. Be no coward who commands another to fight on your behalf, stand in the vanguard of your host and lay ruin before you! \
-As he ascended, we arise; not as cowards to sulk in darkness as the Matthian thief, but a bold challenge to the strength of arms and right to rule of the Ravoxian soldier. Storm their walls, sack their palaces, carve the hearts of their kings out upon the temple altar. Let the common thralls take up arms or let them cower; the world will be free of Tyranny when no man denies another the right to rebel."
+	desc = "<br>We are bound and shackled to the birthright of nobles, beaten and whipped by the arms of their lackeys. That authority and dominion be split in twain between mind and body is an abomination; the coward that commands us never wields the lash, and the coward that lashes never feels the sting of guilt. \
+<br>Might does not make right, it is right. Be no coward who commands another to fight on your behalf, stand in the vanguard of your host and lay ruin before you! \
+<br>As he ascended, we arise; not as cowards to sulk in darkness as the Matthian thief, but a bold challenge to the strength of arms and right to rule of the Ravoxian soldier. Storm their walls, sack their palaces, carve the hearts of their kings out upon the temple altar. Let the common thralls take up arms or let them cower; the world will be free of Tyranny when no man denies another the right to rebel."
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/datum/action/cooldown/spell/graggar/rush					= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,

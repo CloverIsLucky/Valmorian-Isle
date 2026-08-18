@@ -1,9 +1,9 @@
 /datum/patron/inhumen/baotha
 	name = "Baotha"
 	domain = "Goddess of Hedonism and Corruption"
-	desc = "How tiresome is the divine prattle of purity and propriety, given to us by immortal goddesses of unending beauty and eternal youth. It is easy enough to speak of waiting for the perfect love or cautioning against drunkenness when a spirit has eternity to wait and sips from an unending cup of heavenly plenty.\
-But we are sparks! We flash in the darkness and cast our light for but an instant! We hunger and consume, kindle and burn, blaze whilst we can and warm our fleeting lives!\
-We drink our wine before it becomes vinegar, we revel in our bodies before they wither and die! Our mistress will sustain our spark while we glitter in a lover's eye and forevermore our beauty is immortal in her memory!"
+	desc = "<br>How tiresome is the divine prattle of purity and propriety, given to us by immortal goddesses of unending beauty and eternal youth. It is easy enough to speak of waiting for the perfect love or cautioning against drunkenness when a spirit has eternity to wait and sips from an unending cup of heavenly plenty.\
+<br>But we are sparks! We flash in the darkness and cast our light for but an instant! We hunger and consume, kindle and burn, blaze whilst we can and warm our fleeting lives!\
+<br>We drink our wine before it becomes vinegar, we revel in our bodies before they wither and die! Our mistress will sustain our spark while we glitter in a lover's eye and forevermore our beauty is immortal in her memory!"
 	mob_traits = list(TRAIT_DEPRAVED, TRAIT_CICERONE)
 	miracles = list(/datum/action/cooldown/spell/touch/orison						= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/baothavice				= CLERIC_T0,
