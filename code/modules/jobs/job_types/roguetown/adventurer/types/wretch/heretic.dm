@@ -90,8 +90,12 @@
 		wretch_select_bounty(H)
 
 	// You can convert those the church has shunned.
-	H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
-	H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
+	if(istype(H.patron, /datum/patron/divine))
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
+	if(istype(H.patron, /datum/patron/inhumen))
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
 			H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
@@ -384,8 +388,12 @@
 			H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
 			H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 			H.mind?.current.faction += "[H.name]_faction"
-	H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
-	H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
+	if(istype(H.patron, /datum/patron/divine))
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
+	if(istype(H.patron, /datum/patron/inhumen))
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
 
 /datum/outfit/job/roguetown/wretch/hereticspy/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
@@ -528,9 +536,9 @@
 	name = "Heretic Monk"
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "You father your unholy cause through the most devout ways. Raw power, holy or unholy magics and preaching. Spread your faith though muscle or words. You are no simple cleric but a scholar. More then likely trained by a unholy Ecclesial sect, maybe even a priest."
-	outfit = /datum/outfit/job/wretch/heretic_monk
+	outfit = /datum/outfit/job/roguetown/wretch/heretic_monk
 	category_tags = list(CTAG_WRETCH)
-	extra_context = "his subclass gain the Wound Heal miracle and the Convert Heretic spell. The listed stats are your base. Most weapon choices only grant combat skill, but picking <b>\"MY FAITH ALONE IS ENOUGH!\"</b> instead makes you a support caster: Intelligence: <b><font color='#91cf68'>IV</font></b>, Strength: <b><font color='#cf2a2a'>-II</font></b> and Legendary Holy magic."
+	extra_context = "this subclass gains the Wound Heal miracle and the Convert Heretic spell. The listed stats are your base. Most weapon choices only grant combat skill, but picking <b>\"MY FAITH ALONE IS ENOUGH!\"</b> instead makes you a support caster: Intelligence: <b><font color='#91cf68'>IV</font></b>, Strength: <b><font color='#cf2a2a'>-II</font></b> and Legendary Holy magic."
 
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_CIVILIZEDBARBARIAN, TRAIT_DODGEEXPERT, TRAIT_BLOOD_RESISTANCE) //DE puglists are mostly phased out..this might be for good reason? Swap for crit resist if we need to.
 	// Pretty much templar monk but evil and thus better. Time to wrastle! Gonna have it be a little supportive as well. They can pretend to be more like inhuman priests if they want? Preach rather then frag
@@ -567,7 +575,7 @@
 /datum/outfit/job/roguetown/wretch/heretic_monk
 	has_loadout = TRUE
 
-/datum/outfit/job/wretch/heretic_monk/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/wretch/heretic_monk/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You father your unholy cause through the most devout ways. Raw power, holy or unholy magics and preaching. Spread your faith though muscle or words."))
 	H.mind.current.faction += "[H.name]_faction"
@@ -613,7 +621,7 @@
 			if(istype(H.patron, /datum/patron/old_god)) //rare vow-broken absolver. Potentially kinda crazy? But i needed somethig.
 				ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-				H.change_stat("speed", -4) //yus that is a net loss on stats I'm punishing u. Good luck and drive a interesting enough story to not get fragged.
+				H.change_stat("speed", -4) //yus that is a net loss on stats I'm punishing u. Good luck andd drive a interesting enough story to not get fragged.
 				H.change_stat("constitution", 4)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/psydonlux_tamper)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/psydonabsolve)
@@ -647,10 +655,13 @@
 			H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
 			H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 			H.mind?.current.faction += "[H.name]_faction"
-	H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
-	H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
-
-/datum/outfit/job/roguetown/wretch/heretic/choose_loadout(mob/living/carbon/human/H)
+	if(istype(H.patron, /datum/patron/divine))
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
+	if(istype(H.patron, /datum/patron/inhumen))
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
+/datum/outfit/job/roguetown/wretch/heretic_monk/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
