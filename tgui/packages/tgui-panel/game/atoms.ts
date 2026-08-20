@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { lastPingedAtAtom } from '../ping/atoms';
-import { CONNECTION_LOST_AFTER } from './constants';
+import { CONNECTION_LOST_AFTER, ROUND_RESTART_BANNER_TIMEOUT } from './constants';
 
 export const roundRestartedAtAtom = atom<number | null>(null);
 
@@ -32,9 +32,21 @@ export const connectionLostAtAtom = atom<number | null>((get) => {
   return now >= deadline ? deadline : null;
 });
 
+/**
+ * Same idea as connectionLostAtAtom: returns a stable value while the banner
+ * should show, so nowAtom ticking won't cause rerenders until it expires.
+ */
+const roundRestartedVisibleAtom = atom<number | null>((get) => {
+  const restartedAt = get(roundRestartedAtAtom);
+  if (!restartedAt) return null;
+
+  const now = get(nowAtom);
+  return now - restartedAt < ROUND_RESTART_BANNER_TIMEOUT ? restartedAt : null;
+});
+
 //------- Convenience --------------------------------------------------------//
 
 export const gameAtom = atom((get) => ({
-  roundRestartedAt: get(roundRestartedAtAtom),
+  roundRestartedAt: get(roundRestartedVisibleAtom),
   connectionLostAt: get(connectionLostAtAtom),
 }));

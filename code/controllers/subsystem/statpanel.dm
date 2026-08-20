@@ -244,6 +244,13 @@ SUBSYSTEM_DEF(statpanels)
 
 /// Stat panel window declaration
 /client/var/datum/tgui_window/stat/stat_panel
+/// How many times check_panel_loaded() has auto-retried stat_panel.reinitialize()
+/// without the window ever reaching READY.
+/client/var/stat_panel_init_retries = 0
+/// Timer id for the currently-pending check_panel_loaded() check, so a manual
+/// reload_statbrowser retry can't end up running a second, untracked chain
+/// alongside the automatic one.
+/client/var/stat_panel_init_timer
 
 /datum/tgui_window/stat/initialize(strict_mode, fancy, assets, inline_html, inline_js, inline_css)
 	. = ..()

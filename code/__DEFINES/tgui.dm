@@ -14,6 +14,15 @@
 
 /// Maximum ping timeout allowed to detect zombie windows
 #define TGUI_PING_TIMEOUT (4 SECONDS)
+
+/// Shared retry policy for the tgui_panel (chat) and stat_panel first-load watchdogs:
+/// how long to wait between checking whether the window ever came up, and how many
+/// times to auto-retry before giving up and asking the player to reload manually.
+/// At this spacing, the max covers ~2 minutes - enough to ride out a slow world boot
+/// (e.g. a large map still loading) instead of giving up on a player who's stuck
+/// waiting through no fault of their connection.
+#define PANEL_INIT_RETRY_DELAY (5 SECONDS)
+#define PANEL_INIT_MAX_RETRIES 24
 /// Used for rate-limiting to prevent DoS by excessively refreshing a TGUI window
 #define TGUI_REFRESH_FULL_UPDATE_COOLDOWN (1 SECONDS)
 

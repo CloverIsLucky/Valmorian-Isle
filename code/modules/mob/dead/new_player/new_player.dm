@@ -20,6 +20,13 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	//Used to make sure someone doesn't get spammed with messages if they're ineligible for roles
 	var/ineligible_for_roles = FALSE
 
+	/// Whether lobby_refresh() has already re-asserted the ready menu's focus over
+	/// an already-open charsheet window this session. The two windows open on
+	/// independent timers and can race either way, so this is settled reactively
+	/// on whichever lobby_refresh() call first sees the charsheet already open,
+	/// rather than at a fixed delay that can miss the race.
+	var/lobby_focus_settled = FALSE
+
 /mob/dead/new_player/Initialize()
 //	if(client && SSticker.state == GAME_STATE_STARTUP)
 //		var/atom/movable/screen/splash/S = new(client, TRUE, TRUE)
@@ -74,6 +81,19 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		return
 	if(SStgui.get_open_ui(src, client.prefs))
 		return // First open made it; nothing to do.
+	// The zombie-window ping timeout (TGUI_PING_TIMEOUT) only unregisters the first
+	// attempt server-side - it doesn't guarantee BYOND's client-side browser control
+	// actually stops loading. If it was merely slow rather than dead (easy to hit
+	// during a busy first-join, with the charsheet, chat panel, and statbrowser all
+	// competing for the same asset pipeline), it can finish loading on its own and
+	// pop up alongside the fresh window below, showing two charsheets with a
+	// corrupted character preview. Force-close every pooled window slot client-side
+	// first so a late finish can't render - NOT force_close_all_windows(), which
+	// wipes client.tgui_windows entirely and would take the chat panel and
+	// statbrowser down with it (every tgui_window, pooled or not, registers into
+	// that same dict).
+	for(var/i in 1 to TGUI_WINDOW_HARD_LIMIT)
+		SStgui.force_close_window(src, TGUI_WINDOW_ID(i))
 	client.prefs.charsheet_tgui_active = FALSE
 	new_player_panel()
 

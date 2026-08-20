@@ -252,6 +252,10 @@ GLOBAL_VAR(restart_counter)
 		if(!thing)
 			continue
 		thing << sound(round_end_sound)
+		// The lobby ready-menu is a legacy browse() popup, not a tgui window, so it isn't
+		// torn down by SStgui's Shutdown() below like the charsheet window is - close it
+		// explicitly here. It reopens naturally once the new round's lobby ticks again.
+		thing << browse(null, "window=lobby_window")
 
 	to_chat(world, "Please be patient as the server restarts. You will be automatically reconnected in about 60 seconds.")
 	Master.Shutdown()	//run SS shutdowns? rtchange
