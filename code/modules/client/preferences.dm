@@ -3200,6 +3200,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.age = age
 	character.dna.features = features.Copy()
 	character.gender = gender
+	validate_customizer_entries() // strip any customizer entries (e.g. a tail/ears feature) left over from a species this character no longer is
 	character.set_species(chosen_species, icon_update = FALSE, pref_load = src)
 	character.dna.update_body_size()
 

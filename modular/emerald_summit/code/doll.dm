@@ -20,9 +20,7 @@
 	Over time, they were seen to prove as valuable asset and advisory role due to their intellectual prowess, it is \
 	unknown what provided them with such a gift. A master wanting more engaging conversation? A lord wanting a more \
 	efficient clerk? Regardless, who knows what thoughts their eyes of glass truly conceal?<br> \
-	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>-2 STR</span> |<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'> +2 INT | +1 SPD</b></span> </br> \
-	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b><span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Hungerless, Insomnia, Bloodless. Extremely fragile.</span></b></br>\
-	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b><span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Capable of installing skill exhibitors in themselves or other Constructs.</span></b></br>"
+	Capable of installing skill exhibitors in themselves or other Constructs."
 	skin_tone_wording = "Material"
 	use_skin_tone_wording_for_examine = FALSE
 	default_color = "FFFFFF"
@@ -75,6 +73,10 @@
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
 		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/organ/horns/demihuman,
+		/datum/customizer/organ/horns/tusks,
+		/datum/customizer/organ/tail/dullahan,
+		/datum/customizer/organ/ears/dullahan,
 		/datum/customizer/organ/penis/anthro,
 		/datum/customizer/organ/breasts/human,
 		/datum/customizer/organ/vagina/human_anthro,
@@ -138,6 +140,24 @@
 	name = "modified construct skill exhibitor"
 	desc = "A series of gears joined around a copper rod. When inserted into a Construct's head, it will allow them to grow their skills beyond their original design. This one looks like it was purposefully altered to allow Constructs to use it themselves."
 	self_usable = TRUE
+
+// obtainable sources, ported from ES: engineer anvil recipe + merchant/blackmarket supply packs (ES had these, VI never ported them, leaving Constructs with no way to acquire the item at all)
+/datum/anvil_recipe/engineering/golem_skill_core
+	name = "Construct Skill Exhibitor"
+	created_item = /obj/item/golem_skill_core
+	req_bar = /obj/item/ingot/copper
+	additional_items = list(/obj/item/roguegear, /obj/item/roguegear)
+	craftdiff = 3
+
+/datum/supply_pack/rogue/tools/golem_upgrades
+	name = "Construct Skill Exhibitor"
+	cost = 35
+	contains = list(/obj/item/golem_skill_core)
+
+/datum/supply_pack/rogue/blackmarket_tools/golem_skillcore
+	name = "Construct Skill Exhibitor (Self-Service)"
+	cost = 50
+	contains = list(/obj/item/golem_skill_core/blackmarket)
 
 /obj/item/golem_skill_core/examine(mob/user)
 	. = ..()
