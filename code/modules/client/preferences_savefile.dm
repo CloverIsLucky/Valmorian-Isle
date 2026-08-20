@@ -895,18 +895,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	custom_descriptors = SANITIZE_LIST(custom_descriptors)
 	validate_descriptors()
 
+	// Skin tone is a free color pick (matches hair/eye color), not a preset list choice,
+	// so just make sure it's a valid hex color rather than forcing it back to a preset.
 	var/list/valid_skin_tones = pref_species.get_skin_list()
-	var/list/valid_skin_colors = list()
-	for(var/skin_tone in pref_species.get_skin_list())
-		valid_skin_colors += valid_skin_tones[skin_tone]
-	// Hex casing differs between codebases (Emerald Summit saves lowercase, our
-	// defines are uppercase) — match case-insensitively and adopt our canonical form.
-	if(skin_tone && !(skin_tone in valid_skin_colors))
-		for(var/valid_color in valid_skin_colors)
-			if(lowertext(valid_color) == lowertext(skin_tone))
-				skin_tone = valid_color
-				break
-	skin_tone = sanitize_inlist(skin_tone, valid_skin_colors, valid_skin_colors[1])
+	var/default_tone = valid_skin_tones[valid_skin_tones[1]]
+	skin_tone = sanitize_hexcolor(skin_tone, 6, FALSE, default_tone)
 
 	joblessrole	= sanitize_integer(joblessrole, 1, 3, initial(joblessrole))
 	//Validate job prefs

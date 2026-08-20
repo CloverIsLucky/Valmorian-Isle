@@ -57,7 +57,7 @@
 	var/datum/customizer_entry/organ/eyes/eyes_entry = entry
 	switch(href_list["customizer_task"])
 		if("eye_color")
-			var/new_color = input(user, "Choose your eyes color:", "Character Preference", eyes_entry.eye_color) as color|null
+			var/new_color = color_pick_native(user, "Choose your eyes color:", "Character Preference", eyes_entry.eye_color)
 			if(!new_color)
 				return
 			eyes_entry.eye_color = sanitize_hexcolor(new_color, 6, TRUE)
@@ -68,7 +68,7 @@
 		if("second_eye_color")
 			if(!allows_heterochromia)
 				return
-			var/new_color = input(user, "Choose your eyes' secondary color:", "Character Preference", eyes_entry.second_color) as color|null
+			var/new_color = color_pick_native(user, "Choose your eyes' secondary color:", "Character Preference", eyes_entry.second_color)
 			if(!new_color)
 				return
 			eyes_entry.second_color = sanitize_hexcolor(new_color, 6, TRUE)

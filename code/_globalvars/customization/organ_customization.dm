@@ -17,16 +17,9 @@ GLOBAL_LIST_INIT(customizers, build_customizers())
 		.[type] = new type()
 	return .
 
-/proc/color_pick_sanitized(mob/user, description, title, default_value)
-	var/color = tgui_color_picker(user, description, title, default_value)
-	if(!color)
-		return
-	color = sanitize_hexcolor(color)
-
-	return color
-
-/// Same contract as color_pick_sanitized() but uses BYOND's native color dialog,
-/// matching the eye color picker in the customizer menu.
+/// Standard character color picker — opens BYOND's native color dialog, so
+/// every color choice (hair, eyes, skin tone, dyes, etc.) looks and behaves
+/// the same everywhere in the game.
 /proc/color_pick_native(mob/user, description, title, default_value)
 	var/color = input(user, description, title, default_value) as color|null
 	if(!color)

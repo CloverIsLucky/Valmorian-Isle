@@ -2013,7 +2013,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					return
 
 				if("voice")
-					var/new_voice = tgui_color_picker(user, "Choose your character's voice color:", "Character Preference", "#"+voice_color)
+					var/new_voice = color_pick_native(user, "Choose your character's voice color:", "Character Preference", "#"+voice_color)
 					if(new_voice)
 						if(color_hex2num(new_voice) < 230)
 							to_chat(user, "<font color='red'>This voice color is too dark for mortals.</font>")
@@ -2114,7 +2114,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					QDEL_IN(barkbox, total_delay)
 
 				if("highlight_color")
-					var/new_color = color_pick_sanitized(user, "Choose your character's nickname highlight color:", "Character Preference","#"+highlight_color)
+					var/new_color = color_pick_native(user, "Choose your character's nickname highlight color:", "Character Preference","#"+highlight_color)
 					if(new_color)
 						highlight_color = sanitize_hexcolor(new_color)
 
@@ -2494,19 +2494,19 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					LM.ui_interact(user)
 					return
 				if("vampire_hair")
-					var/new_vampirehair = tgui_color_picker(user, "Choose your character's vampire hair color:", "Character Preference", "#"+vampire_hair)
+					var/new_vampirehair = color_pick_native(user, "Choose your character's vampire hair color:", "Character Preference", "#"+vampire_hair)
 					if(new_vampirehair)
 						vampire_hair = new_vampirehair
 				if("vampire_eyes")
-					var/new_vampireeyes = tgui_color_picker(user, "Choose your character's vampire eye color:", "Character Preference", "#"+vampire_eyes)
+					var/new_vampireeyes = color_pick_native(user, "Choose your character's vampire eye color:", "Character Preference", "#"+vampire_eyes)
 					if(new_vampireeyes)
 						vampire_eyes = new_vampireeyes
 				if("vampire_skin")
-					var/new_vampireskin = tgui_color_picker(user, "Choose your character's vampire skin color:", "Character Preference", "#"+vampire_skin)
+					var/new_vampireskin = color_pick_native(user, "Choose your character's vampire skin color:", "Character Preference", "#"+vampire_skin)
 					if(new_vampireskin)
 						vampire_skin = new_vampireskin
 				if("vampire_ears")
-					var/new_vampireears = tgui_color_picker(user, "Choose your character's vampire ear color:", "Character Preference", "#"+vampire_ears)
+					var/new_vampireears = color_pick_native(user, "Choose your character's vampire ear color:", "Character Preference", "#"+vampire_ears)
 					if(new_vampireears)
 						vampire_ears = new_vampireears
 				if("vampire_hair_clear")
@@ -2736,25 +2736,25 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							features["body_size"] = new_body_size
 
 				if("taur_color")
-					var/new_taur_color = color_pick_sanitized(user, "Choose your character's taur color:", "Character Preference", "#"+taur_color)
+					var/new_taur_color = color_pick_native(user, "Choose your character's taur color:", "Character Preference", "#"+taur_color)
 					if(new_taur_color)
 						taur_color = sanitize_hexcolor(new_taur_color)
 
 				if("mutant_color")
-					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #1 color:", "Character Preference","#"+features["mcolor"])
+					var/new_mutantcolor = color_pick_native(user, "Choose your character's mutant #1 color:", "Character Preference","#"+features["mcolor"])
 					if(new_mutantcolor)
 
 						features["mcolor"] = sanitize_hexcolor(new_mutantcolor)
 						try_update_mutant_colors()
 
 				if("mutant_color2")
-					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #2 color:", "Character Preference","#"+features["mcolor2"])
+					var/new_mutantcolor = color_pick_native(user, "Choose your character's mutant #2 color:", "Character Preference","#"+features["mcolor2"])
 					if(new_mutantcolor)
 						features["mcolor2"] = sanitize_hexcolor(new_mutantcolor)
 						try_update_mutant_colors()
 
 				if("mutant_color3")
-					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #3 color:", "Character Preference","#"+features["mcolor3"])
+					var/new_mutantcolor = color_pick_native(user, "Choose your character's mutant #3 color:", "Character Preference","#"+features["mcolor3"])
 					if(new_mutantcolor)
 						features["mcolor3"] = sanitize_hexcolor(new_mutantcolor)
 						try_update_mutant_colors()
@@ -2772,13 +2772,14 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						features["legs"] = new_legs
 */
 				if("s_tone")
-					var/listy = pref_species.get_skin_list()
+					var/list/skins = pref_species.get_skin_list()
+					var/default_tone = sanitize_hexcolor(skin_tone, 6, FALSE, skins[skins[1]])
 					if(istype(virtue, /datum/virtue/combat/second_chance) || istype(virtuetwo, /datum/virtue/combat/second_chance))
-						listy["Rotten"] = SKIN_COLOR_ROT
-					var/new_s_tone = tgui_input_list(user, "Choose your character's skin tone:", "SKINTONE", listy)
+						default_tone = SKIN_COLOR_ROT
+					var/new_s_tone = color_pick_native(user, "Choose your character's [lowertext(pref_species.skin_tone_wording)]:", "Character Preference", "#"+default_tone)
 					if(new_s_tone)
-						skin_tone = listy[new_s_tone]
-						features["mcolor"] = sanitize_hexcolor(skin_tone)
+						skin_tone = sanitize_hexcolor(new_s_tone)
+						features["mcolor"] = skin_tone
 						try_update_mutant_colors()
 
 				if("char_accent")
@@ -2787,12 +2788,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						char_accent = selectedaccent
 
 				if("ooccolor")
-					var/new_ooccolor = color_pick_sanitized(user, "Choose your OOC colour:", "Game Preference",ooccolor)
+					var/new_ooccolor = color_pick_native(user, "Choose your OOC colour:", "Game Preference",ooccolor)
 					if(new_ooccolor)
 						ooccolor = new_ooccolor
 
 				if("asaycolor")
-					var/new_asaycolor = color_pick_sanitized(user, "Choose your ASAY color:", "Game Preference",asaycolor)
+					var/new_asaycolor = color_pick_native(user, "Choose your ASAY color:", "Game Preference",asaycolor)
 					if(new_asaycolor)
 						asaycolor = new_asaycolor
 
@@ -2856,7 +2857,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					if(pickedPDAStyle)
 						pda_style = pickedPDAStyle
 				if("pda_color")
-					var/pickedPDAColor = tgui_color_picker(user, "Choose your PDA Interface color.", "Character Preference", pda_color)
+					var/pickedPDAColor = color_pick_native(user, "Choose your PDA Interface color.", "Character Preference", pda_color)
 					if(pickedPDAColor)
 						pda_color = pickedPDAColor
 
