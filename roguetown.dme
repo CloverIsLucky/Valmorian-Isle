@@ -1182,6 +1182,7 @@
 #include "code\game\machinery\trams_and_elevators\tram\tram_landmark_setnext.dm"
 #include "code\game\machinery\trams_and_elevators\tram\tram_lift_master.dm"
 #include "code\game\machinery\trams_and_elevators\tram\tram_machinery.dm"
+#include "code\game\objects\artefactsten.dm"
 #include "code\game\objects\buckling.dm"
 #include "code\game\objects\empulse.dm"
 #include "code\game\objects\examine.dm"
