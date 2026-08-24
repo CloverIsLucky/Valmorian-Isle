@@ -97,7 +97,13 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	if(href_list["reload_tguipanel"])
 		nuke_chat()
 	if(href_list["reload_statbrowser"])
+		// A manual retry gets its own fresh attempt budget, same as tgui_panel's
+		// force reinitialize, instead of the watchdog having already given up.
+		stat_panel_init_retries = 0
 		stat_panel.reinitialize()
+		if(stat_panel_init_timer)
+			deltimer(stat_panel_init_timer)
+		stat_panel_init_timer = addtimer(CALLBACK(src, PROC_REF(check_panel_loaded)), PANEL_INIT_RETRY_DELAY, TIMER_STOPPABLE)
 	//Logs all hrefs, except chat pings
 	if(!(href_list["_src_"] == "chat" && href_list["proc"] == "ping" && LAZYLEN(href_list) == 2))
 		log_href("[src] (usr:[usr]\[[COORD(usr)]\]) : [hsrc ? "[hsrc] " : ""][href]")
@@ -435,6 +441,10 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	if(SSinput.initialized)
 		set_macros()
 		update_movement_keys()
+	else
+		// Login raced SSinput's own boot - it'll set our macros for us once it
+		// finishes initializing instead of leaving us with no keybinds at all.
+		SSinput.pending_macro_clients += src
 
 	if(alert_mob_dupe_login)
 		spawn()
@@ -447,7 +457,9 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		inline_css = file("html/statbrowser.css"),
 	)
 	apply_statbrowser_theme()
-	addtimer(CALLBACK(src, PROC_REF(check_panel_loaded)), 30 SECONDS)
+	if(stat_panel_init_timer)
+		deltimer(stat_panel_init_timer)
+	stat_panel_init_timer = addtimer(CALLBACK(src, PROC_REF(check_panel_loaded)), PANEL_INIT_RETRY_DELAY, TIMER_STOPPABLE)
 
 	connection_time = world.time
 	connection_realtime = world.realtime
@@ -1337,7 +1349,18 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 #undef ADMINSWARNED_AT
 
 /client/proc/check_panel_loaded()
+	stat_panel_init_timer = null
 	if(stat_panel.is_ready())
+		stat_panel_init_retries = 0
+		return
+	// Same reasoning as tgui_panel's on_initialize_timed_out(): a reconnect into a
+	// still-booting world (e.g. a large map still loading) can leave the statbrowser
+	// window's first load stuck for a while - retry a few times automatically before
+	// asking the player to do it manually.
+	stat_panel_init_retries++
+	if(stat_panel_init_retries < PANEL_INIT_MAX_RETRIES)
+		stat_panel.reinitialize()
+		stat_panel_init_timer = addtimer(CALLBACK(src, PROC_REF(check_panel_loaded)), PANEL_INIT_RETRY_DELAY, TIMER_STOPPABLE)
 		return
 	to_chat(src, span_userdanger("Statpanel failed to load, click <a href='byond://?src=[REF(src)];reload_statbrowser=1'>here</a> to reload the panel "))
 

@@ -21,10 +21,19 @@ SUBSYSTEM_DEF(input)
 
 	/// currentrun list of clients
 	var/list/client/currentrun
+	/// Clients whose login raced our Initialize() and skipped set_macros() as a
+	/// result - flushed the moment we finish initializing below.
+	var/list/client/pending_macro_clients = list()
 
 /datum/controller/subsystem/input/Initialize()
 	setup_macrosets()
 	refresh_client_macro_sets()
+
+	for(var/client/user in pending_macro_clients)
+		if(user && (user in GLOB.clients))
+			user.set_macros()
+			user.update_movement_keys()
+	pending_macro_clients = list()
 
 	return ..()
 

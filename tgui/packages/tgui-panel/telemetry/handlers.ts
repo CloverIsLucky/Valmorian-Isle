@@ -6,6 +6,8 @@
 
 import { storage } from 'common/storage';
 import { createLogger } from 'tgui/logging';
+import { store } from '../events/store';
+import { roundRestartedAtAtom } from '../game/atoms';
 import { MAX_CONNECTIONS_STORED } from './constants';
 import { type ConnectionRecord, connectionsMatch } from './helpers';
 
@@ -40,6 +42,13 @@ export function telemetryRequest(payload: TelemetryRequestPayload): void {
 }
 
 export function testTelemetryCommand() {
+  // DM only sends this once, at the end of tgui_panel/proc/initialize() -
+  // which runs for every (re)connect, including a reboot reconnect that
+  // reuses this same live JS session rather than reloading the page. So
+  // receiving it at all is itself proof we're connected again; clear any
+  // stale "server is restarting" notice from before this handshake even if
+  // the 'ready' ack below gets skipped because telemetry was already loaded.
+  store.set(roundRestartedAtAtom, null);
   setTimeout(() => {
     if (!telemetry) {
       Byond.sendMessage('ready');
@@ -62,6 +71,12 @@ export async function handleTelemetryData(
     logger.error('backend/update payload is missing client data!');
     return;
   }
+
+  // This "update" reply only reaches us over a live connection - it's the
+  // earliest proof we're back after a reconnect, well before the next ping
+  // cycle. Clear any stale "server is restarting" notice left over from a
+  // reboot that didn't force a full page reload.
+  store.set(roundRestartedAtAtom, null);
 
   // Load telemetry
   if (!telemetry) {

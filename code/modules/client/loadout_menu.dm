@@ -153,9 +153,8 @@
 			if(params["clear"])
 				meta -= meta_key
 			else
-				// Open color picker modal with dye presets
 				var/current = meta[meta_key] || "#FFFFFF"
-				var/picked = tgui_color_picker(ui.user, "Choose color for [item_name]", "Color Picker", current, named_presets = COLOR_MAP)
+				var/picked = color_pick_native(ui.user, "Choose color for [item_name]", "Color Picker", current)
 				if(picked)
 					// sanitize_hexcolor returns without #, so prepend it
 					if(picked[1] != "#")

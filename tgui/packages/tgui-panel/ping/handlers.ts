@@ -1,4 +1,5 @@
 import { store } from '../events/store';
+import { roundRestartedAtAtom } from '../game/atoms';
 import { lastPingedAtAtom } from './atoms';
 import { pingSuccess, pings, sendPing } from './helpers';
 
@@ -14,6 +15,10 @@ type SoftPingPayload = {
 export function pingSoft(payload: SoftPingPayload): void {
   const { afk } = payload;
   store.set(lastPingedAtAtom, Date.now());
+  // A ping only reaches us over a live connection, so receiving one proves
+  // we're back - clear any stale "server is restarting" notice left over
+  // from a reboot that didn't force a full page reload.
+  store.set(roundRestartedAtAtom, null);
   // On each soft ping where client is not flagged as afk,
   // initiate a new ping.
   if (!afk) {

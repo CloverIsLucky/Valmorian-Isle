@@ -1,3 +1,12 @@
+/// Extra tiles beyond a loop's normal hearing range that get preloaded ahead of time,
+/// so a player walking toward the source is less likely to hit the decode hitch exactly
+/// as they cross into audible range.
+#define LOOPING_SOUND_PRELOAD_RANGE_BUFFER 4
+/// How many clients get the initial (silent) preload send per batch.
+#define LOOPING_SOUND_ATTACH_BATCH_SIZE 6
+/// Ticks between preload batches, so a crowd near the same source doesn't all hitch on the same frame.
+#define LOOPING_SOUND_ATTACH_BATCH_DELAY 1
+
 GLOBAL_LIST_EMPTY(created_sound_groups)
 /datum/sound_group
 	var/list/reserved_channels = list()
@@ -64,7 +73,9 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 	var/datum/sound_group/sound_group
 	var/starttime // A world.time snapshot of when the loop was started.
 	/// Which bitflag pref we check for when playing this to listeners, if any. This will check for its ABSENCE, not its presence.
-	var/filter_pref	
+	var/filter_pref
+	/// Timer id for the currently-queued attach_loop_to_clients() batch, if any.
+	var/attach_batch_timer
 
 /datum/looping_sound/New(_parent, start_immediately=FALSE, _direct=FALSE, _channel = 0)
 /*	if(!mid_sounds)
@@ -147,6 +158,9 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 
 /datum/looping_sound/proc/stop(null_parent)
 	stopped = TRUE
+	if(attach_batch_timer)
+		deltimer(attach_batch_timer)
+		attach_batch_timer = null
 	if(null_parent)
 		set_parent(null)
 	on_stop()
@@ -249,14 +263,82 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 		return
 
 	cursound = soundfile
-	for(var/client/C in GLOB.clients)
-		var/mob/M = C.mob
-		if(!M)
-			continue
-		if(filter_pref)
-			if(!(C.prefs.toggles & filter_pref))
+
+	// A fresh attach cycle (e.g. stop() then start() again) supersedes whatever
+	// batch chain was already in flight - drop it instead of leaving it orphaned
+	// (it would otherwise keep firing untracked, and a later stop() would only
+	// ever cancel whichever chain is current).
+	if(attach_batch_timer)
+		deltimer(attach_batch_timer)
+		attach_batch_timer = null
+
+	// Preloading (a silent playsound_local) forces BYOND to decode the audio file
+	// client-side right away, which is a synchronous hitch on that client. Sending it to
+	// every connected client - regardless of where they are on the map - means anyone,
+	// anywhere, can freeze for a moment the instant any instrument/musicbox starts
+	// anywhere else on the server. Scope the preload to mobs who could plausibly hear
+	// this loop soon instead, same as a real playsound() would reach.
+	var/turf/source_turf = get_turf(parent)
+	if(!source_turf)
+		for(var/client/C in GLOB.clients) // no physical source to range-check against, fall back to old behavior
+			var/mob/M = C.mob
+			if(!M)
 				continue
-		M.playsound_local(null, soundfile, 0, vary, frequency, falloff, channel, FALSE, null, src) 
+			if(filter_pref && !(C.prefs.toggles & filter_pref))
+				continue
+			M.playsound_local(null, soundfile, 0, vary, frequency, falloff, channel, FALSE, null, src)
+		return
+
+	var/maxdistance = world.view + extra_range + LOOPING_SOUND_PRELOAD_RANGE_BUFFER
+	var/turf/above_turf = GET_TURF_ABOVE(source_turf)
+	var/turf/below_turf = GET_TURF_BELOW(source_turf)
+	var/list/targets = get_hearers_in_range(maxdistance, source_turf, RECURSIVE_CONTENTS_CLIENT_MOBS)
+	if(ignore_walls)
+		if(above_turf)
+			targets |= get_hearers_in_range(maxdistance, above_turf, RECURSIVE_CONTENTS_CLIENT_MOBS)
+		if(below_turf)
+			targets |= get_hearers_in_range(maxdistance, below_turf, RECURSIVE_CONTENTS_CLIENT_MOBS)
+
+	// playsound() also always considers ghosts on the affected z-level(s) (range-checked
+	// the same as everyone else) - without this, a spectating ghost near the source still
+	// hits the exact decode hitch this preload exists to avoid.
+	var/list/dead_candidates = SSmobs.dead_players_by_zlevel[source_turf.z].Copy()
+	if(ignore_walls)
+		if(above_turf)
+			dead_candidates |= SSmobs.dead_players_by_zlevel[above_turf.z]
+		if(below_turf)
+			dead_candidates |= SSmobs.dead_players_by_zlevel[below_turf.z]
+	for(var/mob/dead/D as anything in dead_candidates)
+		var/turf/dead_turf = get_turf(D)
+		if(dead_turf && get_dist(dead_turf, source_turf) <= maxdistance)
+			targets |= D
+
+	// Snapshot everything the batches need now, rather than having each deferred
+	// batch re-read src's current vars - set_mid_sounds() or a second attach call
+	// could otherwise change cursound etc. out from under an in-flight batch queue.
+	attach_loop_to_clients(targets, soundfile, vary, frequency, falloff, channel, filter_pref)
+
+/// Sends the silent preload to `targets` a handful at a time, spread across a few ticks,
+/// instead of hitting every nearby client's decoder in the same synchronous pass.
+/datum/looping_sound/proc/attach_loop_to_clients(list/targets, soundfile, vary, frequency, falloff, channel, filter_pref)
+	attach_batch_timer = null
+	if(stopped || !targets?.len)
+		return
+
+	var/list/batch = list()
+	while(targets.len && batch.len < LOOPING_SOUND_ATTACH_BATCH_SIZE)
+		batch += targets[targets.len]
+		targets.len--
+
+	for(var/mob/M in batch)
+		if(!M.client)
+			continue
+		if(filter_pref && !(M.client.prefs.toggles & filter_pref))
+			continue
+		M.playsound_local(null, soundfile, 0, vary, frequency, falloff, channel, FALSE, null, src)
+
+	if(targets.len)
+		attach_batch_timer = addtimer(CALLBACK(src, PROC_REF(attach_loop_to_clients), targets, soundfile, vary, frequency, falloff, channel, filter_pref), LOOPING_SOUND_ATTACH_BATCH_DELAY)
 
 /datum/looping_sound/proc/begin_loop()
 	sound_loop()

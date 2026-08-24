@@ -205,7 +205,7 @@
 				H.update_hair()
 
 		if("eyes")
-			var/new_eye_color = color_pick_sanitized(user, "Choose your eye color", "Eye Color", H.eye_color)
+			var/new_eye_color = color_pick_native(user, "Choose your eye color", "Eye Color", H.eye_color)
 			if(new_eye_color)
 				new_eye_color = sanitize_hexcolor(new_eye_color, 6, TRUE)
 				var/obj/item/organ/eyes/eyes = H.getorganslot(ORGAN_SLOT_EYES)

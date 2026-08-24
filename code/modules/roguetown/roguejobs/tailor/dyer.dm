@@ -78,7 +78,7 @@ var/list/used_colors
 
 /obj/machinery/gear_painter/proc/pick_dye(mob/user, current_color, prompt_title)
 	if(alert(user, "Input Choice", prompt_title, "Color Wheel", "Color Preset") == "Color Wheel")
-		var/c = sanitize_hexcolor(color_pick_sanitized(user, "Choose your dye:", "Dyes", current_color), 6, TRUE)
+		var/c = sanitize_hexcolor(color_pick_native(user, "Choose your dye:", "Dyes", current_color), 6, TRUE)
 		return (c == "#000000") ? "#FFFFFF" : c
 
 	var/list/colors_to_pick = list()
@@ -362,7 +362,7 @@ var/list/used_colors
 
 		dye = presets[picked]
 	else
-		var/hexdye = sanitize_hexcolor(color_pick_sanitized(user, "Choose your dye:", "Dyes", dye), 6, TRUE)
+		var/hexdye = sanitize_hexcolor(color_pick_native(user, "Choose your dye:", "Dyes", dye), 6, TRUE)
 		if(hexdye == "#000000")
 			return
 		dye = hexdye

@@ -83,12 +83,24 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 
 	dat += job_list_html
 	var/datum/browser/popup = new(src, "lobby_window", "<div align='center'>LOBBY</div>", 330, 430)
-	popup.set_window_options("can_close=1;can_minimize=0;can_maximize=0;can_resize=1;")
+	// focus=true only applies on the initial open below (the refresh path further down
+	// just pushes new content into the existing window), so this brings the ready menu
+	// to the front over the charsheet tgui window once without re-stealing focus on
+	// every periodic refresh.
+	popup.set_window_options("can_close=1;can_minimize=0;can_maximize=0;can_resize=1;focus=true;")
 	popup.set_content(dat.Join())
 	if(!client)
 		return
 	if(winexists(src, "lobby_window"))
 		src << browse(popup.get_content(), "window=lobby_window") //dont update the size or annoyingly refresh
+		// The charsheet tgui window opens on its own independent timer and can land
+		// before or after this popup's own first open either way. Whichever
+		// lobby_refresh() call is the first to see the charsheet already open
+		// re-asserts focus once here, instead of relying on a fixed-delay check
+		// elsewhere that can miss the race depending on exact login timing.
+		if(!lobby_focus_settled && client.prefs && SStgui.get_open_ui(src, client.prefs))
+			winset(client, "lobby_window", "focus=true")
+			lobby_focus_settled = TRUE
 		qdel(popup)
 		return
 	else
