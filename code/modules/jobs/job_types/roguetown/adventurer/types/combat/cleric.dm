@@ -369,7 +369,7 @@
 				l_hand = /obj/item/needle/thorn/cleric //Unique to the Cleric. Far worse than a traditional iron needle, but better than a regular thorn needle - with 10 uses, instead of 5 (or 20, in the former's case).
 				beltl = /obj/item/reagent_containers/glass/bottle/rogue/healthpot //No cloth, but a basic potion of lifeblood - similar to the Sorcerer's manna potion. Take the 'Physician's Apprentice' virtue for that, uncapped skills, and more.
 			if("Crusader - Silver Weapon")
-					var/crusaderweapon = list("Silver Longsword", "Silver Mace", "Silver Flail", "Silver Spear", "Silver Axe", "Silver Whip")
+					var/crusaderweapon = list("Silver Longsword","Silver Mace","Silver Flail","Silver Spear","Silver Axe","Silver Whip")
 					var/crusaderweapon_choice = input(H, "Choose your silver weapon, Holy Crusader!") as anything in crusaderweapon
 					switch(crusaderweapon_choice)
 						if("Silver Longsword")
